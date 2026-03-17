@@ -1,0 +1,1168 @@
+raven:
+    play sound click
+    choice:
+        "A garage, and the smell of a muscular lesbian inside of it. If anyone in this town has a hammer, it's her."
+        "[Head inside the garage] <span class='prompt'>[[-1 ACTION]]</span>":
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_raven false
+            run transition_black ravens
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+    
+    set data.raven.met true
+    play music beware
+    "The 'GAR G-'s sign is strangely proud, despite its disrepair, for like all the best workshops it is grimy, scary and practically bursting with health code violations."
+    "Inside a tall, muscular Hyena fiddles about with some tools, clearly pretending to work as an excuse to listen to the absolute bopper blasting from her radio."
+    "She must be over six foot tall."
+    "A violence golem."
+    clear_dialog
+    "She is The Raven."
+    clear_dialog
+    choice:
+        talk nasty talk "Yeen!"
+        "Excuse me?":
+            choice:
+                talk nasty talk "Yeen!"
+                "Is Nasty Girl okay?":
+                    if (roll raven_slur_orb orb 60):
+                        talk orb talk "Yeen. It's short for Hyena. It isn't a slur per sey, but it's still kind of a weird thing to say to someone you've never spoken to before, so don't."
+                    talk nasty talk "Yeen."
+                    clear_dialog
+                    choice:
+                        talk orb talk "Can we all agree Nasty Girl has been licking too much paint and end this train of thought? Please?"
+                        "Yeen!":
+                            talk nasty talk "Yeen!"
+                            talk orb talk "Forget it. I'm going to go imagine I'm drinking some wine. You two have your... your fun."
+                        "\\"Yeen!\\"":
+                            set data.raven.saidYeen true
+                            "The Raven raises an eyebrow. You *did* mean to say that out loud, right?"
+                        "Agreed. Let's never speak of this again.":
+                            talk orb talk "Thank you."
+                "Okay. Moving on.":
+                    run skip
+        "I'm just going to ignore whatever that was.":
+            talk orb talk "Wise decision."
+    clear_dialog
+    "The Raven chews on a cigarette clenched between her teeth. It isn't even lit; she just does this sometimes."
+    "Her teeth are shiny, like knives. Her teeth are pointy, like knives. She's wearing a filthy, oily shirt. The kind of shirt only worn by a man who's about to hurl a half empty whisky bottle at your head or a lesbian who can lift a truck. The lack of sleeves show off her arms. Muscular, with a nasty scar running across her left which sunders a heart shaped tattoo."
+    if (roll raven_scar_lovely lovely 60):
+        talk lovely talk "Not all of her scars are so readily on display. Inside she has been scarred by a whip of nine tails. Inside she is *being* scarred by a whip of nine tails."
+        talk nasty talk "nOt aLL sCaRs aRe VisIbLe!!! That is *so* cliche, could you *get* any more embarrassing, Lovely Lady? Uuuuuuuuh duuuuuuh beauty is only skin deep! uuuuuuuh bluuuuuuuh a rose by any other name buh buh buh buh buh. Fuck off."
+        clear_dialog
+        talk lovely talk "Tsk. Keep that attitude up and you'll have a few *visible* scars, Nasty Girl. Papi did arrange for a fencing instructor to personally tutor me, you know?"
+        talk nasty talk "Shit really? Me and the lads could do with a new fence actually, our last one got snatched by the rozzers."
+    else:
+        wait 1000
+    clear_dialog
+    "The Raven smells of tobacco, sweat and the engine oil that is now practically her blood."
+    if (roll raven_motorcycle_orb orb 40):
+        set data.raven.guessedMotorcycle true
+        talk orb talk "The Raven drives a Ratzubishi 4vk: A recon motorcycle that rose to prominence in the final two years of the war."
+        talk orb talk "It was designed by the Anglian Military's R&D team to be durable and hardy, so naturally she spent most of her time at the front repairing it."
+        talk orb talk "She was allowed to keep it after the fighting stopped in lieu of receiving a medal. She preferred it that way. Medals are the military equivalent of a 'good girl' certificate at school, and the Raven is anything but a 'good girl'."
+        clear_dialog
+    "She is yet to look up at you for more than a brief flash."
+    if (roll raven_judges_lovely lovely 20):
+        talk lovely talk "She's waiting for you to speak before she passes any judgement on you."
+        if $data.raven.saidYeen:
+            talk lovely talk "Though given that you just blurted out the word <span class='writtenText'>'yeen'</span> the second you saw her... it's probably not looking good."
+    else:
+        wait 1000
+    if (roll raven_teeth_nasty nasty 20):
+        talk nasty talk "She appreciates girls she could break in two. Girls like you, weakling."
+    else:
+        wait 1000
+    clear_dialog
+    "You feel like you recognise her, faintly, at least..."
+    if (roll raven_poster_orb orb 60):
+        run transition ravenPoster
+        set data.raven.posterConvoActive true
+        talk orb talk "A torn, damp poster on a train station in Pawtsmouth. <span class='writtenText'>'Save fuel! Your petroleum helps her deliver victory!'</span>, it shouts alongside an illustration of a now eerily familiar hyena. A drop of rain has melted away a spot on her left arm."
+        run transition ravens
+    else:
+        wait 1000
+    clear_dialog
+    talk lovely talk "Okay Ghost! Like a Soviet Artika passing through the northern sea route it's icebreaker time! You should ask her about her tattoo, it has a meaning, I'll wager!"
+    if $data.raven.guessedMotorcycle:
+        talk nasty talk "Fuck that! Ask her about her motorcycle! It sounds bopper!"
+    if $data.raven.posterConvoActive:
+        talk orb talk "I'm quite curious about the poster, myself."
+    clear_dialog
+    "The Raven looks up from her 'work', albeit only briefly. Her knee bounces to the music."
+    clear_dialog
+    choice:
+        talk raven talk "Can I help you?"
+        "\\"Can I ask about your tattoo?\\"":
+            jump raven_tattoo
+        "[Point at her tattoo] \\"Tattoo.\\"":
+            "The Raven looks down at her tattoo, as if she forgot it was there."
+            clear_dialog
+            choice:
+                talk raven talk "Yup."
+                "\\"Can I ask what it means?\\"":
+                    jump raven_tattoo
+        "\\"Tell me about your motorcycle.\\" [Wink]" if $data.raven.guessedMotorcycle:
+            jump raven_motorcycleWink
+        "\\"Hey are you the <span class='writtenText'>'Your petrolium helps her deliver victory'</span> lady?\\"" if $data.raven.posterConvoActive:
+            jump raven_poster
+
+raven_tattoo:
+    set data.raven.tattooConvo true
+    talk raven talk "I don't know? Can you?"
+    clear_dialog
+    talk lovely talk "W- what!? Oh me oh my! What kind of a response was that? This isn't in any of my etiquette books..."
+    if (roll raven_tattoo_etiquitte_lovely lovely 40):
+        set data.raven.lovelyLadyResponse true
+        talk lovely talk "Ugh, look, just... say <span class='writtenText'>'I am.'</span>, definitely don't cry."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk nasty talk "Now *this* is my kind of woman!!!"
+        "\\"I am. Does it mean anything?\\"" if $data.raven.lovelyLadyResponse:
+            "The Hyenas face breaks into a smirk that is one part mean, one part amused, and one more part mean."
+            if (roll raven_tattoo_smile_lovely lovely 60):
+                talk lovely talk "It's a smile, not a smirk, she's just not very good at smiling. It is mean though."
+            else:
+                wait 1000
+            jump raven_tattooExplain
+        "\\"Y-yes?\\"":
+            talk nasty talk "<span class='writtenText'>'Y-y-y-y-y-y-yes????'</span>."
+            clear_dialog
+            "There's a flash in the Hyenas eyes. The flash of someone wanting to slam someone against a wall and bully them cut short by the realisation that slamming customers against walls is, unfortunately, generally frowned upon."
+            clear_dialog
+            choice:
+                talk raven talk "Go on then. Ask."
+                "\\"I'm asking about your tattoo. Does it mean anything?\\"":
+                    jump raven_tattooExplain
+        "\\"N-no?\\"":
+            talk nasty talk "<span class='writtenText'>'N-n-n-n-n-n-no????'</span> You sound so stupid."
+            clear_dialog
+            "The Raven shrugs."
+            clear_dialog
+            talk raven talk "Well then."
+            jump raven_menu
+
+raven_tattooExplain:
+    clear_dialog
+    choice:
+        talk raven talk "It means sometimes hearts get broken."
+        "\\"I have no opinion on this.\\"":
+            talk raven talk "That's okay. No need to have an opinion on everything, though usually people tend not to announce that out loud. As for the tattoo? It *is* wild, isn't it? And true too. Hearts sometimes get broken."
+            jump raven_menu
+        "\\"That's wild.\\"":
+            talk raven talk "It is, isn't it? And true too. Hearts sometimes get broken."
+        "[Light an Oestradiol cigarette] \\"That's wild.\\"" if (has_item? cig):
+            if $data.raven.litCig:
+                choice:
+                    talk raven talk "The 'no smoking' rule didn't end."
+                    "[Sheepishly put out the cigarette again]":
+                        talk raven talk "Thank you."
+            else:
+                set data.raven.litCig true
+                choice:
+                    talk raven talk "No smoking please. There's oil all over the place, yeah?"
+                    "[Sheepishly put out the cigarette]":
+                        talk raven talk "Thank you."
+                        if $data.ghost.deepthroatedCig:
+                            talk lovely talk "Thank you for at least not devouring your cigarette like a ravenous beast this time, Ghost."
+                        clear_dialog
+                        talk raven talk "As for the tattoo? It *is* wild, isn't it? And true too. Hearts sometimes get broken."
+    clear_dialog
+    talk lovely talk "She genuinely thinks she's a poet, bless."
+    if (roll raven_tattooWild_front_orb orb 60):
+        choice:
+            talk orb talk "She wrote a lot of poems to someone during the war. She never sent them though, just wrote them down, stored them away, and then burnt them when she returned to Anglia."
+            "Were they any good?":
+                choice:
+                    talk orb talk "Art is subjective, Ghost."
+                    "Sure sure. Were they any good?":
+                        talk orb talk "They were *heartfelt*."
+                        if (roll raven_tattooWild_heartfelt_lovely lovely 20):
+                            talk lovely talk "What Orb is trying to say is <span class='writtenText'>'no'</span>."
+                        else:
+                            wait 1000
+                    "So true.":
+                        talk orb talk "Of course it's true, *I* said it."
+    else:
+        wait 1000
+    jump raven_menu
+
+raven_motorcycleWink:
+    "The Raven raises an eyebrow. She's intrigued."
+    clear_dialog
+    talk raven talk "How'd you know about that then?"
+    if (roll raven_motorcycleWink_winkagain_nasty nasty 40):
+        set data.raven.winkAgain true
+        talk nasty talk "Tell her you're a motorcyclist too. And wink. The wink is important."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "Music crackles through the radio. The reception on this side of Bluehills is less than stellar."
+        "\\"You smell of engine oil.\\"":
+            choice:
+                talk raven talk "A lot of things use engine oil, how'd you guess it was a motorcycle belonging specifically to me?."
+                "\\"Lucky guess.\\"":
+                    talk raven talk "Mhm. Very."
+                "\\"You look the type\\".":
+                    talk raven talk "Eheh. I suppose I do don't I."
+                "\\"The omniscient orb that lives in my chest told me.\\"":
+                    choice:
+                        talk raven talk "Uh huh. Tell you anything else about me?"
+                        "Well, as previously discussed Orb told me you were the Petrolium Lady, but you denied that so obviously Orb was wrong." if $data.raven.posterTalk:
+                            talk orb talk "Fuck you. I was right. Fuck you. I'm furious now."
+                            clear_dialog
+                            "The Raven just sort of frowns."
+                        "Not really no.":
+                            talk raven talk "Right."
+                    clear_dialog
+                    talk orb talk "She took that awfully well."
+                    if (roll raven_motorcycleWink_joke_lovely lovely 20):
+                        talk lovely talk "She thought it was a joke, Orb."
+                    else:
+                        wait 1000
+        "\\"Motorcyclists can always tell when they've found one of their own.\\" [Wink again]" if $data.raven.winkAgain:
+            talk orb talk "Why did you just say that? You don't have a motorcycle, and as far as I can divine you've never even ridden one."
+            clear_dialog
+            choice:
+                talk raven talk "Heh. They can, you're right. I didn't get those vibes from you though, perhaps I'm out of practise; this city is a bit too tory for motorcycles. This here is 'automobile country'."
+                "[Nod] \\"I have a motorcycle.\\"":
+                    set data.ghost.motorcycleLie true
+                    choice:
+                        talk raven talk "Lovely. You'll have to show me it somewhen."
+                        "[Lie] \\"Yes. I can show you my real motorcycle. It's real by the way.\\"":  
+                            talk raven talk "Great. I look forward to it."
+                "\\"I actually don't have a motorcycle, I don't know why I said I do sorry.\\"":
+                    talk raven talk "Hah. I thought so. You're not the type. Still, I appreciate the enthusiasm."
+                    clear_dialog
+                    talk lovely talk "She's a *little* confused by you, but she's amused enough that she's letting it slide. For now."
+    jump raven_menu
+
+raven_poster:
+    set data.raven.posterConvoActive false
+    set data.raven.posterTalk true
+    set data.article.ravenPosterStory true
+    talk raven talk "No."
+    clear_dialog
+    "Her denial snaps with an echo across the garage. It's the closest thing you've ever heard to a gunshot going off besides your head."
+    if (roll raven_poster_liar_lovely lovely 40):
+        talk lovely talk "She spoke far too fast for that to not have been a lie."
+    else:
+        wait 1000
+    if (roll raven_poster_liar_orb orb 60):
+        talk orb talk "She said yes to a propagandist once and has regretted it ever since."
+    else:
+        wait 1000
+    jump raven_menu
+    
+raven_menu:
+    clear_dialog
+    choice:
+        "The Raven stares at a puddle of engine oil on the floor behind you. She knows she needs to clean it up before someone slips on it, but she also kind of doesn't care."
+        "\\"I need some tools. For fixing things. Roof broke.\\"" if (|| (&& (!= $data.raven.hammerChatDone true) (!= (has_item? hammer) true)) (&& (!= $data.raven.hammerChatDone true) (!= (has_item? hammer) true))):
+            jump raven_tools
+        "\\"So. What's it like being a mechanic.\\""
+            jump raven_shop
+        "\\"Are you the 'Your petroleum helps her deliver victory' lady?\\"" if $data.raven.posterConvoActive:
+            jump raven_poster
+        "\\"Can I ask about your tattoo?\\"" if (! $data.raven.tattooConvo):
+            jump raven_tattoo
+        "\\"Could I see your motorcycle?\\"" if (|| (&& $data.raven.knowMotorcycle (!= $data.raven.guessedMotorcycle true) (!= $data.raven.motorcycleConvo true)) (&& $data.raven.guessedMotorcycle (!= $data.ghost.motorcycleLie true) (!= $data.raven.motorcycleConvo true))):
+            jump raven_motorcycleTalk
+        "\\"Could I see your motorcycle? It'd be fun to compare it to my own motorcycle that I definitely own.\\"" if (&& $data.ghost.motorcycleLie (!= $data.raven.motorcycleConvo true)):
+            talk orb talk "*Please* stop bringing up your motorcycle. You don't *have* a motorcycle."
+            jump raven_motorcycleTalk
+        "\\"I've noticed your poster of Judy Baps! Pressing question, are you planning on watching The new Wuppets movie?\\"" if $data.ghost.sawWuppets:
+            jump raven_wuppets
+        "[Get out your hammer and point at it] \\"How nuts would it be if I bonked you on the head with this hammer lol 👀\\" [Blend back into your 'idle loop']" if (has_item? hammer):
+            "The Raven raises an eyebrow, perplexed by your sudden statement."
+            clear_dialog
+            choice:
+                talk raven talk "Nuts? Maybe. All I know is that it would be extremely painful."
+                "\\"You're a big gal.\\"":
+                    talk raven talk "For you."
+            jump raven_menu
+        "\\"I better get going. See you.\\" <span class='prompt'>[[MOVE ON]]</span>" if (== $data.raven.motorcycleConvo true):
+            complete_objective fixHouse raven
+            choice:
+                talk raven talk "Mhm. Take care now."
+                "[Start heading outside and immediately slip on the puddle of oil that's been behind you the whole time and then awkwardly climb up and pretend you didn't do that and kind of stumble off while whistling nonchalantly] <span class='prompt'>[[CONTINUE]]</span>]":
+                    play sound spendAction
+                    play sound punch
+                    set data.ghost.oilyDress true
+                    jump goToGameMap
+
+raven_tools:
+    choice:
+        talk raven talk "<span class='writtenText'>'Roof broke'</span>? Could you be more specific?"
+        "\\"It broke. I need a tool so I can use planks to make it not broke.\\"":
+            choice:
+                talk raven talk "Mhm. It has a hole in it and you're the kind of girly girl who doesn't own any tools? Is that what you're trying to tell me?"
+                "\\"Yes. It's broken. There's a hole in it.\\"":
+                    talk raven talk "Mhm."
+                    clear_dialog
+                    "The Raven's brow furrows."
+                "\\"Yes. I have a hole too though.\\"":
+                    talk orb talk "Look, I've apologised for crashing into your chest already, can we just move on?"
+    clear_dialog
+    choice:
+        talk raven talk "You need a hammer, is what I'm getting from this automobile crash of a conversation. You realise this isn't a shop, right?"
+        "\\"Yes.\\"":
+            talk raven talk "Heh."
+        "\\"No.\\"":
+            talk raven talk "Well it's not. Still..."
+    clear_dialog
+    "The Raven fumbles around in the box of tools with renewed vigour, before fishing out the hammer you so desperately need."
+    jump raven_tools_menu
+
+raven_tools_menu:
+    clear_dialog
+    choice:
+        talk raven talk "Here. A hammer. Made in Leads. Anglia's finest. It'll be three pounds."
+        "[Buy the hammer for 3 Anglian Pounds]" if (>= $stats.money.value 3):
+            add_item hammer 1
+            add_stat money -3
+            play sound coins
+            complete_objective fixHouse hammer
+            talk raven talk "Good stuff. Thank you."
+            clear_dialog
+            "The Raven takes your money and hands you the hammer. You feel unstoppable."
+            jump raven_menu
+        "\\"But I don't have three pounds. I spent all my money!\\"" if (< $stats.money.value 3):
+            choice:
+                talk raven talk "Well. That was silly of you, wasn't it?"
+                "\\"Yes! Very much so!\\"":
+                    talk raven talk "Mhm."
+                "\\"It could have happened to anyone.\\"":
+                    talk raven talk "I don't doubt that."
+            jump raven_tools_menu
+        roll raven_tools_hammer_nasty nasty 20 "Nasty Girl, is there any way I could get this hammer for free?":
+            success "":
+                choice:
+                    talk nasty talk "I know her type. She wishes she had another arette a lot more than she wishes she had a hammer. Offer her a cigarette if she lets you have the hammer."
+                    "\\"If you give it to me for free I'll give you a cigarette.\\"":
+                        talk raven talk "Heh."
+                        clear_dialog
+                        "The Raven looks at the hammer. It's a hammer. The Raven thinks about cigarette. It's a cigarette."
+                        clear_dialog
+                        choice:
+                            talk raven talk "That a deal?"
+                            "\\"I don't actually have any cigarettes sorry.\\"" if (!= (has_item? cig) true):
+                                talk raven talk "Why'd you offer me one then, ay?"
+                                clear_dialog
+                                "She shakes her head."
+                                clear_dialog
+                                talk raven talk "I'm sure you can find a hammer elsewhere, hmm?"
+                                jump raven_tools_menu
+                            "\\"Deal!\\"" if (has_item? cig):
+                                add_item hammer 1
+                                complete_objective fixHouse hammer
+                                clear_dialog
+                                "The Raven hands you the hammer. With this tool you feel you could do anything. She takes one of your cigarettes directly from you, without even waiting for you to get them out. She flashes you a sly grin."
+                                jump raven_menu
+            failure "":
+                choice:
+                    talk nasty talk "Beg. Beg like a little bitch. That might work."
+                    "\\"Pleeeeeeeeeeeeeeeeeeeease? Whine whine whine!\\"":
+                        talk raven talk "Sorry love, I'm not running a charity. I'm sure you can find a hammer elsewhere, hmm?"
+                        jump raven_tools_menu
+        roll raven_tools_repair_nasty nasty 60 "Nasty Girl, is there any way I could get her to just repair my roof *for* me?":
+            success "":
+                set data.raven.fixedRoof true
+                set data.raven.hammerChatDone true
+                choice:
+                    talk nasty talk "You've only really got one weapon in your arsenal for this one, but yeah, I know her type. Just make yourself appear really weak and pathetic like."
+                    "[Look at The Raven with big sad eyes] \\"Actually, even if I had a hammer I'm so weak and pathetic I'd probably do it wrong... I'd probably die... I wish there was a strong, burly dyke who could take care of it for me, all she'd need to do is nail one singular plank over the hole... but alas, I am a princess without her knight...\\" [Sneeze like you have consumption] \\"Achoo...\\"":
+                        "The Raven looks sad. You really *are* pathetic."
+                        clear_dialog
+                        choice:
+                            talk raven talk "I uh... tell you what, when I finish for the day maybe I can dart over and help you out, ay? Where abouts do you live?"
+                            "[Flutter your eyelashes] \\"Daffodil Lane, just outside town. My cottage is the one with the hole in the roof...\\" [Shiver] \\"It's so cold with it there... I could die...\\"":
+                                talk raven talk "Tory country, ay?"
+                                clear_dialog
+                                "She sighs. You've made her realise the weight of responisbility on her shoulders as a big lady."
+                                clear_dialog
+                                choice:
+                                    talk raven talk "I'll see what I can do, okay?"
+                                    "\\"Thank you mam...\\" [Sniffle]":
+                                        talk nasty talk "Nice one, yah fucking pussy."
+                                        talk lovely talk "Merveilleuse! Quite the performance, darling! It's a quite similar ruse to how I get the stable girl to do things for moiself~"
+                jump raven_menu
+            failure "":
+                talk nasty talk "Does this dyke look like she does things for free? Nah. Sorry Ghost, in this world it's suck or be sucked. You're gonna have to shell out some dosh."
+                jump raven_tools_menu
+        "\\"Pay!? Earlier Nasty Girl told me you'd give me one if I sucked you off!\\"":
+            "You could hear a spark plug drop. Eventually, The Raven responds to you."
+            clear_dialog
+            choice:
+                talk raven talk "<span class='writtenText'>'Nasty Girl'</span> told you that, did she? Suck what off, eh?"
+                "\\"Uhhhh...\\"":
+                    if (roll raven_tools_clit_nasty nasty 60):
+                        choice:
+                            talk nasty talk "Clit. say clit."
+                            "[Look The Raven deep in the eyes and in your most sultry voice] \\"I'll suck on your clit, mam.\\" [Eyebrow wiggle and wink]":
+                                talk raven talk "I'm okay. Thanks."
+                                jump raven_tools_menu
+                    else:
+                        choice:
+                            talk nasty talk "O. Oil. Tank."
+                            "[Look The Raven deep in the eyes and in your most sultry voice] \\"I'll suck on your O. Oil. Tank, mam.\\" [Eyebrow wiggle and wink]":
+                                choice:
+                                    talk raven talk "You'll suck my oil tank?"
+                                    "[Squeak in a small voice] \\"I guess so.\\"":
+                                        talk raven talk "Go on then."
+                                        clear_dialog
+                                        choice:
+                                            "She motions to an opened oil tank in the corner, some of the oil has leaked across the floor and could be a slipping hazard."
+                                            "[Approach the oil tank] \\"Oh... okay...\\"":
+                                                talk raven talk "Gods no don't actually do it. Have some self respect. I was joking."
+                                            "\\"Is it too late to back out?\\"":
+                                                talk raven talk "I was joking, girl."
+                                jump raven_tools_menu
+        "\\"Never mind, sorry.\\" [Don't buy the hammer]":
+            talk raven talk "Suit yourself."
+            jump raven_menu
+
+raven_wuppets:
+    choice:
+        talk raven talk "What the fuck is a Wuppet."
+        "\\"A goofy / whimsical little creature. They're going to capture St Petrogradsburg with the help of Anglia's #1 badminton sensation Judy Baps!\\"":
+            "The Raven just looks at you like you're having a stroke."
+            if (roll raven_wuppets_baps_nasty nasty 40):
+                set data.article.ravenWuppetsStory true
+                talk nasty talk "Judy Baps' involvement has her interest. The things she would do to that badminton champion..."
+            else:
+                wait 1000
+    jump raven_menu
+
+raven_shop:
+    set data.raven.knowMotorcycle true
+    talk raven talk "Not bad. I've spent enough of my life looking after my motorcycle, so I'm good at it. It's quiet at least, though Bluehills is middle class enough that overprivileged problem customers can be a thorn in my ass."
+    clear_dialog
+    "The Raven squints at you."
+    clear_dialog
+    choice:
+        talk raven talk "You're not going to be a problem customer, are you?"
+        "\\"Yes. I was born for trouble, I'm a real nasty girl.\\"":
+            talk raven talk "Had me fooled."
+        "\\"No. I am a good girl, a real lovely lady.\\"":
+            talk raven talk "That's what I like to hear."
+    jump raven_menu
+
+raven_motorcycleTalk:
+    set data.raven.motorcycleConvo true
+    talk raven talk "Eh. Why not. It's not like I'm busy. C'mon."
+    clear_dialog
+    choice:
+        "The Raven gestures you to follow her to the backroom, or backgarage... whatever it is."
+        "[Follow The Raven into the backroom or backgarage or whatever it is]":
+            clear_dialog
+            play sound footstepsinside
+            run transition ravenBike
+            "There it is, The Raven's fabled motorcycle."
+            "The fuel tank is cameo green, the rest of it is rendered in a thousand shades of black, dark black, blackish black, and distinctly not black metallic silver."
+            choice:
+                "There is a connector for a sidecar, but no sidecar to be found. The exhaust has an enlarged muffler, thanks to the technical wizardry of the Anglian military this thing runs at a near silent 100 decibels."
+                "[Whistle] \\"Pheeeeew, what a beauty!\\"":
+                    "The Raven nods."
+                    clear_dialog
+                    talk raven talk "That she is."
+                    if (roll raven_motorcycle_beauty_beauty_nasty nasty 20):
+                        set data.raven.motorcycle_beauty_beauty_nasty true
+                        talk nasty talk "Say she's not so bad herself."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk raven talk "And hey, you're not so bad yourself."
+                    clear_dialog
+                    if $data.raven.motorcycle_beauty_beauty_nasty:
+                        "The Raven's smarmy grin is a knife that cuts through Nasty Girl's thin veneer of conversational control."
+                        clear_dialog
+                        talk nasty talk "Hhh hhhh fuck!!!!"
+                        if $data.raven.tattooConvo:
+                            talk lovely talk "What is up with this woman? Why does she keep messing with us? This is so unfair!"
+                            talk nasty talk "Hnnngh. I love it."
+                    else:
+                        "The Raven grins smarmily."
+    clear_dialog
+    choice:
+        talk lovely talk "<span class='writtenText'>'T-thank you Mam'</span>."
+        "\\"Thank you!\\"":
+            talk raven talk "Heh."
+        "\\"T-thank you, Mam'\\"":
+            "The Raven looks like she wants to punch you in the neck (in a sexy way)."
+            talk nasty talk "Gods, you are such a bottom. It's actually cramping my style pretty badly."
+            talk lovely talk "Oh please, like that wasn't exactly what you were thinking."
+        "\\"Actually you're *also* not so bad yourself either as well too.\\"":
+            talk raven talk "Cute. I'm not a beauty though. I'm rugged, dirty, hard... I'm a lot of things, but I'm not beautiful."
+    clear_dialog
+    "The Raven returns her gaze to the motorcycle."
+    clear_dialog
+    talk raven talk "Her name's Heidi. She's a Ratzubishi 4vk. She looked after me during the war, and I repay her by looking after her now."
+    if (&& (!= (objective_completed? writer article) true) (== $stats.day.value 2)):
+        clear_dialog
+        talk lovely talk "A war hero! Goodness me! Just what we need!"
+    clear_dialog
+    "She runs her hand across the fuel tank. It has been polished to perfection; a shining moss green."
+    "The Raven's eyes seem close to tears. She genuinely loves this machine. The chassis is blemished with a single bullet hole. Around it the paintwork has been scratched off in the shape of a rose. The same image that would have adorned a medal for exceptional bravery."
+    if (roll raven_motorcycleTalk_fear_orb orb 80):
+        talk orb talk "The outside of Heidi is almost pristine, but inside she is rusted and in desperate need of repair. If she *can* still start she's liable to explode. The heap of metal that is 'Heidi' is not kept for leisure, it is kept in the absence of a gravestone."
+    else:
+        wait 1000
+    clear_dialog
+    "The Raven chews the inside of their mouth, which given how sharp their teeth are, must be quite painful."
+    clear_dialog
+    choice:
+        talk raven talk "We went through a lot together, me and Heidi. It's incredible that she made it back here with me in one piece, frankly."
+        "[Point at the bullet hole in the chassis] \\"Is that a bullet hole in the chassis?\\"":
+            talk raven talk "Mhm. Took a bullet in Tennenburg Wood while I was running coordinates to the forward command post. I got off worse than Heidi did: I had a nasty tumble and lost a *lot* of blood."
+            clear_dialog
+            "She grimaces. It's subtle, but it's there."
+            if (roll raven_motorycycle_bullethole_orb orb 40):
+                talk orb talk "The bullet hole is superficial, certainly Heidi never really noticed she'd been shot, but The Raven still hears the crack of the Mausgewehr 23 sniper rifle ring inside her head from time to time."
+            else:
+                wait 1000
+            if (roll raven_motorcycle_bullethole_grimace_lovely lovely 40):
+                talk lovely talk "She tries not to show it, but she still feels the pain in her arm, the blood matting her fur. She still sometimes worries the sniper remains out there, waiting to take their second shot. Sometimes she wishes they would."
+            else:
+                wait 1000
+            clear_dialog
+            talk raven talk "Still, I got the message there in the end, and we won the battle. That's what counts right?"
+            clear_dialog
+            choice:
+                "The positivity in her voice is as hollow as Heidi's empty fuel tank."
+                "[Make a vague non-committal sound in lieu of talking about how you don't respect the troops in front of this extremely physically imposing war veteran]":
+                    run skip
+                "\\"That's wild.\\"":
+                    talk raven talk "It was, yes."
+                "[Light an Oestradiol cigarette] \\"That's wild.\\"" if (has_item? cig):
+                    if $data.raven.litCig:
+                        choice:
+                            talk raven talk "The 'no smoking' rule didn't end just because we moved into a different oil-soaked room."
+                            "[Sheepishly put out the cigarette again]":
+                                talk raven talk "Thank you."
+                    else:
+                        set data.raven.litCig true
+                        choice:
+                            talk raven talk "No smoking please. There's oil all over the place, yeah?"
+                            "[Sheepishly put out the cigarette]":
+                                talk raven talk "Thank you."
+                    if $data.ghost.deepthroatedCig:
+                        clear_dialog
+                        talk lovely talk "Thank you for at least not devouring your cigarette like a ravenous beast this time, Ghost."
+    clear_dialog
+    if (&& (== $stats.day.value 2) (!= (objective_completed? writer article) true)):
+        choice:
+            "The Raven is deep in thought. She is trying really hard not to forget about the puddle of engine oil in the other room which still needs cleaning up before someone slips on it, woe as she is to actually do it."
+            "Can I interview you for an article I'm writing?":
+                choice:
+                    talk raven talk "Mmm... What are you writing?"          
+                    "\\"I'm writing an article for Weird Tails, where I work, apparently.\\"":
+                        talk raven talk "Interesting."
+                        clear_dialog
+                        "She eyes you up and down. Sizing you up."
+                        clear_dialog
+                        talk lovely talk "Somewhat of an odd thing to do to a writer, but she does this to everyone."
+                        talk nasty talk "She's used to hanging around with cool, badass people. The kind of people you size up by looking at their muscles and cigarettes and guns."
+                        talk lovely talk "Quite."
+                        clear_dialog
+                        "The Raven smirks."
+                        clear_dialog
+                        talk lovely talk "She's sized you up. You are literally the daintiest little thing to have ever blown into her workshop."
+                        clear_dialog
+                        talk raven talk "So. What's this article about, hmm?"
+                        if (roll raven_interview_intro_hero_lovely lovely 60):
+                            talk lovely talk "Don't say it's about war heroes. In fact I'd underplay the amount of war stuff in general, if I'm being honest. Actually, we should probably just... not ask her about her involvement in the war at all."
+                        else:
+                            wait 1000
+        clear_dialog
+        choice:
+            "The Raven turns away from you. She's listening, but she's busy. You're too stupid and gay to understand what it is she's doing with the automobile engine on her workbench, but it's probably clever."
+            "\\"I'm writing about the heroes of The Great War, for example... you!\\" [Do some gay little jazz hands] \\"Wahoo! We love our war her-\\" [Get cut off because a wrench is being launched at your skull at mach nine]":
+                choice:
+                    "The Raven spins around and hurls a wrench at your head."
+                    roll interview_raven_wtfdodge_nasty nasty 80 "\\"What the fuck!\\" [Dodge the wrench]":
+                        success "":
+                            jump interview_raven_wrench_success
+                        failure "":
+                            play sound punch
+                            run transition_pain
+                            "You feel a sharp pain, and then there's nothing."
+                            jump ending_credits
+                    roll interview_raven_dodgewtf_nasty nasty 60 "[Dodge the wrench] \\"What the fuck!\\"":
+                        success "":
+                            jump interview_raven_wrench_success
+                        failure "":
+                            play sound punch
+                            run transition_pain
+                            "You feel a sharp pain, and then there's nothing."
+                            jump ending_credits
+                    "[Fuck it. Let the wrench bounce off of your skull and die, probably]":
+                        "You feel a sharp pain, and then there's nothing."
+                        jump ending_credits
+            "\\"I'm writing about war stuff mostly. Maybe a bit of motorcycle stuff too, you know how it is.\\"":
+                "A frown."
+                clear_dialog
+                talk raven talk "I'll talk to you about motorcycles. I'm not talking to you about... <span class='writtenText'>'war stuff'</span>."
+                clear_dialog
+                talk orb talk "You can ask her war stuff anyway. Just be sneaky about it."
+                jump interview_raven_menu
+            "\\"I'm writing about motorcycles. Maybe a bit of war stuff too, to appease my boss, who I have been assured is a dickhead.\\" [Make a dicksucking motion and roll your eyes as a fuck you to your boss who you have never actually met and that for all you know could actually be very nice]":
+                talk raven talk "Motorcycles huh. I do like motorcycles."
+                if (roll interview_raven_motorcycles_nasty nasty 40):
+                    talk nasty talk "That's an understatement. This bitch is *so* horny for motorcycles."
+                else:
+                    wait 1000
+                if (roll interview_raven_motorcycles_lovely lovely 40):
+                    talk lovely talk "She did hear the bit about <span class='writtenText'>'war stuff'</span> too, but she's cautiously willing to overlook it. For now."
+                else:
+                    wait 1000
+                jump interview_raven_menu
+    else:
+        "The Raven turns away from you. She's listening, but she's busy. You're too stupid and gay to understand what it is she's doing with the automobile engine on her workbench, but it's probably clever."
+        jump interview_raven_menu
+
+interview_raven_wrench_success:
+    play sound metalcrash
+    set data.raven.threwWrench true
+    "The wrench clatters against the wall behind you, almost embedding itself in the brickwork. A little bit of pee comes out of you."
+    clear_dialog
+    talk raven talk "Shit. Sorry."
+    if (roll interview_raven_wrench_success_sorry_lovely lovely 40):
+        talk lovely talk "She's not actually sorry."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk raven talk "Look. I'm not a fucking war hero. So take your twatty little notebook and fuck off back to your twatty little newspaper."
+        "\\"That's a little rude don't you think?\\"":
+            talk raven talk "No, it's a lottle rude. Get out. I don't talk to the press, and if I catch you rummaging through my bins I'll fucking evis... evis..."
+            if (roll interview_raven_wrench_success_eviscerate_lovely lovely 20):
+                talk lovely talk "She's trying *very* hard to say 'eviserate'."
+                if (roll interview_raven_wrench_success_eviscerate_orb orb 40):
+                    talk orb talk "*eviscerate."
+                else:
+                    wait 1000
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk raven talk "I'll fucking kill you? Got it?"
+                "\\"Got it. I'll see myself out.\\" [Leave and slip on the puddle of oil that's been behind you the whole time and then awkwardly climb up and pretend you didn't do that and scarper off]":
+                    clear_dialog
+                    play sound punch
+                    talk orb talk "Well. That could have gone worse."
+        "\\"Yes mam right away mam.\\" [Skiter away like a scared little animal and slip on the puddle of oil that's been behind you the whole time and then awkwardly climb up and pretend you didn't do that and scarper off]":
+            clear_dialog
+            play sound punch
+            talk orb talk "Well. That could have gone worse."
+    talk lovely talk "It could also have gone better."
+    clear_dialog
+    set data.ghost.oilyDress true
+    choice:
+        talk orb talk "Ghost, you need to learn how to talk to people, okay? We can't spend all our time dodging projectiles hurled at you after you've shit the social bed, okay?"
+        "Okay. I'll do my best. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+        "I'll shit whatever beds I want, thank you very much. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+
+interview_raven_menu:
+    clear_dialog
+    choice:
+        "She growls. The blasted engine is kaput, and she does not have the energy to deal with a kaput engine today."
+        "\\"I spoke to The Weapon. You blinded them, didn't you?\\"" if $data.global.knowsRavenBlindedWeapon:
+            jump interview_raven_eye
+        "\\"Can I sit on it? Can I sit on the cycle, pleaseeee?\\"" if (!= $data.raven.satOnMotorcycle true):
+            jump raven_motorcycle_sit
+        "\\"So. What's your favourite motorcycle.\\"" if (!= $data.raven.warChat true):
+            talk raven talk "Favourite motorcycle huh?"
+            clear_dialog
+            "She thinks for a moment."
+            if (roll interview_raven_menu_fav_lovely lovely 40):
+                talk lovely talk "Entirely performative. She already knows the answer to this."
+            else:
+                wait 1000
+            clear_dialog
+            talk raven talk "Heidi. Though I have a soft spot for the Ratzubishi 4vk line in general, if you want me to be less specific."
+            jump interview_raven_motorcycle
+        "\\"So.\\"":
+            "The Raven's eyes narrow ever so slightly. She thinks for a moment, processing the two letters you just said."
+            clear_dialog
+            choice:
+                talk raven talk "So?"
+                "\\"Uuuuh.\\"":
+                    jump interview_raven_menu
+        "\\"That's all I need. Thank you for your help, Mam.\\" <span class='prompt'>[[MOVE ON]]</span>" if (&& (!= (objective_completed? writer article) true) (== $stats.day.value 2)):
+            choice:
+                talk raven talk "No problem. It was nice getting to spend some time with Heidi."
+                "[Follow The Raven back into the main garage and resume standing just in front of that puddle of engine oil she needs to clean up before some jackass slips over on it]":
+                    play sound footstepsinside
+                    run transition ravens
+                    jump raven_menu
+        "\\"I think I'm motorcycled out for now.\\" <span class='prompt'>[[MOVE ON]]</span>" if (|| (!= $stats.day.value 2) (objective_completed? writer article)):
+            choice:
+                talk raven talk "No problem. It was nice getting to spend some time with Heidi."
+                "[Follow The Raven back into the main garage and resume standing just in front of that puddle of engine oil she needs to clean up before some jackass slips over on it]":
+                    play sound footstepsinside
+                    run transition ravens
+                    jump raven_menu
+
+interview_raven_motorcycle:
+    set data.raven.warChat true
+    if (&& (== $stats.day.value 2) (!= (objective_completed? writer article) true)):
+        choice:
+            talk nasty talk "Here's your chance. Ask her your question. Carefully."
+            "\\"So. I bet your used one of those bad boys during The Great War, eh? Do anything there that could be classed as 'heroic'?\\" [Lift an eyebrow inquisitively]":
+                talk raven talk "No."
+                clear_dialog
+                talk nasty talk "Fuck. She's good. We're not getting anything out of this one."
+    clear_dialog
+    "The Raven wraps her hand around the rubber handlebar grip. She squeezes the break, ever so gently, as though comforting it. Nail marks left in skin."
+    clear_dialog
+    talk raven talk "I was part of a comms unit. Mostly just running messages between posts, y'know?"
+    talk raven talk "It was fun, in a 'I could die at any moment and have seen horror you would not believe' kind of way. We got into some pretty wild adventures though, yes."
+    clear_dialog
+    talk raven talk "Running orders across Tennenburg was the big one I suppose, but there was the minefield incident, the flamethrower incident, the time I ended up being arrested by the Iberian Republic after I got *really* lost and almost triggered their entry into the conflict..."
+    clear_dialog
+    "She smiles. A sort of terrifying nostalgia."
+    clear_dialog
+    talk nasty talk "I want to know if she killed anyone."
+    if (roll raven_motrocycle_adventures_kill_lovely lovely 60):
+        talk lovely talk "Do *not* under *any* circumstances ask if she killed anyone, I am *begging* you."
+        talk nasty talk "But I want to knowwwwww."
+        clear_dialog
+        talk lovely talk "I'm putting my foot down, Nasty Girl. We are not asking that."
+        talk nasty talk "Yeah that's right, step on me."
+        talk lovely talk "H-hey. No. None of t-that."
+        talk nasty talk "Eheheheheh."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "The Raven's face seems to know what you're considering asking."
+        "\\"So how many people did you kill? A lot, right? You seem like you'd be good at it.\\"":
+            set data.global.ravenKills true
+            talk raven talk "None. A key element of being a messenger was *not* getting into fights."
+            clear_dialog
+            "She looks away from you, nonchalantly investigating some chipped paintwork hiding next to one of the motorcycles pedals."
+            clear_dialog
+            talk lovely talk "WHY DID YOU ASK THAT? YOU ARE SO LUCKY HER ANSWER WAS NONE."
+            talk nasty talk "Ugh, I was hoping it would be in the triple digits, with us next on her plate."
+            if (roll raven_motorcycle_kills_orb orb 20):
+                talk orb talk "She's lying to you, at least somewhat. As far as she is concerned it is in the thousands."
+            else:
+                wait 1000
+        "I am not going to ask her if she killed anyone.":
+            talk lovely talk "Thank you so much."
+            talk nasty talk "Brain cuck."
+            talk lovely talk "Ignore her, you took the objectively correct choice."
+    clear_dialog
+    play music thewar
+    choice:
+        talk raven talk "Gods. You people are all the same. There's nothing to be proud of. I'm not a fucking hero."
+        "\\"But why aren't you proud!\\" [Wave your arms about excitedly] \\"You're a goshdang war hero for flips sake!\\"":
+            choice:
+                talk raven talk "I'm not a fucking hero. I'm the reason Heidi is fucking dead."
+                "\\"Heidi? Isn't that your motorcycle? She's right there!\\" [Point at Heidi the motorcycle]":
+                    if (roll raven_interview_motorcycle_heidi_orb orb 60):
+                        talk orb talk "Not that Heidi. You're playing a dangerous game here, Ghost."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk raven talk "Not that Heidi. I'm talking about the Heidi Heidi is named after."
+                    clear_dialog
+                    choice:
+                        "She's restrained herself from physically hitting you, but her voice is laced with barbed wire. Each syllable is a spike tightening around your throat."
+                        "\\"Oh *that* heidi.\\" [Nod as if you know *that* Heidi]":
+                            talk raven talk "Yes. *That* Heidi."
+                            if (roll raven_interview_motorcycle_partner_orb orb 20):
+                                talk orb talk "Heidi was The Raven's partner. I hope that helps, Ghost."
+                            else:
+                                wait 1000
+                "\\"Wait, who's Heidi?\\"":
+                    talk raven talk "She was my... partner. Girlfriend. Wife. Whatever you want to call her."
+            if (roll interview_raven_motorcycle_label_lovely lovely 40):
+                talk lovely talk "They didn't really do labels. All that mattered was that they loved each other."
+            else:
+                wait 1000
+            if (roll interview_raven_motorcycle_bite_nasty nasty 40):
+                talk nasty talk "She'd never met anyone else as good at *biting* as she is."
+            else:
+                wait 1000
+            clear_dialog
+            talk raven talk "She left for Brennenburg, visiting her sick mother a month before the war started and the borders closed. She would have been drafted a few months later, the Imperials started conscripting early."
+            talk raven talk "I knew that she would be on the front, it's why I did my best to avoid serving for so long. 'Accidently' breaking my arm, y'know?"
+            talk raven talk "I was *not* going to kill her."
+            clear_dialog
+            "She starts to chew on a new cigarette. The previous one dies under her boot. Crushed for the crime of being on fire. It was framed, never lit, never smoked."
+            clear_dialog
+            talk raven talk "Anyway, eventually I couldn't avoid it. Had the choice between 'serving' or jail. I was weak."
+            talk raven talk "Thought I was lucky when the conscription officer recognised me from the Schottland Great 14 motorcycle race. Recon. Though to myself, <span class='writtenText'>'Hey now, that's a good way to not shoot my...'</span>"
+            clear_dialog
+            "She trails off."
+            clear_dialog
+            talk raven talk "Tennenburg. The reason I'm a <span class='writtenText'>'hero'</span>. How many people on the other side died because of the artillary coordinates I passed on? How many of them deserved it?"
+            talk orb talk "She isn't talking to you anymore, she's talking to the motorcycle, to the symbol engraved around the bullet hole."
+            clear_dialog
+            choice:
+                talk raven talk "I killed Heidi. I killed them all. I gave the order at Tennenburg, and her blood is matted into my fur forever. Nothing will change that, so let's just move on and avoid writing articles about how hard it made the general public to imagine all those Imperials getting turned into chunks."
+                "\\"You *didn't* order it, though.\\"":
+                    talk raven talk "I did. I crawled through mud and fucking shrapnel to order it. If it wasn't ordered we wouldn't be having this conversation, and I'd probably look about a decade younger."
+                "\\"You didn't *order* it, though.\\"":
+                    talk raven talk "It was a letter marked orders. What the fuck else was it? The military doesn't exactly 'ask nicely'."
+                "\\"*You* didn't order it, though.\\"":
+                    talk raven talk "*I* passed on the fucking position, didn't I? It's why I get to be called a fucking war heroine for the rest of my life by psychopaths like you."
+                "[Remain silent]":
+                    talk lovely talk "Wise decision. You're not talking her out of this one."
+            clear_dialog
+            talk raven talk "It was sheepshit. Pulling a trigger, launching a mortar, placing a land mine, delivering a letter. It all ends the same way."
+            set data.article.ravenTennenburgStory true
+            if (roll raven_heidi_raven_orb orb 80):
+                choice:
+                    talk orb talk "I didn't want to bring this up until now, but I know what actually happened to Heidi. The Raven does too, even if she won't admit it."
+                    "Tell me.":
+                        choice:
+                            talk orb talk "Heidi was never at Tennenburg. The Raven is... not delusional exactly, but not entirely congruent with reality."
+                            "What happened to Heidi?":
+                                talk orb talk "Heidi was a mechanic. She repaired equipment. Trucks, planes, weapons..."
+                                clear_dialog
+                                choice:
+                                    talk orb talk "She was repairing a stolen Ratzubishi during the retreat from Dreadsdon when a Marigold MK.IV Heavy Artillery Cannon launched a shell over twenty miles towards the makeshift workshop."
+                                    "Then why does The Raven blame themself?":
+                                        talk orb talk "Because as far as The Raven is concerned she may as well have done it. She had no way of knowing who would live or die at the end of their missions, she only knew that people *would* die."
+                                        choice:
+                                            talk orb talk "She killed them all. Everyone in the entire war. Anglian. Imperial. Frankish. Pole. Muskovite. Soviet. She, spiritually, killed everyone who ever lived."
+                                            "[Turn to The Raven] \\"I know you didn't actually kill Heidi, by the way.\\"":
+                                                "She glowers at you."
+                                                clear_dialog
+                                                choice:
+                                                    talk raven talk "What."
+                                                    "\\"I said I know you didn't actually kill Heidi. She was never at Tenneburg. You're lying to yourself, for some reason.\\"":
+                                                        jump interview_raven_heidi
+                                                    "\\"Actually, forget I said anything. I'm just saying stuff for no reason. Blaaargh.\\" [Point over your shoulder] \\"I'll take my leave.\\"":
+                                                        jump interview_raven_bad
+                    "Let's not dwell on it.":
+                        talk orb talk "If you prefer."
+            else:
+                wait 1000
+            clear_dialog
+            play music beware
+            choice:
+                talk raven talk "So there. That's my story. That's why I'm a 'war hero'."
+                "\\"That's a sad story. I think it might be too sad for Weird Tails.\\"":
+                    talk raven talk "Then don't write about it."
+                    jump interview_raven_menu
+                "\\"That's a bopper of a story. I'm going to write my article about it.\\"":
+                    jump interview_raven_bad
+        "\\"What's the proudest you've ever been while riding one of those bad boys?\\"":
+            talk raven talk "Proud..."
+            clear_dialog
+            "She scratches her chin. Some oil wipes from her fingers to her face."
+            clear_dialog
+            choice:
+                talk raven talk "Saved a life. Once."
+                "\\"Tell me more.\\"":
+                    set data.article.ravenCivilianStory true
+                    talk raven talk "I was delivering some correspondence between two forward bases in... must have been the Avesnois area? Few weeks after Operation Phantom Dreadnought ground to a halt."
+                    talk raven talk "Anyway. I'm driving along, when the Imperials start shelling the area. I step on the pedal, trying to get out of the firing zone, and almost hit some Frankish civilian."
+                    talk raven talk "I avoid them, of course, but I end up crashing into a bush."
+                    clear_dialog
+                    "She frowns."
+                    clear_dialog
+                    talk raven talk "They make bushes softer on the continent, you know?"
+                    if (roll raven_heidi_bush_orb orb 20):
+                        talk orb talk "Source?"
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk raven talk "Anyway, Heidi got off worse than I did. I stumble back to the civvie, they're a long way back, I must have been driving *really* fast, and they start speaking to me in Frankish."
+                    talk raven talk "I didn't know any at the time, so all I could tell was that some shrapnel had hit them, and they were bleeding pretty bad. Could barely walk."
+                    clear_dialog
+                    "She squints and taps her foot."
+                    if (roll interview_raven_motorcycle_recall_lovely lovely 20):
+                        talk lovely talk "She's trying to recall what she said to them. She can't."
+                        if (roll interview_raven_motorcycle_recall_orb orb 20):
+                            talk orb talk "She said <span class='writtenText'>'What the fuck are you doing out here you stupid cunt!? Don't you know there's a war on!?'</span> and then she sort of waved her arms wildly at the surroundings, which were still being shredded by artillery fire."
+                            choice:
+                                talk orb talk "Then she muttered something about them being a <span class='writtenText'>'fucking dickhead'</span>, scolded them for <span class='writtenText'>'making her crash her fucking motorcycle into a bush'</span> and spat on the ground."
+                                "Did the civilian understand her?":
+                                    talk orb talk "They got the jist of it, yes."
+                        else:
+                            wait 1000
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk raven talk "Anyhow. I'm sure I said something reassuring and told them they'd be okay, and then I bundled them into my motorcycle carriage and got them to safety."
+                    talk raven talk "They lived. I was proud of myself. Part of me had wanted to forget about them and get out of there while I was still attached to all of my limbs, but I couldn't leave some poor sod out there to die, right?"
+                    clear_dialog
+                    "She taps her foot some more."
+                    clear_dialog
+                    talk raven talk "They were collecting bullets, I think. Gods know why. What a stupid idea..."
+                    clear_dialog
+                    "She shakes her head like a disappointed teacher. It is a strange vibe, coming from her."
+                    if (roll interview_raven_motorcycle_bullets_orb orb 60):
+                        talk orb talk "They were going to sell them on the black market. It would have been decent money, considering the farm that was their livelihood was now seven miles behind enemy lines and has been stripped bare by the occupying forces."
+                    else:
+                        wait 1000
+                    jump interview_raven_menu
+
+interview_raven_heidi:
+    set data.raven.goodEnd true
+    talk raven talk "I..."
+    clear_dialog
+    "The Raven's eyes flicker, lost. Her mouth twitches, as if desperately trying to form words that never make it out of her throat."
+    if (roll interview_raven_heidi_expecting_lovely lovely 20):
+        talk lovely talk "You've thrown her completely off guard. The Raven is *never* off guard. She doesn't know how one is supposed to handle this."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk raven talk "It doesn't matter if Heidi was at Tennenburg. What I did there, what I did everywhere in that fucking mud pit, was no different to putting a bullet in her myself."
+        "\\"I think it is a bit different actually.\\"":
+            "She ignores you."
+            if (roll interview_raven_heidi_ignore_lovely lovely 20):
+                talk lovely talk "She didn't even *hear* you."
+            else:
+                wait 1000
+        "[Just stay silent]":
+            "The Raven stares at something. A discarded spring on the floor."
+    clear_dialog
+    talk raven talk "Sod it. I'll fix this piece of junk tomorrow..."
+    clear_dialog
+    play sound metalcrash
+    "She slams a fist down on the engine she's been working on, further breaking it with a gruesome clanging."
+    clear_dialog
+    choice:
+        talk raven talk "I'm done for the day. You best be off, eh? Got a little article to write, haven't you."
+        "\\"Thank you for sharing your story.\\" [Do a stoic little wave] \\"Bye.\\" <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk raven talk "Eh..."
+            if (roll interview_raven_heidi_ok_lovely lovely 60):
+                talk lovely talk "She meant to say <span class='writtenText'>'it's okay'</span>. She is genuinely glad she got to talk about this. You did well, Ghost, intentionally or not."
+            else:
+                wait 1000
+            jump goToGameMap
+
+interview_raven_eye:
+    talk raven talk "Aye. I did."
+    if (roll interview_raven_eye_aye_lovely lovely 40):
+        talk lovely talk "No resistance. She assumes that you'd only know this if The Weapon trusts you. Don't tell them you just guessed."
+    else:
+        wait 1000
+    if (roll interview_raven_eye_weapon_orb orb 20):
+        talk orb talk "She's not entierly sure why you called them <span class='writtenText'>'The Weapon'</span>, but she knows who you're talking about, and the name fits."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk nasty talk "Ha ha. Aye. Eye. Good one. This is one funny yeen."
+        "\\"Ha ha. Eye. Good one.\\"":
+            "The Raven looks at you with a frown."
+            clear_dialog
+            talk lovely talk "She *wants* to be mad at you for that, but she can't be, because she laughed. Inside at least."
+        "\\"The Weapon didn't tell me that, I just guessed with my big brain.\\"":
+            talk orb talk "??? I actually work so hard every day and yet no one ever is kind to me?"
+            clear_dialog
+            "She doesn't react."
+            if (roll interview_raven_eye_spy_lovely lovely 60):
+                talk lovely talk "Inside her are two wolves. One thinks you're from an intelligence agency that somehow found out about what she did and she's about to be dragged away, the other knows you're too incompetent to be military police."
+            else:
+                wait 1000
+            clear_dialog
+            talk raven talk "I'd like to rescind my previous comment. I had nothing to do with that, I don't even know who <span class='writtenText'>'The Weapon'</span> is."
+        "\\"Why did you do it?\\"":
+            talk raven talk "Because it was the right thing to do. They were going to be dragged into another bloodbath and only I had the guts to do something about it."
+            clear_dialog
+            "She swallows some spit."
+            clear_dialog
+            talk raven talk "They were... weaker, back then. They couldn't do it themselves."
+            if (roll interview_raven_eye_weak_orb orb 60):
+                talk orb talk "The Weapon only became the cold gravestone they are today in the years following the war. With time and distance their disassociation failed them, and they had to stare, uninhibited, into the tatters of their own soul for the first time."
+            else:
+                wait 1000
+            clear_dialog
+            talk raven talk "Just about the only act of heroism I've been responsible for. If the brass found out I'd be locked up. Shot even."
+    clear_dialog
+    choice:
+        talk raven talk "Don't write shit about this though. If the military found out..."
+        "\\"I won't, don't worry.\\" [Nod in a way that suggests you're trustworthy]":
+            talk raven talk "Good."
+    jump interview_raven_menu
+
+raven_motorcycle_sit:
+    "The Raven thinks for a moment. Her eye's strain into an imagined horizon, her brow furrows."
+    clear_dialog
+    choice:
+        talk raven talk "Go ahead, just don't scuff the paintwork."
+        "[Sit on the motorcycle]":
+            clear_dialog
+            set data.raven.satOnMotorcycle true
+            "The Raven's lip quivers, just for a moment, before returning to its former stiff ambivalence."
+            if (roll raven_motorcycle_sit_quivers_lovely lovely 60):
+                talk lovely talk "She has not sat on this motorcycle in years. Seeing you on it almost feels wrong."
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk nasty talk "You're in the driver's seat. The possibilities are endless. You and a real life Ratzu. It's like you're *there*."
+                "I'm where?":
+                    clear_dialog
+                    play music thewar
+                    talk nasty talk "*There*"
+                    clear_dialog
+                    talk nasty talk "The fields of Wolfenbüttel. The war will be over in less than a week, the Imperial high command is pulling their forces back to the capital in an attempt to face the allies with a final battle of proportions hitherto unseen to avoid being forced into an unconditional surrender."
+                    clear_dialog
+                    talk nasty talk "The ploy won't work."
+                    clear_dialog
+                    talk nasty talk "In three hours Anglian Special Forces will blow the bridges over the Whine river, and the tattered remnants of the Imperial military will be reduced to even tattier tatters."
+                    clear_dialog
+                    talk nasty talk "*This* is where you are. The death rattle of the war, where violence is fought pointlessly with rabid ferocity."
+                    choice:
+                        talk nasty talk "Mortar shells explode around you, bullets whiz past and strike the mud to your side with a *squelch* that is too terrifying to be comical. Smoke rises on the horizon, poison gas in your peripheral, the glow of flames at your back."
+                        "[Nod] This bops. I love it here.":
+                            talk nasty talk "Watch out! Machine gun nest!"
+                            talk nasty talk "They spot you, lick their lips and press down on the trigger! Bullets spray towards you, they whistle past your head, singing a whisker!"
+                            talk nasty talk "One slams into a tree ahead of you and splinters the wood explodes with a rib breaking CRACK! A splinter twirls through the air like a needle and scratches your cheek!"
+                            clear_dialog
+                            play music intro
+                            choice:
+                                talk nasty talk "You swerve to the side, kicking up mud and rainwater from the torn up ground!"
+                                "Yessssss yessss this bops!":
+                                    talk nasty talk "I agree. This bops. War bops. I like war now, this is fun right?"
+                                    talk lovely talk "Sigh. To think she calls *me* a loser."
+                                "[Shake your head] War is hel.":
+                                    talk nasty talk "Wrong, idiot. War bops. I like war now, this is great."
+                            clear_dialog
+                            "A brief moment of self awareness. You notice The Raven."
+                            choice:
+                                "She's looking at you with an expression halfway between fear and laughter."
+                                "I was making <span class='writtenText'>'brrrrrrummm bruuuuum pew pew bruuuuuuuuuuum'</span> noises out loud wasn't I?":
+                                    talk orb talk "Yes."
+                                    talk lovely talk "You were, yes."
+                            clear_dialog
+                            choice:
+                                talk nasty talk "It was so fucking embarrassing haha. I'd have told you but I was worried you'd have stopped my story."
+                                "\\"Sorry, how long was I... you know?\\"":
+                                    choice:
+                                        talk raven talk "Not long. And by not long I mean maybe five or so minutes. You seemed to be having fun, so."
+                                        "\\"I'm so embarrassed.\\"":
+                                            talk raven talk "Heh."
+                                        "I'm so embarrassed.":
+                                            talk orb talk "You should be, to be honest."
+                                            talk lovely talk "It's okay, so am I."
+                                            talk nasty talk "Good."
+                                        "\\"Did I look cool at least?\\"":
+                                            talk raven talk "No. It was a little cute though. I guess."
+                                            if (roll raven_motorcycle_end_cute_lovely lovely 20):
+                                                talk lovely talk "The Raven does *not* use that word often. Well done."
+                                            else:
+                                                wait 1000
+                            clear_dialog
+                            talk orb talk "You know, I hate to say it but Nasty Girl is genuinely a rather talented storyteller stroke historian, when she wants to be."
+                            talk nasty talk "Damn why don't you just come bang me homo."
+                            play music beware
+                            jump interview_raven_menu
+                        "What the fuck! This is terrifying! I don't want to be there! My spine has a chill running up it and I feel oh so scared! I would like to leave this story now!":
+                            clear_dialog
+                            if (roll raven_motorcycle_sit_hide_nightmare nightmare 60):
+                                talk nightmare talk "<span class='nightmare'>You can leave, but you cannot run. Or ride. Or hide. Whatever.</span>"
+                                clear_dialog
+                            talk lovely talk "Oh honey no don't worry, you're not there! You're, um... you're gallivanting down a quaint countryside lane! Look! Sheep! And over there! Look! Is that a daffodil!? I think it might be!"
+                            talk nasty talk "Oh my gods this is so shit, please let me go back to the harrowing violence."
+                            clear_dialog
+                            choice:
+                                talk orb talk "I'm hesitant to agree with nasty girl but she's right. This is really lame. Stop."
+                                "I don't want to go back to the harrowing violence! [Fall off of the motorcycle on purpose]":
+                                    jump raven_motorcycle_fall                  
+
+raven_motorcycle_fall:
+    clear_dialog
+    play music intro
+    play sound punch
+    run transition_pain
+    set data.ghost.oilyDress true
+    "You tumble from the seat and hit your head on the oily floor. Normally it would be quite painful, and unfortunately for you it's a very normal landing."
+    "The Raven seems quite concerned, though admittedly not enough to help you up."
+    clear_dialog
+    choice:
+        talk raven talk "Fuck me. You okay down there?"
+        "[Stand up and brush off the oil on your dress in a way that just sort of spreads it all over you and makes you look like a dickhead] \\"That was quite refreshing, actually.\\" [Lie]":
+            talk raven talk "That's good, but try not to die in my workshop, please."
+        "[Stand up and brush off the oil on your dress in a way that just sort of spreads it all over you and makes you look like a dickhead] \\"I want to go back on the motorcycle please.\\"":
+            talk raven talk "Maybe not hmm? I don't want to be liable for any cracked skulls."
+    play music beware
+    jump interview_raven_menu
+
+interview_raven_bad:
+    set data.raven.badEnd true
+    run transition_instant generic_black
+    play sound punch
+    animate #narrat-app narrat-screenshake
+    run transition_pain
+    choice:
+        "There's a flash of teeth, a snarl of spit and a rush of blood straight into your eyes. The Raven is lifting you up by the neck. Your little feet dangle and kick at the air like clothes hanging from a washing line in a light breeze. This is as easy as lifting a mug up off of a table, something you struggle with, sometimes."
+        "\\"Eep!\\"":
+            set data.ghost.sackOfShit true
+            if (&& (== $stats.day.value 2) (!= (objective_completed? writer article) true)):
+                talk raven talk "Listen here you no good sack of shit, I'm being nice here. If you write a *word* about any of this in your shitrag 'newspaper', I'll fucking end you."
+                clear_dialog
+                choice:
+                    "The corners of your eyes begin to tear up. Your eyes feel heavy. Her grip tightens. If it tightens again you will die."
+                    "\\"Eeuuugh...\\" [Make dying noises]":      
+                        talk orb talk "Euuuuuugh. I feel dizzy. I've never felt dizzy before. This shit sucks."
+                    "[Attempt to say <span class='writtenText'>'Thank you mommy'</span> but just sort of gargle instead]":
+                        talk orb talk "You're lucky you're too close to dying to say that. She would have killed you. For real."
+                clear_dialog
+                choice:
+                    "The Raven's nostrils flare, and something twigs inside of her. She slowly puts you down, and you can once again breathe."
+                    "\\"Understood mam.\\" [Run away and slip on the puddle of oil that's been behind you the whole time and then awkwardly climb up and pretend you didn't do that and scarper off]":
+                        play sound punch
+                        talk raven talk "It better be."
+                        clear_dialog
+                        choice:
+                            talk orb talk "So. This doesn't seem very promising as far as writing an article goes."
+                            "Are you kidding? That was a great story! She's a *real* war hero!":
+                                choice:
+                                    talk orb talk "Did you not listen to the part where she said she would quote 'fucking end you' if you wrote about her?"
+                                    "Yes. So what?":
+                                        talk orb talk "Oh my gods you're a moron Ghost it's like you want everyone to hate you."
+                                    "Good point. I don't want to end, it's only day two.":
+                                        talk orb talk "...Sure. It's only day two. Whatever that means."
+                                        talk nasty talk "Maybe she meant date two? You taking us all out on a date Ghost? That's a little faggy, don't you think?"
+                                        talk lovely talk "Ignore Nasty Girl's ironic homophobia, Ghost, it's not worth arguing with her about."
+                            "That story just made me sad. I can't write about that!":
+                                talk orb talk "That's probably for the best."
+                            "The Raven asked me not to write about it and I'm a girl of many words. [Nod sagely]":
+                                talk lovely talk "I believe you meant 'a girl of your word', darling, but we appreciate your good heart."
+            else:
+                talk raven talk "Listen here you no good sack of shit, I'm being nice here. I'm not here for you to fuck around with, got it?"
+                clear_dialog
+                choice:
+                    "The corners of your eyes begin to tear up. Your eyes feel heavy. Her grip tightens. If it tightens again you will die."
+                    "\\"Eeuuugh...\\" [Make dying noises]":      
+                        talk orb talk "Euuuuuugh. I feel dizzy. I've never felt dizzy before. This shit sucks."
+                    "[Attempt to say <span class='writtenText'>'Thank you mommy'</span> but just sort of gargle instead]":
+                        talk orb talk "You're lucky you're too close to dying to say that. She would have killed you. For real."
+                clear_dialog
+                choice:
+                    "The Raven's nostrils flare, and something twigs inside of her. She slowly puts you down, and you can once again breathe."
+                    "\\"Understood mam.\\" [Run away and slip on the puddle of oil that's been behind you the whole time and then awkwardly climb up and pretend you didn't do that and scarper off]":
+                        play sound punch
+                        talk raven talk "It better be."
+                        clear_dialog
+                        talk orb talk "Well, that was embarassing."
+                        talk lovely talk "Quite, yes!"
+
+    clear_dialog
+    choice:
+        talk orb talk "Let's get going."
+        "Let's get going. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            set data.ghost.oilyDress true
+            jump goToGameMap

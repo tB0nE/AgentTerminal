@@ -1,0 +1,98 @@
+shop_intro:     
+    set data.global.visitedShop true
+    "'Shop', the sign outside reads, and that it is."
+    clear_dialog
+    play sound bell
+    "Inside, a hotot rabbit peeks at you *very* briefly when you enter, before returning to her copy of the Anglian Times. The air hangs heavy the grainy sound of Radio Bluehills 'Top of the Bops'."
+    "'Shop' sells a range of junk, from run of the mill tat to 'exclusive' 'high quality' counterfeit brands. The important thing is it's cheap."
+    clear_dialog
+    "Still, there are goods with some value here and there. Various foodstuffs, tools and treats to choose from, and in an exciting twist for breakfast lovers even a few boxes of breakfast cereal sit on the shelf behind the shopkeeper; nutritional value 90% dust, 10% whatever the fuck wheat is."
+    jump shop_intro_cereal_menu
+
+shop_intro_cereal_menu:
+    clear_dialog
+    choice:
+        talk lovely talk "Oh me oh my! Special L! We should get some! Nine out of ten foxy milves recommend it!"
+        "I'm sorry did Lovely Lady just say <span class='writtenText'>'milves'</span>?":
+            talk lovely talk "No."
+            talk nasty talk "Yeah she definitely did."
+            talk orb talk "She did, yes."
+            jump shop_intro_cereal_menu
+        "Isn't breakfast cereal a little working class for you, Lovely Lady?":
+            talk lovely talk "Tsk! Cereals are rather popular with the aristocracy these days, I'll have you know, and Special L is among the finest."
+            jump shop_intro_cereal_menu
+        "What's special about Special L?":
+            talk lovely talk "It's reinforced with added lead, hence the L. All for health reasons, you see. Most cereals can't boast that."
+            if (roll shop_intro_lead_orb orb 20):
+                talk orb talk "I'm sorry, it's reinforced with added *what*? Gods, it's little wonder Oceania is overtaking this stupid little island as the foremost world power, what with them not putting lead in all their food and everything."
+                talk nasty talk "What the fuck are you talking about, food without lead? Sounds shit, Orb. We love lead."
+                talk lovely talk "We love lead! We love lead! Whee!"
+                clear_dialog
+                talk orb talk "That's the problem, you Anglian's *do* love lead. You should not *love* lead. It's poisonous, Nasty Girl. It's killing you, Lovely Lady."
+                talk nasty talk "It's tasty, dipshit. The chicks dig it, asshole."
+                talk lovely talk "Ignore Orb, Nasty Girl, it's just bitter of its unrefined palette, if indeed it has one at all."
+                talk lovely talk "More to the point, Anglia hardly became the world's leading exporter of lead on a whim!"
+                clear_dialog
+                talk lovely talk "Indeed, it is our moral duty as the protégés of Saint Dawnsight to enlighten the uncivilised masses abroad with the oh so precious carbon treasure our hard-working miners hoist from the depths!"
+                talk nasty talk "Enlighten them with lead! Yeah, what she said! Fuck you Orb!"
+                talk orb talk "Oh my gods, Ghost, ply me out of your chest cavity with a spatula and let me die, I'm fucking begging you."
+            else:
+                wait 1000
+            jump shop_intro_cereal_menu
+        "Exciting stuff, Lovely Lady. <span class='prompt'>[[MOVE ON]]</span>":
+            jump shop_intro_smoking_menu
+
+shop_intro_smoking_menu:
+    clear_dialog
+    choice:
+        talk nasty talk "Anyway, forget breakfast cereal, this shop sells Östro brand Oestradiol Cigarettes. A smooth minty taste with a satisfying warm sparkle. Östro. Guaranteed to leave you satisfied. BUY SOME TODAY"
+        "Is smoking oestradiol safe?":
+            talk orb talk "It's banned in 1954, and then relegalised again in 1998 under *heavy* regulation, if that answers your question."
+            talk nasty talk "They couldn't hack the heat."
+            talk orb talk "If heat is slang for lung cancer, yes."
+            talk lovely talk "I simple use an oestrohookah, the classy, *healthy* alternative."
+            talk orb talk "Marginally better for you, I suppose, in the same way having a piano dropped on your skull from above is marginally better for you than having a church organ dropped on your skull from above."
+            jump shop_intro_smoking_menu
+        "What's so good about Östro cigarettes compared to other leading brands, Nasty Girl? I want to ensure sure we're making an informed purchase."
+            choice:
+                talk nasty talk "More smoke."
+                "You're telling me we can get ourselves more smoke with Östro brand cigarettes than with other competing brands? That bops.":
+                    talk orb talk "There isn't more smoke, it's just more visible."
+                    clear_dialog
+                    choice:
+                        talk orb talk "The manufacturer uses dye to make it darker, and thus more noticeable, so that people like Nasty Girl think <span class='writtenText'>'Wow so much smoke!'</span>."
+                        "That also bops, I think?":
+                            choice:
+                                talk orb talk "The dye is poisonous."
+                                "That doesn't bop.":
+                                    choice:
+                                        talk orb talk "But it does make the cigarettes more affordable."
+                                        "That bops.":
+                                            choice:
+                                                talk orb talk "But only because half the cigarette is taken up with a cheap filter, to stop the poison killing you instantly."
+                                                "That doesn't bop.":
+                                                    talk nasty talk "Mhm yess mhm very interesting, Orb, many good points on both sides."
+                                                    clear_dialog
+                                                    choice:
+                                                        talk nasty talk "Can we just buy some fucking cigarettes now?"
+                                                        "On balance I think Östro brand Oestradiol Cigarettes bop, we can buy some, Nasty Girl.":
+                                                            talk nasty talk "Awoooo! Reason and logic prevail!"
+                                                            talk orb talk "Sigh. Just make sure I'm not still inside your body when brain starts to spongeify, will you Ghost?"
+                                                        "On balance I think Östro brand Oestradiol Cigarettes do not bop, I think we'll pass, Nasty Girl.":
+                                                            talk nasty talk "Fuck you. Brain cuck."
+            jump shop_intro_smoking_menu
+        "I'll think about it. <span class='prompt'>[[MOVE ON]]</span>":
+            talk nasty talk "Fuck thinking, you fucking brain cuck. Buy some cigarettes."
+            jump shop_intro_outro
+        "Sorry Nasty Girl, but smokers are jokers. <span class='prompt'>[[MOVE ON]]</span>":
+            talk nasty talk "Kill yourself."
+            jump shop_intro_outro
+
+shop_intro_outro:
+    clear_dialog
+    choice:
+        talk orb talk "Anyhow, the only thing we *really* need to buy right now is some nails."
+        "Nails.":
+            talk orb talk "Yes Ghost, <span class='writtenText'>'nails'</span>."
+    clear_dialog
+    jump shop_menu

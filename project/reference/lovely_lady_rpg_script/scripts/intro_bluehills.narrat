@@ -1,0 +1,155 @@
+intro_bluehills:
+    play sound click
+    choice:
+        "In the distance, the tower of some great cathedral calls to you. This is Bluehills. It is your home, apparently."
+        "[Explore Bluehills] <span class='prompt'>[[-2 ACTIONS]]</span>":
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -2
+            set_button button_intro_bluehills false
+            run transition_instant generic_street
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    "The tower of Bluehills cathedral dominates the city. It calls to you. Not with the divine call of spirituality, but with something else. A <span class='goldItalic'>golden light</span>. Feathers... feathers..."
+    if (roll intro_bluehills_church_orb orb 20):
+        choice:
+            talk orb talk "It isn't the cathedral itself drawing you in, it's what you'll find in it. Guidance. A woman. The church is just the vessel that holds these treasures. The lever that will send you down the right track."
+            "Interesting.":
+                talk orb talk "Yes. We should definitely find time to visit it."
+                jump intro_bluehills_menu
+            "I'd let the train run its course, actually. It'd be actively murdering some poor guy otherwise.":
+                jump intro_bluehills_train
+            "[Nod] It's better to kill the one guy on that track than the group on the other.":
+                jump intro_bluehills_train
+    else:
+        wait 1000
+    jump intro_bluehills_menu
+
+intro_bluehills_train:
+    choice:
+        talk orb talk "Ghost what the fuck are you talking about?"
+        "Trolley problem.":
+            choice:
+                talk orb talk "What?"
+                "T-Trolley problem?":
+                    talk lovely talk "No one mentioned the trolley problem, darling."
+                    clear_dialog
+                    talk nasty talk "Philosophists are a bunch of dickheads anyway. Don't give their mind games a moment of your time or next thing they're trying to sweet talk you into thinking it's okay to bang a *fish*."
+                    talk orb talk "Okay. I don't know where to start with that."
+                    talk lovely talk "Philosophers don't want to fornicate with fish, Nasty Girl, they just want to work backwards to justify acts of morally bankrupt barbarism like <span class='writtenText'>'wealth redistribution'</span>, ugh!"
+                    clear_dialog
+                    talk nasty talk "Philosophist I met at a pub in Lunden sure as fuck wanted to bang a fucken fish."
+                    if (roll intro_bluehills_train_fish_orb orb 40):
+                        talk orb talk "He was a libertarian, Nasty Girl."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk orb talk "Let's stop talking about banging fish and concentrate on looking around the city, yes?"
+                    clear_dialog
+            talk orb talk "While we're here we should really find a shop that sells repair... stuff. For your cottage, I mean. It has a big hole in the roof, if you recall?"
+            jump intro_bluehills_menu
+        "Never mind. Let's move on.":
+            talk orb talk "While we're here we should really find a shop that sells repair... stuff. For your cottage, I mean. It has a big hole in the roof, if you recall?"
+            jump intro_bluehills_menu
+
+intro_bluehills_menu:
+    clear_dialog
+    choice:
+        "Bluehills is surprisngly busy today. Must be a sale at DFS."
+        "[Wander through the streets like a torn up old poster being blown away from its home by the breeze]" if (!= $data.intro_bluehills.streetsDone true):
+            play sound footsteps
+            set data.intro_bluehills.streetsDone true
+            "The streets of Bluehills feel familiar, for all the expensive towns in southern Anglia are near identical."
+            "Row upon row of terraces housing, two to three floors tall. The occasional two-hundred-year-old antique or post war block of concrete hiding a twisted rebar nervous system punctuating the urban wasteland."
+            "There's a strange dysmorphia to them. Their genericism leaves them all feeling familiar, but never recognisable."
+            "These are not roads you have walked before. The buildings not your friends."
+            clear_dialog
+            run transition scrungler
+            "Their pointed roofs are canines, the cobbled roads tongues, the brown water running between the flagstones spit, the medieval street layout intestines. You are this city's meal."
+            "Welcome to civilisation. Enjoy your slow digestion."
+            clear_dialog
+            "You recognise no faces in the street. They don't seem to recognise you either. Some leer at you, some sneer. Most just ignore you, if they see you at all."
+            "This is not your home. But if not here, then where?"
+            "The streets seem to bend into themselves, you are pulled deeper into the city. It is disorientating, loud, smelly (in a bad way)..."
+            clear_dialog
+            run transition generic_street
+            "But it is also quite nice. Bluehills is a *nice* town. Certainly it is nicer than your previous home."
+            "A few glimmers of memory. Drunken naval officers glassing each other on the high street. Industrial waste lurking as a thin film on the sea. Piss soaked (in a bad way)..."
+            jump intro_bluehills_menu
+        "[Look at the cathedral]" if (!= $data.intro_bluehills.cathedralDone true):
+            set data.intro_bluehills.cathedralDone true
+            play sound footsteps
+            run transition generic_cathedral
+            "Bluehills cathedral. It's an imposing building, but lacks the grandeur associated with holy places. Is it the square tower in place of the spire, perhaps? It's not exactly Scalesbury, but then nor is it Notre-Dyke. Despite this, it calls to you. A warmth. The fire and the sword. Curious..."
+            clear_dialog
+            talk orb talk "It's closed today. Service will be in session most of the week, however, if you're desperate to go inside."
+            clear_dialog
+            run transition generic_street
+            jump intro_bluehills_menu
+        "[Look at the shops on the high street]" if (!= $data.intro_bluehills.shopsDone true):
+            set data.intro_bluehills.shopsDone true
+            play sound footsteps
+            "Every shop on the high street is named either one, non-existent word, or after two separate rich people. None of them display their prices anywhere. All of them are lit in an eerie white light that makes your face feel sad. If any of them sell hammers (they don't, those are for poor people), you can't afford them."
+            jump intro_bluehills_menu
+        "[Check out the colourful poster not being blown away by the breeze, instead safely clinging to a lamppost]" if (!= $data.intro_bluehills.posterDone true):
+            set data.intro_bluehills.posterDone true
+            play sound footsteps
+            run transition intro_poster
+            "It's a poster advertising the 'Bluehills Pride Parade'. Apparently it's in a couple of days."
+            clear_dialog
+            talk nasty talk "We should totally go. I heard on the radio it's going to be an absolute cesspit of debauchery. The fucking dirt."
+            talk nasty talk "Leather daddies who didn't get time to shag in the trenches banging on big floats. Sweaty dykes fucken, spitting in your mouth. Feet out, unwashed, living in the moment. It'll be bopper."
+            talk lovely talk "H- how uncivil! Ghastly! We should make sure to go there so we can uh, show how disapproving we are! Squeak squeak!"
+            clear_dialog
+            choice:
+                "The pride poster has been stuck over top of another, smaller, raggier poster. Something about how the rabies vaccine causes your dick to fall off."
+                "Gasp! Is this true!? Orb, how can I get a vaccine, I need one, stat!":
+                    talk orb talk "One, no, it's not true. Two, you had the vaccine. Most everyone did. Trust me, you'd know if you hadn't."
+            clear_dialog
+            talk nasty talk "Ey, you never know. My mate Darren's knob fell off a couple of weeks after he got the vaccine."
+            talk nasty talk "I mean, wanker said it was the vaccine. Might have just been the frostbite."
+            talk nasty talk "He got off worse than me and the rest of the boys after the snowman incident eheheheh..."
+            clear_dialog
+            run transition generic_street
+            jump intro_bluehills_menu
+        "[Stumble, finally, upon a shop that doesn't look obviously out of your price range]" if (&& (== $data.intro_bluehills.streetsDone true) (== $data.intro_bluehills.cathedralDone true) (== $data.intro_bluehills.posterDone true) (== $data.intro_bluehills.shopsDone true)):
+            play sound footsteps
+            "By the time you *do* find a shop that doesn't hide how much its merchandise costs it is already closed."
+            clear_dialog
+            talk lovely talk "Oh me oh my! We'll have to come back here tomorrow one supposes..."
+            talk orb talk "Looks like it. Besides, they don't even have any hammers left. "
+            talk nasty talk "Been burgled. All their hammers gone."
+            if (roll intro_bluehills_two_hammers_orb orb 40):
+                talk orb talk "Exactly what happened, yes."
+            else:
+                wait 1000
+            clear_dialog
+            talk nasty talk "Look, if these cunts don't have any hammers, we'll just have to get one the old-fashioned way."
+            talk lovely talk "Oh do enlighten us, Nasty Girl."
+            talk nasty talk "Find the burliest dyke we can and offer to suck her off in return for one. Simple as."
+            start_objective fixHouse raven
+            talk lovely talk "Oh me oh my! Mayhap the stable girl has some..."
+            talk orb talk "Or we can just ask nicely. Sucking people off should probably not become our default solution to problems."
+            talk nasty talk "Yeah it fucking should."
+            clear_dialog
+            choice:
+                talk orb talk "Regardless, we should probably get some rest. It's gotten late, and I believe I'm correct in thinking your frail, physical little living bodies require sleep, don't they Ghost?"
+                "[Yawn] You're right. I'm a sleepy girl...":
+                    choice:
+                        talk nasty talk "Your mother, haha."
+                        "What?":
+                            talk nasty talk "I'll fuck Orbs mother."
+                            clear_dialog
+                            talk orb talk "Are you kidding? It took you several hours to come up with that witty retort?"
+                            talk nasty talk "Not bad, eh?"
+                            talk orb talk "Fuck me."
+                            choice:
+                                talk nasty talk "Well, if you prefer?"
+                                "[Go home] <span class='prompt>[[-1 ACTION]]</span>":
+                                    play sound spendAction
+                                    add_stat actions -1
+                                    complete_objective intro bluehills
+                                    complete_quest intro introSuccess
+                                    jump intro_tutorial_outro

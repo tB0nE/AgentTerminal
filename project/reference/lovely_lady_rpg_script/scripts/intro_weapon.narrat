@@ -1,0 +1,603 @@
+intro_weapon:
+    play sound click
+    choice:
+        "A lone figure stands watch near your cottage. Mayhap they can introduce you to our Lovely Ladyverse?"
+        "[Head outside] <span class='prompt'>[[-1 ACTION]]</span>":
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_intro_weapon false
+            run transition_black fields
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+    
+    "The rain has finally stopped."
+    clear_dialog
+    "You emerge onto a countryside lane. To the north-west, peeking over the rolling Anglian countryside, you can see the spire of Bluehills cathedral."
+    "To the south-east a thick woodland that seems to stretch into the distance forever, though obviously it doesn't actually do this."
+    "Here, mere meters from your cottage, sheep munch on grass, oblivious (or perhaps ambivalent) to your sudden appearance."
+    if (roll intro_weapon_goodmorning_milk_orb orb 20):
+        talk orb talk "Sheep based agriculture is demeaning and cruel. The beasts should be free."
+        talk lovely talk "But milk is oh so yumsies! Nothing that makes *moi* happy could be cruel!"
+    else:
+        wait 1000
+    clear_dialog
+    "The quaint little field is ringed entirely by a fence *baa* one small spot which is broken. Some conveniently ceiling hole sized planks are leant against it, guarded by a bony goat."
+    "It would be cliche, rude even, to say that their eye patch is their defining feature, but it is."
+    clear_dialog
+    talk lovely talk "You should probably say hello. 'Tis only polite."
+    talk nasty talk "They're kind of hot, by which I mean they have an eyepatch and look like they both hate and could kill you. Wink at them. Get their telegram address."
+    talk lovely talk "We have been outside for less than a minute, Nasty Lady, let's not get carried away following every inane little desire your incessant sex drive spits up."
+    clear_dialog
+    choice:
+        talk orb talk "Just... please don't scare them off. They might be able to help us get our bearings, and gods know we need them."
+        "[Approach the shepherd] \\"Good morning!\\" [Do a gay little wave]":
+            jump intro_weapon_goodmorning
+        "[Wink smuttily at the shepherd]":
+            "They stare past you, unblinking."
+            clear_dialog
+            talk orb talk "They saw you. They just correctly chose not to perceive you."
+            choice:
+                talk lovely talk "I don't know what you expected. Let's just say <span class='writtenText'>'good morning'</span>, like a normal person, shall we?"
+                "\\"Good morning!\\" [Do a gay little wave]":
+                    jump intro_weapon_goodmorning
+
+intro_weapon_goodmorning:
+    talk weapon talk "Mhm. 'Tis."
+    clear_dialog
+    "The Weapon chews on some straw. They're a good half a foot taller than you, and seem to be composed entirely of sharp angles. An abstract painting in an all too muted palette. They're unassuming, and yet..."
+    if (roll intro_weapon_goodmorning_levithan_orb orb 80):
+        set data.intro_weapon_orbTwistedMetal true
+        talk orb talk "Not far from your previous home was a beach. Not a nice one, one of those pebble ones that hurt your feet and make for poor sandcastles."
+        talk orb talk "A few years ago you were walking along it, just as the sun was rising, only to find a barn sized ribcage washed up on a grey shore, every centimetre clad in barnacles and seaweed."
+        clear_dialog
+        talk orb talk "It filled you with some primal fear, some great dread. This thing did *not* belong there. It belonged deep underwater, deep under millennia of rock with the rest of the long dead leviathan's corpse."
+        clear_dialog
+        talk orb talk "The Weapon doesn't belong here among the daffodils and sheep, they belong somewhere else. Somewhere among mud and twisted metal and smoke. They stand in front of you like a bloodstain on a wedding dress."
+    else:
+        wait 1000
+    clear_dialog
+    talk weapon talk "I assume you're loitering next to me because you want something?"
+    if (roll intro_weapon_menu_smalltalk_lovely lovely 20):
+        talk lovely talk "I get the impression they don't want to talk to you. Or if they do, they'd rather it wasn't small talk."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "The Weapon chews on their straw as if you weren't there."
+        "\\"Why are you standing here?\\"":
+            talk weapon talk "I'm a shepherd. 'Tis my job to stand here. I look after this flock."
+            clear_dialog
+            play sound baa
+            "They gesture to the sheep, who continue to munch on their grass, distracted only by the occasional urge to go <span class='writtenText'>'baaaaaa'</span>. It is an urge you relate to rather strongly."
+            clear_dialog
+            talk weapon talk "I keep them fed, I keep them safe. I milk them when they need milking, shear them when they need shearing, and as of last night I make sure no one breaks their fence and lets them run out into the road to die."
+            clear_dialog
+            "They squint for a moment. As if accusing *you* of breaking the fence."
+            clear_dialog
+    if (roll intro_weapon_goodmorning_accusation_orb orb 20):
+        talk orb talk "You didn't, it was broken during the night by a rival farmer hoping for the sheep to stage a great escape."
+        talk orb talk "Her plan would have worked were not sheep so content as to look at freedom as unnecessary. They have all the grass they could ever need right here."
+        talk nasty talk "I've broken my fair share of fences as a mercenary in the farm wars. Classic."
+        clear_dialog
+    else:
+        wait 1000
+    if $data.intro_weapon_orbTwistedMetal:
+        choice:
+            talk weapon talk "Does that answer your question?"
+            "\\"No, I meant why are you here. You should be somewhere among mud and twisted metal and smoke.\\"":
+                add data.intro.annoyedWeapon 1
+                talk weapon talk "Wh- what?"
+                if (roll intro_weapon_goodmorning_wounded_lovely lovely 40):
+                    talk lovely talk "I don't know *why* you thought it was a good idea to say that, but it wounded them, and deeply. Don't say things like that to them. Or anyone. Just talk normally. Please."
+                else:
+                    wait 1000
+                if (roll intro_weapon_goodmorning_belongThere_orb orb 60):
+                    talk orb talk "They've seen the place you speak of. The mud has stained their fur, the twisted metal has rendered their flesh, the smoke has stripped their lungs to blood. They agree with you that they belong there, but they wish they didn't."
+                else:
+                    wait 1000
+                clear_dialog
+                choice:
+                    talk lovely talk "You should apologise, make an excuse. Be normal, please."
+                    "\\"Sorry, I was thinking about... a poem.\\"":
+                        talk weapon talk "Mhm."
+                        if (roll sheperd_intro_goodmorning_shaken_lovely lovely 20):
+                            talk lovely talk "They're shaken. Their stomach hurts. <span class='writtenText'>'Is it really so obvious?'</span>'."
+                        else:
+                            wait 1000
+                        jump intro_weapon_menu
+            "[Don't say anything strange and off-putting]":
+                jump intro_weapon_menu
+    else:
+        jump intro_weapon_menu
+
+intro_weapon_menu:
+    clear_dialog
+    choice:
+        "The Weapon chews on their straw as if you weren't there. As far as they're concerned you aren't."
+        "\\"Weird question I know, but where are we?\\"" if (!= $data.intro_weapon_whereAreWe true):
+            jump intro_weapon_whereAreWe
+        "\\"I don't remember you.\\"":
+            jump intro_weapon_remember
+        "\\"What's with the, y'know?\\" [Point at your notably not missing right eye]":
+            jump intro_weapon_eye
+        "\\"Do you like being a shepherd?\\"":
+            jump intro_weapon_job
+        roll intro_weapon_whereAreWe_whatsUp_orb orb 40 "This shepherd doesn't seem very friendly... what's up with them?" if $data.intro_weapon_whereAreWe:
+            success "":
+                talk orb talk "They've seen behind the facade. Why toil pointlessly with feigned civility? It only hides savagery."
+                talk orb talk "Working with the flock is the only thing that brings them some kind of melancholic peace."
+                talk orb talk "They think of the blissful ignorance of a sheep's existence. They think of their prehistoric ancestors. They may have bitten and scratched and squeaked, but they did not ascend to the heavens to drop firebombs on civilians."
+                clear_dialog
+                if (roll intro_weapon_whereAreWeTwo_worldAffairs_lovely lovely 20):
+                    talk lovely talk "Learning about world affairs makes them feel prepared for whatever they think is going to happen. It gives them some semblance of control of their own destiny, rather than the feeling that they are a pawn in a game they don't realise is being played."
+                else:
+                    wait 1000
+                if (roll intro_weapon_meau_laid_nasty nasty 40):
+                    talk nasty talk "They have not gotten laid in a *long* time."
+                else:
+                    wait 1000
+                jump intro_weapon_menu
+            failure "":
+                talk orb talk "I don't know."
+                if (roll intro_weapon_whereAreWeTwo_staring_lovely lovely 20):
+                    talk lovely talk "You should probably stop staring. They've noticed."
+                else:
+                    wait 1000
+                jump intro_weapon_menu
+        "\\"I'll get out of your hair! Thank you for talking to me, neighbour!\\" <span class='prompt'>[[MOVE ON]]</span>" if $data.intro_weapon_whereAreWe:
+            "The Weapon chews on the straw in a way that somehow registers as an acknowledgement devoid of interest."
+            jump intro_weapon_plank
+
+intro_weapon_remember:
+    talk weapon talk "Why would you? This is the first time we've ever spoken, and only the second time we've ever seen each other, not that you paid me any mind when you first turned up here what, a day ago?"
+    clear_dialog
+    if (roll intro_weapon_menu_pawtsmouth_orb orb 40):
+        talk orb talk "Two days. You just moved here from Pawtsmouth, about twenty miles to the southeast."
+        talk orb talk "Your new home feels so quiet in comparison to the bustling naval city. No fog horns, no machinery, no air bombardment siren tests at three in the morning. You're lucky to have found somewhere to live in the countryside, the air pollution that lingered outside your old apartment was less than beneficial for you."
+        talk orb talk "I'll spare you the knowledge of the exact number of years it took off of your life."
+    else:
+        wait 1000
+    jump intro_weapon_menu
+
+intro_weapon_eye:
+    if (roll intro_weapon_eye_uncouth_lovely lovely 20):
+        talk lovely talk "Ghost, darling, I know you're a bit out of it, but it's considered uncouth to ask about this sort of thing."
+        clear_dialog
+    choice:
+        talk weapon talk "Doesn't work."
+        "[Nod] \\"Doesn't work.\\"":
+            talk weapon talk "Mhm."
+            jump intro_weapon_menu
+        "\\"Why?\\"":
+            add data.intro.annoyedWeapon 1
+            talk weapon talk "Because it's broken."
+            clear_dialog
+            "They glare off to the side, towards your cottage. A smirk forms in their brain, if not their face."
+            clear_dialog
+            talk weapon talk "Like your roof."
+            clear_dialog
+            if (roll intro_weapon_menu_eye_orb orb 40):
+                talk orb talk "A Hyena went at it with a knife. It was grisly."     
+                clear_dialog
+            choice:
+                "You can't see it, the wound, but it's there. It radiates a pain that would cripple you, but to them it is an occasional snarl, a grimace, a twitch in the corner of their lonely working eye."
+                "\\"It's broken. Yes. That makes sense. Thanks.\\"":
+                    talk weapon talk "Mhm."
+                    jump intro_weapon_menu
+                "\\"But *why* is it broken?\\"":
+                    add data.intro.annoyedWeapon 1
+                    talk weapon talk "Because it is."
+                    if (roll intro_weapon_eye_threat_orb orb 40):
+                        talk orb talk "<span class='writtenText'>'Keep pushing and you'll find out how an eye can end up missing'</span>, they're thinking."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk lovely talk "*Please* stop asking this stranger about how they lost their eye."
+                    talk nasty talk "Ask if we can see it, I bet it's *nasty*."
+                    choice:
+                        "The Weapon appears visibly frustrated. You are treating a landmine as though it were a circus trampoline."
+                        "\\"Can I have a look?\\"":
+                            add data.intro.annoyedWeapon 1
+                            "They ignore you."
+                            if (roll intro_weapon_eye_zen_lovely lovely 20):
+                                talk lovely talk "They have never channelled their inner peace so strongly before. That you have not already been turned into pulp is through great effort on their part."
+                            else:
+                                wait 1000
+                            jump intro_weapon_menu
+                        "\\"I'm going to stop asking about your eye.\\"":
+                            talk weapon talk "Mhm."
+                            jump intro_weapon_menu
+
+intro_weapon_job:
+    talk weapon talk "I'm good at it."
+    if (roll intro_weapon_menu_goodAtJob_lovely lovely 20):
+        talk lovely talk "That was a yes, darling."
+    else:
+        wait 1000
+    if (roll intro_weapon_menu_gootAtJob_orb orb 60):
+        talk orb talk "They've done it most of their life. They wish it was all they'd done."
+    else:
+        wait 1000
+    jump intro_weapon_menu
+
+intro_weapon_whereAreWe:
+    talk weapon talk "Where are we..."
+    clear_dialog
+    "The Weapon thinks for a moment, the straw in their mouth growing ever closer to mush through their idle musings."
+    clear_dialog
+    talk weapon talk "I'll tell you where we are. We're in the time between catastrophes. The edge of armageddon. The minute before midnight. The moment before the horns sound and the walls crumble."
+    talk weapon talk "Oceania has nearly perfected the bomb and the Soviet Republic can't be far behind."
+    talk weapon talk "We are *all* going to die."
+    clear_dialog
+    talk lovely talk "Goodness. It appears the painted visage of completely unnecessary melodrama looms on the horizon."
+    clear_dialog
+    talk weapon talk "Anglia is dying. A slow death. A death through a thousand dry wheezes. The kind of death that euthanasia exists to save the blighters in my field from."
+    talk weapon talk "The nation has been superseded, for a new giant has taken up the mantle of empire."
+    talk weapon talk "Who knew staying neutral during The Great War would be so highly profitable for the Oceanian armament industry..."
+    clear_dialog
+    "The Weapon spits and mutters something unpleasant under their breath."
+    if (roll intro_weapon_oceiana_bitter_orb orb 20):
+        talk orb talk "They're bitter about how they choked on gas and drowned in mud while someone else choked on a fishbone and drowned in wine during an all-expenses paid dinner after successfully brokering another arms deal with *any* of the warring powers."
+        talk orb talk "They hate this vaguely defined imagined business person more than they hate anyone who sat in the opposing trench."
+    else:
+        wait 1000
+    clear_dialog
+    "The Weapon gazes towards Bluehills. A few smokestacks belch death into the air, vomiting from the overexertion of trying to win a contest that's already lost. A biplane circles overhead like a vulture. The sound of a distant automobile rattles through the air."
+    clear_dialog
+    talk weapon talk "The European Powers had their time in the warm glow of the sun, and claimed their reward."
+    clear_dialog
+    "The chuckle."
+    clear_dialog
+    talk weapon talk "And what a reward it was. Third degree burns. Tails burning away like fuses. Molten flesh shedding from their bones. Eyes melting from their sockets and seeping betwixt their chapped lips."
+    talk weapon talk "We can only wish for the same grisly fate to meet our friends in the east. It's only right those who take up the lance should also succumb to it, as Ancient Sumer once did... as The Italian Empire once did... as Brennenburg once did..."
+    talk weapon talk "And yes, as we here do now..."
+    clear_dialog
+    talk lovely talk "Ugh! What was that filth about eyes for!? Must The Weapon *insist* on such viscerally descriptive prose?"
+    talk nasty talk "Fuck yes. This bops. We should ask them to describe more gross things."
+    talk lovely talk "Gods! Please don't, I might throw up."
+    clear_dialog
+    choice:
+        talk nasty talk "Gross. That bops."
+        "[Nod along like you're understanding literally anything The Weapon is talking about]":
+            jump intro_weapon_whereAreWeTwo
+        "\\"Sorry to interrupt but could you describe more gross things?\\"":
+            add data.intro.annoyedWeapon 1
+            choice:
+                talk weapon talk "What?"
+                "\\"That stuff you said about eyes melting was really gross. Could you say some more stuff like that?\\"":
+                    add data.intro.annoyedWeapon 1
+                    "The Weapon squints at you. They don't speak."
+                    clear_dialog
+                    if (roll intro_weapon_oceania_squint_lovely lovely 20):
+                        talk lovely talk "They think you're mocking them. They don't like that. Let them finish their infodump, as lugubrious as it is. This Goat is not one for you and Nasty Girl's... frivolity." 
+                        clear_dialog
+                    choice:
+                        "The morning grows silent. Tense."
+                        "\\"Sorry. Please continue.\\"":
+                            jump intro_weapon_whereAreWeTwo
+                "\\"Sorry. Please continue.\\"":
+                    jump intro_weapon_whereAreWeTwo
+
+intro_weapon_whereAreWeTwo:
+    clear_dialog
+    talk weapon talk "Anyway. Where are we, you asked? Well."
+    clear_dialog
+    "The Weapon pauses to stare off into the distance again. Didn't they *already* do that and then not answer your question? Before you can fully ponder this question they continue."
+    clear_dialog
+    play sound impact
+    run transition generic_volcano
+    talk weapon talk "I get to think a lot in this line of work, you know? Lately I've been thinking about that festering wound in the centre of the Soviet Republic, the super volcano at the heart of the dead zone, that is."
+    clear_dialog
+    talk lovely talk "Goodness, they're literally just rambling now. They're not even talking to you so much as they're just thinking out loud in your vicinity about absolutely nothing with any bearing on your original question."
+    talk lovely talk "This is what standing in a field all day with no socialisation does to you, one supposes."
+    clear_dialog
+    "The Weapon chuckles to themself."
+    clear_dialog
+    talk weapon talk "Dead zone is an apt description of that entire country, frankly. Certainly  I wouldn't want to live in that battleground..."
+    if (roll intro_weapon_sovietRepublic_orb orb 20):
+        talk orb talk "The civil war actually ended a while ago, but western propaganda tends to exaggerate the conditions of the Republic."
+        clear_dialog
+    talk weapon talk "Gods. To think fucking *Musckovy* came out of The Great War on top. Unthinkable a decade ago..."
+    clear_dialog
+    choice:
+        talk weapon talk "When we sat in the trenches we'd joke together... <span class='writtenText'>'at least we're not eating yellow snow and sharing rifles like a fucking Muskovite'</span>. Now look at them... the seams that hold this world together are unravelling faster than we can sew them back up..."
+        "\\"Sorry, did you say *great* war? What was that? I assume by the name it was a good time, great even?\\"":
+            run transition kaiser
+            "The Weapon squints. Not knowing about the war is *weird*."
+            if (roll intro_weapon_whereAreWeTwo_coma_lovely lovely 20):
+                talk lovely talk "<span class='writtenText'>'Did she just wake from a coma?'</span> They wonder."
+            else:
+                wait 1000
+            "Still, never let a chance to look smart go to waste..."
+            clear_dialog
+            talk weapon talk "The Great War between the Allies and Die Koalition. We won, so they say."
+            clear_dialog
+            "Their words are sandpaper dragged across their tongue, and then between gritted teeth. <span class='writtenText'>'Won'</span> is a word invented by the propagandists."
+            if (roll intro_weapon_war_won_orb orb 20):
+                talk orb talk "No one *won* the war. Some people were just lucky enough to die in it, instead of wither on."
+            else:
+                wait 1000
+            clear_dialog
+            talk weapon talk "Let's talk about something else, hmm?"
+            if (roll intro_weapon_war_touchy_lovely lovely 20):
+                talk lovely talk "The war is a touchy subject for them, despite their interest in history and politics."
+            else:
+                wait 1000
+        "[Nod] \\"Yes, The Great War, terrible stuff.\\" [Nod again for emphasis]":
+            talk orb talk "You have no idea what you're on about, do you? It's a good job they're assuming you don't know this. It would be incredibly patronising, if not for the fact you *don't* know this."
+    clear_dialog
+    run transition generic_volcano_two
+    talk weapon talk "Anyway, as I was saying, I think about the super volcano a lot, you know? The one that exploded and brought about the Dark Age. Still spews toxic miasma across Siberia to this day, doesn't it?"
+    talk weapon talk "There's been a few expeditions into it, using... clever technology."
+    if (roll intro_weapon_volcano_technology_lovely lovely 20):
+        talk lovely talk "They don't actually know what the technology is."
+        clear_dialog
+    talk weapon talk "But none have ever gotten far into it. It's rather expansive, you know?"
+    if (roll intro_weapon_volcano_siberia_orb orb 40):
+        talk orb talk "It's exactly 832.41 miles across."
+    else:
+        wait 1000
+    clear_dialog
+    "The Weapon smirks, and stifles a chuckle."
+    clear_dialog
+    talk weapon talk "Some say the ancient city of the Star Gods sits in the centre. Idiots."
+    if (roll intro_weapon_volcano_rude_lovely lovely 20):
+        talk lovely talk "They think they're smarter than those people. Rude."
+        set data.intro_weapon_smugOrbVolcano true
+    else:
+        wait 1000
+    if (roll intro_weapon_volcano_starGods_orb orb 70):
+        talk orb talk "The city of the so called 'Star Gods' *does* sit in the centre. Or did. It was atomised when the city's poorly maintained magmatic reactor exploded, which your foolish species has interpreted as a natural cause. Idiots."
+        if $data.intro_weapon_smugOrbVolcano:
+            talk lovely talk "Orb thinks they're smarter than our species. Rude."
+    else:
+        wait 1000
+    clear_dialog
+    talk weapon talk "Anyway, like I was saying, I think about it a lot."
+    talk weapon talk "For now that our kind has stolen fire from the Divine and harnessed the power of the atom we have surpassed the brutal indifference of the natural world."
+    talk weapon talk "It will be *our* hand that brings about the next Dark Age, that plunges us all into the depths of a greater, even deader dead zone."
+    talk weapon talk "Oceania would rather see the world burn in nuclear fire than surrender itself to communism, and the Soviet Republic feels much the same about the free market."
+    clear_dialog
+    if (roll intro_weapon_bomb_dates_orb orb 20):
+        choice:
+            talk orb talk "Oceania tests their first atom bomb in 1932. The Soviet Republic in 33. The Central Afrikan Corvid Commune tests one in 1937. Qing, Anglia and Frankreich don't build any until the 40s. The Kingdom of Scandinavia builds one in the 90s, by accident, somehow."
+            "Do they ever use them on each other?":
+                talk orb talk "No. They are only ever used recreationally."
+            "A chilling vision of the future. Let us not dwell on it any further."
+                run skip
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk weapon talk "Yes, I have no doubt that we will see the bombs fall in our lifetime. It seems unthinkable for most, but I know they could do it if they wanted to, just as we unshackled ourselves from morality with mustard gas, our forebearers with gunpowder and our earliest ancestor with... with... a very sharp rock or something..."
+        "\\"If I were one of these rival superpowers I would simply give peace a chance.\\" [Nod wisely]":
+            "The Weapon scoffs."
+            clear_dialog
+            talk weapon talk "Pah. The naivety of those who did not fight. Who saw nothing of the teeth and the claws..."
+            if (roll intro_weapon_fight_orb orb 20):
+                talk orb talk "They can tell just by looking at you that you failed the fitness requierments."
+            else:
+                wait 1000
+            clear_dialog
+            talk weapon talk "The rival superpowers <span class='writtenText'>'giving peace a chance'</span>? That's not going to happen. There'll be bloodshed in Cawrea, maybe Manchuria by the end of the decade, mark my words."
+            clear_dialog
+            if (roll intro_weapon_peace_manchuria_orb orb 40):
+                talk orb talk "Almost true. The two powers fight a proxy war over Manchuria in the late 40s. The prediction is almost meaningless though, The Weapon throws so many ill-informed prophesies out that one is bound to be *almost* right eventually."
+                clear_dialog
+                talk nasty talk "It's so sexy how mad Orb gets when someone other than Orb is right about something. Like Lovely Lady when you call her grubby."
+                talk lovely talk "I am not!!! Squeak squeak!"
+            else:
+                wait 1000
+        "[Nod vigorously] \\"Hmm, yes. Mhm.\\" [Nod some more]":
+            run skip
+    clear_dialog
+    run transition fields
+    choice:
+        talk weapon talk "So yes. That's where we are. We're in the rotting carcass of empire. We're on the death march. Choking inside a volcanic miasma of our own creation. We live *here*, amongst the final days."
+        "\\"Okay. That was really interesting but I actually meant the question <span class='writtenText'>'where are we?'</span> more literally, as in, where are we?\\"":
+            jump intro_weapon_whereAreWeConclusion
+        "[Nod respectfully] \\"Intriguing stuff. You're clearly extremely clever. Anyway, where are we, like, literally?\\"":
+            jump intro_weapon_whereAreWeConclusion
+        "\\"Have you considered writing a history book?\\"":
+            set data.weapon.writeBook true
+            "The Weapon blushes. They realise they're blushing, and they hate it. It makes them blush even harder."
+            clear_dialog
+            choice:
+                talk weapon talk "Y- you think? That's... thank you. I'll consider it."
+                "\\"That said, I actually meant the question <span class='writtenText'>'where are we?'</span> more literally, as in, where are we?\\"":
+                    jump intro_weapon_whereAreWeConclusion
+        "\\"Sorry could I have a slightly more literal answer to my original question of <span class='writtenText'>'where are we?'</span>\\"":
+            jump intro_weapon_whereAreWeConclusion
+
+intro_weapon_whereAreWeConclusion:
+    choice:
+        talk weapon talk "Don't you live here? I assumed you knew where we are, hence my greater ramblings on the world as a whole..."
+        "\\"I do live here, but it's good to check.\\"":
+            talk weapon talk "This is Daffodil Lane. A few miles out of Bluehills proper. You live in that cottage over there, with the broken roof. I live next door and behind me is a sheep field. We are in the moment of metamorphosis between Autumn and Winter."
+            talk weapon talk "It is 1928."
+            talk weapon talk "That is all."
+            clear_dialog
+            if (roll intro_weapon_whereAreWeConclusion_daffodils_orb orb 60):
+                talk orb talk "<span class='writtenText'>'Where are all the daffodils? There's barely any daffodils here on daffodil lane!'</span>, I hear you ask!"
+                choice:
+                    talk nasty talk "No one was asking that. We don't care."
+                    "*I* care, Nasty Girl.":
+                        set data.global.daffodilFact true
+                        talk orb talk "That sheep field was a daffodil field until about a fifty years ago. An 'investor' planted them, hoping to cash in on the daffodil bulb market that was growing in the Imperial Province of Frisia at the time."
+                        talk orb talk "It worked, they made a lot of money, and so they built the four cottages on the lane in a move that could only be described as 'landlordy'."
+                        talk orb talk "The bubble burst eventually, though, and the field was sold to stave off bankruptcy. Still, a few daffodils persist in growing along the lane."
+                        clear_dialog
+                        talk orb talk "I think that's nice. They're living reminders of a tiny part of our past. Isn't that sweet?"
+                        clear_dialog
+                        talk lovely talk "My grandpapi made a killing during the daffodil bulb craze! Such a clever man!"
+                        clear_dialog
+                        talk orb talk "Thinking about the daffodils... they're so beautiful... and they tell their own little story... it *is* sweet, right?"
+                        talk orb talk "Ugh! Why am I getting so sentimental!? I'm not supposed to have emotions! This is awful! How do you deal with this! Give me a moment, I need to get back to suppressing them!"
+                    "Agreed, I don't care.":
+                        talk orb talk "Fine. I'll keep that story to myself. Good luck next time you take part in a pub trivia night with that attitude, though."
+            else:
+                wait 1000
+    clear_dialog
+    "The Weapon seem less interested in conversing now that they can't ramble about politics and history. The spark is gone from their eye once more."
+    set data.intro_weapon_whereAreWe true
+    jump intro_weapon_menu
+
+intro_weapon_plank:
+    clear_dialog
+    "The plank next to the broken fence calls to you."
+    clear_dialog
+    talk nasty talk "It's saying <span class='writtenText'>'steal me steal me steal me, I can help you fix your roof, steal me steal me steal me mummy~'</span>."
+    if (roll intro_weapon_plank orb 10):
+        talk orb talk "No it isn't. Planks don't talk, actually."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "The Weapon continues to chew on their straw. They say nothing."
+        roll intro_weapon_plank_borrowPlank_lovely lovely 60 "\\"Sorry to bother you again, but before I go, could I please have one of those planks?\\"" if (< $data.intro.annoyedWeapon 2):
+            success "":
+                "The Weapon's gaze shifts to the plank, for just a moment."
+                jump intro_weapon_plank_success
+            failure talk weapon talk "":
+                talk weapon talk "No."
+                jump intro_weapon_plank_fail
+        roll intro_weapon_plank_borrowPlank_lovely lovely 90 "\\"Sorry to bother you again, I know I keep asking weird and offputting questions, but before I go, could I please have one of those planks?\\"" if (>= $data.intro.annoyedWeapon 2):
+            success "":
+                "The Weapon's gaze shifts to the plank, for just a moment."
+                jump intro_weapon_plank_success
+            failure talk weapon talk "":
+                talk weapon talk "No."
+                jump intro_weapon_plank_fail
+        roll intro_weapon_plank_stealPlank_nasty nasty 60 "[Attempt to steal a plank]":
+            success "":
+                "Yoink. Impressively, you actually manage it. The Weapon is none the wiser."
+                jump intro_weapon_stealPlankSuccess
+            failure "":
+                run transition_pain
+                "You aren't sure exactly how it happened, but you're in a headlock."
+                jump intro_weapon_stealPlankFail
+        "[Ignore the plank] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            complete_objective intro weapon
+            start_objective intro bluehills
+            jump goToGameMap
+
+intro_weapon_plank_success:
+    "They eye the plank, and then you. Their eye is as still and unblinking as always, but you can see cogs turning behind it."
+    if (roll intro_weapon_plank_success_giving_lovely lovely 20):
+        talk lovely talk "They're considering giving it to you purely so you stop talking to them."
+    else:
+        wait 1000
+    clear_dialog
+    choice:  
+        talk weapon talk "Fine. Take what you need. I have more than enough anyway."
+        "[Take the planks] \\"Thank youuuuuuu, thanksssss.\\" <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            add_item plank 1
+            complete_objective fixHouse plank
+            talk weapon talk "Mhm."
+            clear_dialog
+            "They return to their job. Gazing into the distance and occasionally side eying the odd sheep."
+            if (roll intro_weapon_plank_success_parsnip_orb orb 40):
+                talk orb talk "<span class='writtenText'>What's Parsnip up to this time...'</span>"
+            else:
+                wait 1000
+            clear_dialog
+            talk orb talk "Planks. Good. We can fix your roof with these, maybe. We should head into town. Maybe it'll help you remember where you are, and more importantly *who* you are."
+    complete_objective intro weapon
+    start_objective intro bluehills
+    jump goToGameMap
+
+intro_weapon_plank_fail:
+    choice:
+        talk nasty talk "Mission failed. We'll get it next time, and by next time I mean right now. Steal that shit you fucking pussy."
+        roll intro_weapon_plank_fail_stealPlank_nasty nasty 80 "[Attempt to steal a plank from The Weapon, who is now intently aware that you desire them]":
+            success "":
+                "Yoink. Impressively, you actually manage it. The Weapon is none the wiser."
+                jump intro_weapon_stealPlankSuccess
+            failure "":
+                run transition_pain
+                "You aren't sure exactly how it happened, but you're in a headlock."
+                jump intro_weapon_stealPlankFail
+        "I'm not going to steal the plank, sorry Nasty Girl. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk nasty talk "Cuck. Brain cuck."
+            complete_objective intro weapon
+            start_objective intro bluehills
+            jump goToGameMap
+
+intro_weapon_stealPlankSuccess:
+    add_item plank 1
+    complete_objective fixHouse plank
+    talk nasty talk "Told you, crime always pays."
+    clear_dialog
+    choice:
+        "There's enough planks there that a few missing pieces will be hard to notice, so long as no suspicions are aroused."
+        "[Get out of here before some suspicions are aroused] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            complete_objective intro weapon
+            start_objective intro bluehills
+            set data.global.plank_stolePlank true
+            jump goToGameMap
+        "[Walk back up to The Weapon] \\"Hey, check out this plank I didn't steal from you.\\" [Show The Weapon the plank you just stole from them and arouse suspicions on purpose]":
+            jump intro_weapon_redHanded
+
+intro_weapon_redHanded:
+    set data.weapon.redHanded true
+    remove_item plank 1
+    play sound punch
+    run transition_instant generic_black
+    run transition_pain
+    clear_dialog
+    wait 4000
+    run transition fields
+    "You wake up some time later. You don't even remember the punch."
+    clear_dialog
+    talk orb talk "I'm sorry but I really don't know what you expected."
+    clear_dialog
+    "The Weapon stands over you. They growl."
+    if (roll intro_weapon_redHanded_weaponHates_lovely lovely 20):
+        talk lovely talk "They really hate you. This is what happens when you listen to Nasty Girl."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk weapon talk "You're awake? Good. Get out of here. Scram. Don't hassle me here again you little bastard."
+        "\\"But!\\"":
+            talk weapon talk "Stop talking. Stop stealing. Go."
+        "\\"Ok. Sorry. Sorry.\\""
+            talk weapon talk "Go."
+        "[Back away silently]":
+            "They eye you suspiciously."
+    clear_dialog
+    "They look at you like you're dirt. Less than dirt. They aren't even doing it in a sexy way."
+    clear_dialog
+    choice:
+        talk lovely talk "You're not going to get on their good side anytime soon. Let them calm down first."
+        "Oh me oh my... life is so cruel to me, and all I did was steal... <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            complete_objective intro weapon
+            start_objective intro bluehills
+            jump goToGameMap
+
+intro_weapon_stealPlankFail:
+    set data.weapon.redHanded true
+    talk nasty talk "Nice."
+    clear_dialog
+    "The Weapon shoves you away and growls."
+    clear_dialog
+    talk weapon talk "Go on, scram. Don't hassle me again you little bastard."
+    if (roll intro_weapon_stealPlankFail_weaponHates_lovely lovely 20):
+        talk lovely talk "They really hate you. This is what happens when you listen to Nasty Girl."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk orb talk "We should just get out of here."
+        "Oh me oh my... life is so cruel to me, and all I did was steal... <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            complete_objective intro weapon
+            start_objective intro bluehills
+            jump goToGameMap

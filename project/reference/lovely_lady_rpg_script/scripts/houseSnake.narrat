@@ -1,0 +1,250 @@
+houseSnake:
+    play sound click
+    if (!= (quest_started? houseSnake) true):
+        choice:
+            "The House Snake?"
+            "[The House Snake?] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                run transition_black woods_two
+                clear_dialog
+                jump houseSnake_intro
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+    else:
+        choice:
+            "Oh my gosh hi little guy!!!"
+            "Schlangerl, tschi, tschi! <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                run transition_black houseSnake_snake
+                clear_dialog
+                jump houseSnake_feed
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+    
+houseSnake_intro:
+    play music chilling
+    "Twats Copse is a peaceful place. A blessed place. The perfect place for a wander."
+    clear_dialog
+    "But what's that?"
+    clear_dialog
+    play sound rustle
+    "You hear a rustling."
+    clear_dialog
+    play sound hiss
+    choice:
+        "A rustling *and* a hissing, actually."
+        "[Look about for the source of the rustling. The rustling *and* the hissing, actually]":
+            clear_dialog
+            run transition houseSnake_snake
+            play sound magic
+            "Oh!"
+            clear_dialog
+            "It's him!"
+            clear_dialog
+            "It's the boy!"
+            clear_dialog
+            talk lovely talk "Oh me oh my! Isn't he just darling!"
+            talk nasty talk "Eyyyyy! 'Ello buddy!"
+            talk orb talk "The House Snake."
+            if (roll houseSnake_intro_kill_nightmare nightmare 40):
+                set data.houseSnake.killSuggestion true
+                talk nightmare talk "<span class='nightmare'>pick up a stick and kill it lol</span>"
+            else:
+                wait 1000
+    clear_dialog
+    play sound hiss
+    choice:
+        "The House Snake flicks its tongue at you. What a friendly little guy!"
+        "[Pet the House Snake] \\"Servus House Snake!\\"":
+            "The House Snake makes a :3 face. Not literally, it's face remains completely neutral, but it's implied. Its tongue flicks joyfully. Oh my what a perfect critter!"
+            if (roll houseSnake_intro_food_orb orb 60):
+                if (&& (!= (has_item? milk) true) (!= (has_item? kipferl) true)):
+                    talk orb talk "I think he's hungry. The House Snake loves warm milk and Kipferl, both of which are available at the shop."
+                else:
+                    if (&& (has_item? milk) (has_item? kipferl)):
+                        talk orb talk "I think he's hungry. The House Snake loves warm milk and kipferl. You already have both of these on you, for some reason."
+                        talk lovely talk "How funny! M'thinks feeding the House Snake was our destiny!"
+                    else:
+                        if (has_item? milk):
+                            talk orb talk "I think he's hungry. The House Snake loves warm milk and kipferl. You already have some milk, for some reason, but I don't think he'll be too keen to lap it up sans kipferl."   
+                        else:
+                            talk orb talk "I think he's hungry. The House Snake loves warm milk and kipferl. You already have some kipferl, for some reason, but I don't think he'll be too keen to eat it without any warm milk on the side."
+                        talk nasty talk "Quite right. He's not a fucking animal."
+                talk orb talk "He's also quite fond of 'Maner Vina' wafers, but unfortunately the alpine civil war has stopped the export of them to anywhere except the Warasawa SSR, which threatened to annex the entire country if shipments stopped."
+                clear_dialog
+                talk nasty talk "Fucken hel Orb, you sound like that shepherd. <span class='writtenText'>'Uhhhh buuuuh what if there was a war'</span>."
+                talk orb talk "There *is* a war. I'm confused by your question, Nasty Girl."
+                talk lovely talk "Ignore her, Orb, she's being needlessly combative, and it's making House Snake sad."
+                play sound hiss
+                clear_dialog
+                "The House Snake doesn't look sad, he looks quite happy, actually."
+                "It can't even hear Nasty Girl! Lovely Lady is just making statements with nary a single source to back them up."
+                clear_dialog
+                talk nasty talk "Fuck, sorry House Snake! Won't happen again, mate!"
+                clear_dialog
+                talk orb talk "Anyway. The House Snake wants some food, was my point."
+            else:
+                talk orb talk "I think he's hungry. I'm not entirely sure what the House Snake eats though."
+            clear_dialog
+            talk lovely talk "Yim yam!"
+            talk nasty talk "Bless. He's a big boy. He needs his food."
+            talk lovely talk "Yim yam!"
+            clear_dialog
+            if (roll houseSnake_intro_commit_orb orb 40):
+                set data.houseSnake.occurrences true
+                talk orb talk "If you're going to start feeding him you should know what you're getting into."
+                talk orb talk "The House Snake needs to be fed every day, or there may be..."
+                clear_dialog
+                play sound boneman
+                talk orb talk "<span class='boardgame'>occurrences...</span>"
+                clear_dialog
+                talk nasty talk "Meaning?"
+                talk orb talk "Don't commit to feeding the House Snake if you aren't going to keep it up."
+                clear_dialog
+                play sound boneman
+                talk lovely talk "<span class='boardgame'>occurrences...</span>"
+            else:
+                wait 1000
+            start_quest houseSnake
+            start_objective houseSnake hungry
+            jump houseSnake_feed
+        "\\"<span class='writtenText'>'Tschi tschi'</span> this bitch!\\" [Kill the House Snake with a stick for literally no reason]" if (== $data.houseSnake.killSuggestion true):
+            jump houseSnake_kill
+
+houseSnake_feed:
+    clear_dialog
+    play sound hiss
+    choice:
+        "The House Snake looks at you with its big shiny eyes. Its tail wriggles as though it wishes it were a rattle snake (Authors note: it is not a rattle snake, it is the House Snake)."
+        "[Feed the House Snake ein bisschen von Schälchen Milch und ein Kipferl] <span class='prompt'>[[MOVE ON]]</span>" if (&& (== (has_item? milk) true) (== (has_item? kipferl) true)):
+            play sound hiss
+            run transition_instant houseSnake_eating
+            choice:
+                "The House Snake take a bite of Kipferl and laps up a little of the warm milk. It looks at you and makes a sound that can only be described as a happy bleat. It wiggles its tail expectantly."
+                "[Sing] \\"Schlangerl, tschi, tschi, das Mäderl ruft di, mögst firikemma und a Bröckerl nehma!\\"":
+                    play sound rustle
+                    run transition woods_one
+                    "The House Snake bobs its head side to side in time with your song. When finally you finish singing it slithers away into Twats Copse. You are left alone."
+                    clear_dialog
+                    "All is quiet."
+                    clear_dialog
+                    "The countryside is so beautiful. An ant winds its way up your leg. The breeze is gentle. Life is good."
+                    clear_dialog
+                    wait 6000
+                    run transition houseSnake_money
+                    play sound rustle
+                    choice:
+                        "When The House Snake finally returns it's clutching some money in its mouth. It looks up at you with its big shiny eyes."
+                        "[Take the money]":
+                            set data.houseSnake.fed true
+                            set data.houseSnake.active true
+                            if (== $data.houseSnake.moneyAmount 5):
+                                add_stat money 5
+                                play sound coins
+                                set data.houseSnake.moneyAmount 25
+                            else:
+                                if (== $data.houseSnake.moneyAmount 25):
+                                    add_stat money 25
+                                    play sound coins
+                                    set data.houseSnake.moneyAmount 75
+                                else:
+                                    if (== $data.houseSnake.moneyAmount 75):
+                                        add_stat money 75
+                                        play sound coins
+                            if (== $stats.day.value 4):
+                                complete_objective houseSnake hungry
+                            play sound hiss
+                            run transition woods_two
+                            choice:
+                                "The House Snake hisses at you, but in a nice way, before slithering back into Twats Copse. Content as content can be."
+                                "\\"Thank you House Snake! Servus!\\" [Leave the House Snake alone] <span class='prompt'>[[CONTINUE]]</span>":
+                                    play sound spendAction
+                                    if (roll houseSnake_intro_commit_orb orb 40):
+                                        talk orb talk "Don't forget to feed the House Snake again tomorrow, Ghost."
+                                        talk orb talk "You still have some of the food left, so we can just take a quick detour out here whenever you find time."
+                                        talk orb talk "Do make sure you find time though. Seriously."
+                                        if $data.houseSnake.occurrences:
+                                            clear_dialog
+                                            play sound boneman
+                                            talk lovely talk "<span class='boardgame'>occurrences...</span>"
+                                    else:
+                                        wait 1000
+                                    jump goToGameMap
+        "[Feed the House Snake ein Schälchen Milch]" if (&& (== (has_item? milk) true) (!= (has_item? kipferl) true)):
+            play sound hiss
+            "The House Snake seems confused. He's interested in the warm milk, but seems perplexed by the absence of kipferl..."
+            clear_dialog
+            talk nasty talk "Ayyyy you forgot the kipferl you dickhead! Ayyyyyy!"
+            talk lovely talk "Wheeee!"
+            talk nasty talk "Ayyyyyy!"
+            jump houseSnake_feed
+        "[Feed the House Snake ein Kipferl]" if (&& (!= (has_item? milk) true) (== (has_item? kipferl) true)):
+            play sound hiss
+            "The House Snake seems confused. He's interested in the kipferl, but seems perplexed by the absence of warm milk..."
+            clear_dialog
+            talk nasty talk "Ayyyy you forgot the warm milk you dickhead! Ayyyyyy!"
+            talk lovely talk "Wheeee!"
+            talk nasty talk "Ayyyyyy!"
+            jump houseSnake_feed
+        "[Light a cigarette and give it to the House Snake]" if (== (has_item? cig) true):
+            run transition_instant houseSnake_cig
+            "The House Snake smokes the cigarette for about a second, before dropping it to the floor and patting the tip out with his tail. He looks sad."
+            play sound hiss
+            "<span class=writtenText'>'We WANT milk! We WANT Kipferl!'</span> his sad little eyes seem to say."
+            jump houseSnake_feed
+        roll houseSnake_feed_what_orb orb 99 "Question, what is the House Snake?":
+            success "":
+                choice:
+                    talk orb talk "The House Snake."
+                    "Ah okay thanks for clearing that up.":
+                        play sound hiss
+                        "The House Snake cocks its head. Why are you muttering to yourself? He wonders."
+                jump houseSnake_feed
+            failure "":
+                talk orb talk "The House Snake."
+                jump houseSnake_feed
+        "\\"<span class='writtenText'>'Tschi tschi'</span> this bitch!\\" [Kill the House Snake with a stick for literally no reason]" if (== $data.houseSnake.killSuggestion true):
+            jump houseSnake_kill
+        "\\"Servus House Snake! Sorry I don't have any food for you yet!\\" <span class='prompt'>[[CONTINUE]]</span>" if (|| (&& (!= (has_item? milk) true) (!= (has_item? kipferl) true)) (&& (== (has_item? milk) true) (!= (has_item? kipferl) true)) (&& (!= (has_item? milk) true) (== (has_item? kipferl) true)) true):
+            play sound spendAction
+            play sound rustle
+            "The House Snake doesn't seem to mind, but it does still look very hungry. It bobs its head at you. A nod, perhaps? And then slithers back into its heap of dry leaves."
+            jump goToGameMap
+
+houseSnake_kill:
+    clear_dialog
+    "You grab a nearby branch. It's sturdy, heavy in your hand."
+    play sound hiss
+    "The House Snake cocks its head curiously."
+    clear_dialog
+    play sound punch
+    run transition houseSnake_kill
+    "You bash The House Snakes brains out."
+    "Mushed like fertiliser into the grass. Blood splatters onto your dress, but not enough to be noticeable in any of the games artwork."
+    clear_dialog
+    "Only the Fourteen, yourself, and your head friends will know of your murder."
+    clear_dialog
+    talk orb talk "Fucking Hel Ghost, what the fuck?"
+    talk nasty talk "Fucking psycho!"
+    choice:
+        talk lovely talk "Oh goodness, how awful! That poor thing!"
+        "It's a crying shame but it had to happen. [Shake your head solemnly]":
+            if (roll houseSnake_kill_orb orb 99):
+                talk orb talk "<span class='boardgame'>You will regret this, Ghost.</span>"
+            else:
+                talk orb talk "No. It really didn't."
+    clear_dialog
+    run transition woods_two
+    play sound boneman
+    choice:
+        "<span class='boardgame'>What's done is done. The Black Raven calls. The Sparrows weave a death mask. The House Snake is dead. Best to get on with you day. Make the most of it, Ghost.</span>"
+        "<span class='boardgame'>[You made your choice, now you have to live with it, for whatever short time that might be]</span> <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            set data.housesnake.active true
+            complete_objective houseSnake hungry
+            start_objective houseSnake boneman
+            jump goToGameMap

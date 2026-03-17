@@ -1,0 +1,148 @@
+fiction:
+    play sound click
+    choice:
+        "Your job requires you to write a short piece of strange fiction, a weird tail, as it were."
+        "[Write a weird tail] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inHouse false
+            add_stat actions -1
+            add_item fiction 1
+            run transition_black typewriter
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump home
+
+    choice:
+        talk orb talk "Okay. Our <span class='writtenText'>'dickhead boss'</span> wants us to write a short piece of fiction and a paragraph long biography in less than a day, which is super reasonable and not at all ridiculous a deadline."
+        "Nothing can stop me from inflicting my art upon this cultureless graveyard of a world.":
+            talk lovely talk "How exciting!"
+            talk orb talk "Quite. Let's get to work."
+            jump fiction_menu
+
+fiction_menu:
+    clear_dialog
+    choice:
+        talk nasty talk "AWOOO! Okay girls, what are we writing for our creative debut in 'Weird Tails'?"
+        "[Throw together some inane bullshit about 'creatures too hideous to describe' that conveniently gets you out of having to describe anything that might requite actual literary talent and 'tentacles' and then throw in some weird asides about how shifty foreigners are, for absolutely no reason]":
+            "<span class='prompt'>NEW PERK UNLOCKED</span>: Ghost has received a new perk in her perks tree: 'Xenophobic'. Next perk in 50xp!"
+            if $data.dawnsight.sawCartoon:
+                clear_dialog
+                "<span class='prompt'>REPUTATION UPDATE</span>: +100 faction reputation with 'Political Cartoon Saint Dawnsight'. Next faction reward in 200 reputation!"
+        "[Do the above choice but without the racism]":
+            talk orb talk "I appreciate the restraint, Ghost. Though not adding racism to your story makes it at least 50% less marketable to the average Anglian reader."
+        "[Write a Dark Age epic. The tale of a dashing Dame Most Chivalrous and her Ladie Most Lovelie. Add a dragon too.]":
+            talk nasty talk "Yessssss! Yessssss!"
+            talk lovely talk "Will the Dame and the Ladie kiss at the end, perchance?"
+            talk nasty talk "MWAH!"
+            talk lovely talk "Scream! I take it back!"
+        "You already know what we're writing, Nasty Girl. [Write some *really* nasty smut about a little aristocratic lady and her stable hand]":
+            talk nasty talk "YES. HAHAHAHAHA. YESSSSSSSSSSSSSSSSSSSSS!"
+            talk lovely talk "Eeuuugh! This! This is *so* horrible! H- how could you even *think* of this, this nonsense! Euuugh! You two are simply beastly! A Lovely Lady and her... her strong... dashing... sweaty stablehand... simply awful... what if... the stable hand's... feet were out... that would be even worse... so... don't write it... eugh!"
+            clear_dialog
+            talk nasty talk "Channel my words, Ghost."
+            talk nasty talk "<span class='writtenText'>'Her toes glistened in the sun. Sweat like morning dew...'</span>"
+            clear_dialog
+            "Nasty Girl continues for quite some time."
+    clear_dialog
+    play sound typewriter
+    "You type out your story. Writing is easy. It's actually pathetic if it takes you longer than about an hour to write a piece of fiction."
+    clear_dialog
+    talk poppy talk "Sobs... Everyone is so mean to me..."
+    clear_dialog
+    talk orb talk "Okay. That's that sorted. Biography time. How would you describe yourself, Ghost?"
+    if (roll fiction_end_sheep_nightmare nightmare 80):
+        talk nightmare talk "<span class='nightmare'>Woah woah woah! Hold your sheep,</span><class='nightmareQuote'> 'ghost'</span><span class='nightmare'>!</span>"
+        talk nightmare talk "<span class='nightmare'>Those funny little 'friends' of yours have had their turn. *I'm* helping you write your biography, after all, I know you *so* much more than they do.</span>"
+        jump fiction_biography_nightmare
+    else:
+        wait 1000
+        clear_dialog
+        choice:
+            "The keys on your typewriter look up at you like eyes, they're holding their breath, waiting to see what you have to admit to them. The 'i' key is staring at you particularly intensely, the shifty little bugger."
+            "I'm an investor. I love to invest in things. Indeed thanks to my savvy investing I'm a practically a millionaire already." if $data.ghost.investor:
+                talk nasty talk "Oh fuck me. Does she still not realise she's been scammed?"
+                clear_dialog
+                choice:
+                    talk orb talk "No. She's really quite stupid sometimes, isn't she?"
+                    "Okay one, I can hear you and two, I'm not stupid I'm actually incredibly brain.":
+                        run skip
+            "I'm a fake tran. I've been gaslighting everyone for years, but thanks to that pair of white gloves the jigs up." if $data.global.diagnosis_fake:
+                talk orb talk "I... I wouldn't write that if I were you, but I shan't stop you."
+            "I'm an autogynephile. I'm just writing that. Under my photo in the magazine it will just say <span class='writtenText'>'Ghost - She's an autogynephile'</span>. I think that has pretty strong vibes, no?" if $data.global.diagnosis_agp:
+                talk nasty talk "Oh yeah those are some vibes alright."
+                talk lovely talk "Yes. I'm entirely sure they're *good* vibes, but they are indeed 'vibes'."
+            "I'm a Type VI Transexual. This is my whole identity now. I might start judging anyone who isn't properly diagnosed, frankly." if $data.global.diagnosis_iv:
+                talk orb talk "Charming. I'm sure everyone will love that, Ghost."
+            "I'm a lobster. I have a pinky red shell and a pair of claws for pinching. I waggle my antennas when I'm happy and if you come near me I'll SNAP you! [Nod] I'm going to write that, more or less. [Write that, more or less]" if $data.ghost.lobsterGirl:
+                talk orb talk "Please d- oh whatever."
+            "I'm not into feet. I'm going to write something to put this unfounded rumour to bed once and for all." if $data.ghost.footGirl:
+                choice:
+                    talk orb talk "Oh my gods Ghost, please, just accept that you're into feet and stop being so weird and defensive about it. It's actually *far* more embarrassing for you."
+                    "Fuck up. I'm writing it. [Put an end to the libel being spread about you, primarily by yourself]":
+                        talk orb talk "...They are *not* going to publish this."
+            "I'm just going to write about how I'm nice and lovely and a pleasure to be around.":
+                talk orb talk "Short and simple, a wise choice, Ghost."
+                talk lovely talk "And true too, for the most part!"
+        play sound typewriter
+        clear_dialog
+        if (== $stats.day.value 2):
+            choice:
+                talk orb talk "Well. For better or for worse we're done here. We should get this to The Pulp Writer tomorrow. She's probably out of energy for us today."
+                "<span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    complete_objective writer fiction
+                    start_objective writer writerTwo
+                    jump goToGameMap
+        else:
+            choice:
+                talk orb talk "Well. For better or for worse we're done here. We should get this to The Pulp Writer as soon as possible."
+                "<span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    complete_objective writer fiction
+                    start_objective writer writerTwo
+                    jump goToGameMap
+
+fiction_biography_nightmare:
+    clear_dialog
+    choice:
+        talk nightmare talk "<span class='nightmare'>Think,</span><span class='nightmareQuote'> 'ghost'</span><span class='nightmare'>, distil yourself down into one thought. Strip everything else away. Press the scalpel in, deglove yourself, and open up. What do you want to tell the world about yourself?</span>"
+        "I'm ugly and gross and a freak and every decision that led to my current life was a bad one that I could have avoided if I wasn't fundamentally annoying.":
+            talk nightmare talk "<span class='nightmare'>Wow! Bold words, </span><span class='nightmareQuote'>'ghost'</span><span class='nightmare'>! Write that down.</span>"
+        "I have never experienced true happiness.":
+            choice:
+                talk nightmare talk "<span class='nightmare'>Why?</span>"
+                "Because I can't. I'm fundamentally broken and any happiness I feel is hollow and fleeting.":
+                    talk nightmare talk "<span class='nightmare'>Good stuff. Write that down.</span>"
+        "The gloved hands want me dead, and there's nothing I can do about it, and sometimes I wish they'd tire of toying with me and squeeze my neck till I choke up blood." if $data.nkvd.metNKVD:
+            talk nightmare talk "<span class='nightmare'>Wow! Bold words, </span><span class='nightmareQuote'>'ghost'</span><span class='nightmare'>! Write that down.</span>"
+    play sound typewriter
+    clear_dialog
+    choice:
+        talk nightmare talk "<span class='nightmare'>Great work. This will be a 'bopper' of a biography, </span><span class='nightmareQuote'>'ghost'</span><span class='nightmare'>.</span>"
+        "You really think?":
+            talk nightmare talk "<span class='nightmare'>Would I ever lie to you? No. Never. Flush that thought from your head and rest easy knowing that kind or cruel, I only speak the truth.</span>"
+    clear_dialog
+    talk nasty talk "You doing okay there mate? You're doing that thing where you stare off into the distance and drool and don't talk to us for ages again."
+    choice:
+        talk lovely talk "Ghost, darling, that seems a little grim to write as your biography, don't you think?"
+        "Well it's fucking true isn't it! [Hurl your typewriter across the room, watch it bounce off of the wall unharmed, then pick it up and put it back on your desk] \\"I'm sorry typewriter it's not your fault :(\\"":
+            play sound metalcrash
+            talk lovely talk "Oh dear. She's having a funny turn."
+            clear_dialog
+            if (== $stats.day.value 2):
+                choice:
+                    talk orb talk "Please don't throw your typewriter across the room, Ghost. The Ministry for Wartime Literature built them to last, but let's not test it any further, yes? Anyhow, we should get this to The Pulp Writer tomorrow. She's probably out of energy for us today."
+                    "<span class='prompt'>[[CONTINUE]]</span>":
+                        play sound spendAction
+                        complete_objective writer fiction
+                        start_objective writer writerTwo
+                        jump goToGameMap
+            else:
+                choice:
+                    talk orb talk "Please don't throw your typewriter across the room, Ghost. The Ministry for Wartime Literature built them to last, but let's not test it any further, yes? Anyhow, we should get this to The Pulp Writer as soon as possible."
+                    "\\"I'm just so sad!\\" [Hurl a pencil across the room and stomp away from your desk] <span class='prompt'>[[CONTINUE]]</span>":
+                        play sound spendAction
+                        play sound plap
+                        complete_objective writer fiction
+                        start_objective writer writerTwo
+                        jump goToGameMap

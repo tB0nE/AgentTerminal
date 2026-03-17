@@ -1,0 +1,177 @@
+memorial:
+    play sound click
+    choice:
+        "There's a crashed memorial in the town centre. That sounds pretty bopper, right?"
+        "[Check out the crashed airplane in the town centre because it sounds bopper as fuck. There's a crashed airplane in the town centre by the way] <span class='prompt'>[[-1 ACTION]]</span>":
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            run transition_black memorial
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    set data.global.visitedMemorial true
+    "The crashed airplane is quite the sight, less an airplane and more a vaguely airplane shaped piece of twisted metal."
+    "It has wings, a cockpit, a tail and two surviving propellers, but none sit in their rightful place, nor are any doing very well on the 'not being bent at upsetting angles' front."
+    clear_dialog
+    "In front of it is a plaque, a list of Bluehills war dead. There are a sickening number of entries, trying to read it makes your stomach feel like it's being tied into a knot."
+    "You imagine them standing beside you, and then quickly stop. Their eyes were too sad. Too full of resentment. Too full of pity."
+    clear_dialog
+    "You shake it off and get back to admiring the bopper plane. Airplanes and other war machinery are bopper. You shake your head to show that your enthusiasm for death machines is not also an enthusiasm for war generally."
+    jump memorial_menu
+
+memorial_menu:
+    clear_dialog
+    choice:
+        "The twisted metal memorial is silent, but it wishes it could creak in agony."
+        "What kind of airplane is it?":
+            talk orb talk "She's an Anglian Pigeon MK.II. Entered service in 1922. This one exited service the same year. She can be outfitted with two 250LB bombs under her wings, and a third 500LB bomb under the chassis, if one doesn't mind becoming the slowest, easiest, most explosive target in history."
+            if (roll memorial_type_bomber_orb orb 40):
+                clear_dialog
+                talk orb talk"This specific specimen was only ever used as a fighter. It's pilot, a Warsawan in exile after the surrender of his home country, refused to sully themselves with anything else."
+                talk orb talk "Probably for the best, it would have blown half this street to pieces if it had been loaded with explosives when it crashed."
+                clear_dialog
+                talk orb talk "Fighter pilots, and indeed anyone with honour tends to look down on bomber pilots now that terror bombing has been unleashed upon the world."
+                talk orb talk "Supposedly the strategy is to kill enough civilians that your opponent surrenders. In reality it turns into a bloody example of the sunk cost fallacy. No one wants their neighbours to have been blown into a fine mist in vain."
+                clear_dialog
+                talk orb talk "Our valiant Warsawan pilot was rewarded for their moralistic stance by being accidentaly shot down by Anglian anti air defences while combatting an Imperial bombing squadron headed for the lead mine just north of Bluehills."
+            else:
+                wait 1000
+            clear_dialog
+            "These days it is not an airplane. It is scrap."
+            jump memorial_menu
+        "Why is it still here? Isn't there like a... a guy? A guy who cleans these up? There's a guy, right?":
+            if (roll memorial_menu_guy_nightmare nightmare 40):
+                talk nightmare talk "<span class='nightmare'>only guy here is you mate.</span>"
+                clear_dialog
+            talk orb talk "The council planned for a memorial to be built on this exact spot anyway, but the god of war giveth one for free."
+            if (roll memorial_menu_guy_orb orb 20):
+                choice:
+                    talk orb talk "And no, there isn't a guy."
+                    "Why not?":
+                        choice:
+                            talk orb talk "What do you mean <span class='writtenText'>'why not?'</span>? Why would there be a 'guy whose entire job is to clean up crashed aircraft'?"
+                            "[Gesture at the crashed aircraft that was never cleaned up] To prevent precisely this sort of thing!":
+                                choice:
+                                    talk orb talk "Oh yes, you're right, god forbid this extremely common everyday occurrence be allowed to continue unabated for any longer."
+                                    "[Nod] Thank you.":
+                                        jump memorial_menu
+                            "Okay I get it, you don't like my idea to have a guy, let's cease this discussion.":
+                                jump memorial_menu
+                    "Well there should be.":
+                        talk orb talk "Mhm. If you say so, Ghost."
+                        jump memorial_menu
+            else:
+                wait 1000
+            jump memorial_menu
+        "Why are *we* here?":
+            talk orb talk "Because the second one of your excitable little neurons remembered there was a crashed airplane here you thought it was <span class='writtenText'>'bopper as fuck'</span> and deigned it worth a visit. That's the entire reason."
+            talk orb talk "I wish I could give you a spiel about how you felt inexorably drawn to its physical representation of the mammal condition, but no, you literally just thought it was <span class='writtenText'>'bopper as fuck'</span>."
+            if (!= $data.memorialClimb true):
+                clear_dialog
+                talk nasty talk "It *is* bopper as fuck, to be fair. We should climb on it."
+                choice:
+                    talk lovely talk "That would be *highly* disrespectful, Nasty Girl, this is a war memorial, you realise?"
+                    "Sounds good, let's do it. [Crack your knuckles and approach the combination cool crashed airplane / war memorial]":
+                        jump memorial_climb
+                    "I'm going to try to avoid desecrating any memorials until I can remember if I respect the dead or not, but thank you for the suggestion, Nasty Girl.":
+                        talk nasty talk "Pussy. Brain cuck."
+                        jump memorial_menu
+            else:
+                jump memorial_menu
+        "[Pay your respects]":
+            set data.memorial.response (text_field "What is there to say? What could ever make their sacrifice have been worth it.")
+            if (|| (== $data.memorial.response "f") (== $data.memorial.response "F")):
+                "A distant bugle sounds. Their memory will go on forever. Their ghosts stand aside you, they salute the flag, the country, their fallen comrades."
+                jump memorial_menu
+            // COMMENTING OUT THIS ENTIRE DEBACLE BECAUSE I'M UNSURE IF INCLUDING TRIPP FROM FACADE REALLY QUALIFIES AS TRANSFORMATIVE USE HOWEVER IF I AT LEAST LEAVE IT HERE TO FIND MAYBE IT'S STILL FUNNY SOMEHOW
+            // if (|| (== $data.memorial.response "melon") (== $data.memorial.response "Melon") (== $data.memorial.response "MELON")):
+            //     "Tripp makes a face like you just wiped your balls on are brave boys memory."
+            //     clear_dialog
+            //     choice:
+            //         talk tripp talk "Okay, Ghost, I think this visit to the memorial is over. You've gotta leave."
+            //         "\\"No! Wait! I'm sorry!\\" <span class='prompt'>[[CONTINUE]]</span>":
+            //             play sound spendAction
+            //             "Tripp seizes you by the shoulders and frogmarches you away from the memorial. His eyes locked into your own the entire time."
+            //         "\\"Fuck the troops!\\" <span class='prompt'>[[CONTINUE]]</span>":
+            //             play sound spendAction
+            //             "Tripp seizes you by the shoulders and frogmarches you away from the memorial. His eyes locked into your own the entire time."
+            //     jump goToGameMap
+            else:
+                "Passing members of the public frown. How dare you disrespect the war dead like that..."
+            jump memorial_menu
+        "[Find something else to do with your time] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+
+memorial_climb:
+    set data.memorialClimb true
+    choice:
+        talk orb talk "You realise this isn't a good idea, right?"
+        "You're right, this is a *great* idea.":
+            talk nasty talk "Hahahahaha nice one, Ghost! Orb, I'm going to tail-whip you, you fucken boffin!"
+            talk orb talk "Sigh..."
+            talk lovely talk "There's simply no stopping these two when they get like this, is there?"
+        "Hmm, why not? Make your argument.":
+            choice:
+                talk orb talk "You could slip and fall, end up in the Daily Telegraph for disrespecting the war dead, someone could... throw something at... look, just don't do it, okay?"
+                "Some good points, well argued, let's not do this. [Abandon your inane bullshit]":
+                    talk nasty talk "Gods you suck so bad. Ugh."
+                    talk orb talk "Thank you for seeing sense."
+                    jump memorial_menu
+                "I'm doing it. [Do it]":
+                    talk orb talk "Whatever. Try not to hit your head too hard when you fall over, I'd rather you kept your remaining memory intact."
+    clear_dialog
+    choice:
+        talk nasty talk "Come on! Enough talking! Let's do it!"
+        roll memorial_climb_climb_nasty nasty 60 "[Climb onto the wrecked plane and just disrespect the war dead for a bit]":
+            success "":
+                "With no trouble you manage to clamber atop the wreckage. It's exhilarating. You're so high up, can see for meters."
+                clear_dialog
+                "The general public tuts and shakes their head, but none care enough to punch you. In this moment *you* are the sole victor of The Great War."
+                jump memorial_climb_success
+            failure "":
+                play sound punch
+                run transition_pain
+                "You clamber about a foot off of the ground before slipping on a bit of rust, plummeting to the floor and bashing your head on the ground."
+                clear_dialog
+                "The resulting brain damage would probably have ended in a nasty spell of amnesia, if it weren't for you already not remembering anything."
+                "It settles instead for giving you a big bruise. The kind of bruise that screams 'I am a clumsy dipshit'."
+                jump memorial_climb_failure
+        "I'm chickening out at the last moment, sorry Nasty Girl. [Abandon your inane bullshit at the last second, like a pussy]":
+            talk nasty talk "I have no words for how disappointed I am. Fuck you for edging me like this. Are brave boys didn't die just for you to be a brain cuck."
+            jump memorial_menu
+
+memorial_climb_success:
+    clear_dialog
+    choice:
+        talk nasty talk "This is great, right?"
+        "You bet! WAHOOOOOO!":
+            choice:
+                talk nasty talk "WAHOOOOOOO!"
+                "[Climb back down]":
+                    talk orb talk "I hope shouting <span class='writtenText'>'wahoo'</span> was worth the effort of climbing a few more rungs up the ladder to hel."
+                    talk nasty talk "It was *so* worth it."
+        "I am underwhelmed.":
+            choice:
+                talk nasty talk "I'm not. That's what matters."
+                "[Climb back down]":
+                    talk orb talk "I hope being underwhelmed was worth the effort of climbing a few more rungs up the ladder to hel."
+    jump memorial_menu
+
+memorial_climb_failure:
+    choice:
+        talk orb talk "What have we learned?"
+        "Don't climb plame up. [Make an embarrassed face and rub your sore head in a 'oh shit i think my brains broken I hope this doesn't last too long' kind of way]":
+            choice:
+                talk nasty talk "No. We looked cool. We looked cool right, Ghost?"
+                "[Nod] We cool look.":
+                    talk nasty talk "Fuck yeah we did."
+                "We didn't cool... we looked moron in front of everyone... that idea sucked, Nasty Lady...":
+                    talk nasty talk "Bah. Forget it. From now on I'll keep my great ideas to myself I guess."
+                    talk lovely talk "Would that we could be so fortunate."
+            jump memorial_menu
+        "Plame bad. Plane babd. [Make an embarrassed face and rub your sore head in a 'oh shit I think my brains broken I hope this doesn't last too long' kind of way]":
+            talk orb talk "Are you okay? Did you give yourself brain damage? Actually, don't answer that, I already know."
+    jump memorial_menu

@@ -1,0 +1,470 @@
+landlady:
+    play sound click
+    set data.landlady.rentPriceText (numbverter $data.landlady.rentPrice)
+    choice:
+        "Someone claiming to be your <span class='writtenText'>'landlady'</span> has demanded you pay her %{$data.landlady.rentPriceText} pounds for 'rent'. She *is* your landlady, but that doesn't really make it feel any better."
+        "[Interact with Your Landlady] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            run transition_black generic_winter
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    "12 Lamprey Lane. A large cottage in Little Donking, the hamlet just outside Bluehills."
+    "The road twists and curls, much like a lamprey, but otherwise it's a very normal neighbourhood."
+    choice:
+        "The kind of neighbourhood where people like you get the police called on them for looking poor. Where everyone has an automobile outside their house. Where there's curtain twitcher drama on par with the greatest familial conflicts of the Holy Italian Empire."
+        "[Knock Your Landlady's door]":
+            play sound doorknock
+            talk lovely talk "'Tis rather fun to be the one doing the knocking for a change, isn't it friends!?"
+            talk orb talk "Not really no."
+            talk nasty talk "I literally could not give less of a shit about whatever you're on about, Lovely Lady."
+            clear_dialog
+            play sound dooropen
+            run transition landlady_ghost
+            "The door opens, just a crack. It's on a chain."
+            clear_dialog
+            talk landlady talk "I don't do charity, nor will I be purchasing anything today, ta ta cheerio now."
+    clear_dialog
+    play sound doorclose
+    choice:
+        "Your landlady starts to close the door."
+        "\\"Wait! It's me! I'm here to pay my rent!\\"":
+            "The word <span class='writtenText'>'rent'</span> reverberates through her skull like a shot of adrenaline. The door stops, millimetres away from closing entirely."
+            play sound dooropen
+            "You hear the excited fumbling of fingers detaching the little chain, and the threshold finally opens. Properly this time."
+    clear_dialog
+    if (!= $data.global.visitedLandlady true):
+        talk landlady talk "Ah. It's you, the transves- the tenant. You brought your money with you, I trust?"
+    else:
+        talk landlady talk "Oh. It's you. Do you have your rent now? I shan't be putting up with your time wasting much longer, you know."
+    jump landlady_menu
+    
+landlady_menu:
+    clear_dialog
+    set data.landlady.rentPriceText (numbverter $data.landlady.rentPrice)
+    choice:
+        "Your Landlady is growing impatient; she wants to get back to her crossword book."
+        "\\"I fixed my roof! Yip Yip for me!\\" [Smile] \\"Can I pay my normal amount of rent now please?\\"" if (&& (== $data.ghost.roofRepaired true) (== $data.landlady.sawRoof true)):
+            set data.landlady.sawRoof false
+            "Your landlady squints."
+            clear_dialog
+            talk landlady talk "You mean you fixed *my* roof. The roof *you* broke in the first place..."
+            clear_dialog
+            "She sighs."
+            if (roll landlady_menu_yip_lovely lovely 40):
+                talk lovely talk "<span class='writtenText'>'Yip yip for *you* indeed... the cheek...</span>"
+            else:
+                wait 1000
+            clear_dialog
+            talk landlady talk "Fine. I haven't the energy to argue further on this matter..."
+            add data.landlady.rentPrice -25
+            jump landlady_menu
+        "Orb, does My Landlady like me?":
+            talk orb talk "On one hand she thinkable you're a deranged, grimy transexual, which to be fair to her, you are."
+            talk orb talk "On the other hand you (at least theoretically) hand her big wads of cash every month."
+            jump landlady_menu
+        "[Peer inside Your Landlady's house]":
+            "A house of procedurally generated rooms, each larger, more crammed with furniture and more cluttered with <span class='writtenText'>'Live Laugh Wine o'clock'</span> decor than the last."
+            if (roll landlady_menu_house_orb orb 40):
+                talk orb talk "She was lucky to be able to afford it, but she worked hard to get here. By which I mean, her parents died and left her loads of money and assets."
+                talk lovely talk "Oh me oh my! How clever! I believe Papi made his fortune with a similar business strategy."
+            else:
+                wait 1000
+            clear_dialog
+            "The twee phrase <span class='writtenText'>'Home: A place of laughter and love'</span>. Is painted across her hallway. How quaint."
+            clear_dialog
+            talk lovely talk "Oh me oh my... the lower class has a certain rugged charm to it, but the middle class... how embarrassing to live in this squalor..."
+            clear_dialog
+            if $data.ghost.clearEyes:
+                choice:
+                    talk orb talk "No it fucking doesn't. Look closely, Ghost."
+                    "[Squint]":
+                        "You squint, and the decor comes into focus. It seems it actually reads <span class='writtenText'>'Property: An asset and investment'</span>. This is far less quaint."
+            jump landlady_menu
+        "\\"What do you use the rent money for?\\"" if (!= $data.landlady.negotiatedPrice true):
+            "A pause. A long one. Her brain is moving as fast as a steam train, but the station is ever such a distance away."
+            clear_dialog
+            talk landlady talk "To maintain and repair the cottage, of course. Did you not read your contract?"
+            if (roll landlady_menu_repair_orb orb 40):
+                talk orb talk "Sheepshit. She spends it on horrible champagne, horrible furniture and violin lessons for her horrible horrible children."
+                clear_dialog
+                talk lovely talk "M'thinks we may be able to use this as an advantage. Ask her for specifics. Try to grind her down into giving you a discount."
+                choice:
+                    talk lovely talk "Papi does this with contractors and servants all the time, and look how well it turned out for him!"
+                    "\\"What repairs\\"?":
+                        talk landlady talk "Well. I."
+                        clear_dialog
+                        "She thinks. Choo choo."
+                        clear_dialog
+                        talk landlady talk "Just before you moved in I got the roof rethatched."
+                        if (roll landlady_menu_roof_orb orb 20):
+                            choice:
+                                talk orb talk "Your roof is tiled, not thatched."
+                                "\\"My roof is tiled, not thatched.\\"":
+                                    choice:
+                                        talk landlady talk "Oh! Is that the case. Well. I got it retiled then, didn't I?"
+                                        roll landlady_price_lovely lovely 40 "[Politely suggest that she may have mistakenly made an accounting mistake and overcharged you. By mistake, obviously]":
+                                            success "":
+                                                "Your Landlady scowls."
+                                                clear_dialog
+                                                talk landlady talk "Fine. You're right, I suppose."
+                                                if (roll landlady_fine_lovely lovely 20):
+                                                    talk lovely talk "<span class='writtenText'>'It is most certainly not fine'.</span>"
+                                                else:
+                                                    wait 1000
+                                                if (!= $data.landlady.negotiatedPrice true):
+                                                    set data.landlady.negotiatedPrice true
+                                                    add data.landlady.rentPrice -20
+                                                    clear_dialog
+                                                    talk landlady talk "I'll reduce your payment by twenty pounds, just this once, mind."
+                                            failure "":
+                                                talk landlady talk "I don't make mistakes. I'm very good with numbers, I'll have you know."
+                        else:
+                            wait 1000
+                    "I think I'll leave it. I like paying rent, actually.":
+                        jump landlady_menu
+            else:
+                wait 1000
+            jump landlady_menu
+        "\\"More like Landlazy. Haha.\\" [Go to fist bump Your Landlady]":
+            "She looks at your outstretched fist, confused."
+            if (roll landlady_menu_fistbump_nasty nasty 20):
+                talk nasty talk "She's too confused by the concept of a fist bump to have noticed you just hurled an insult at her."
+                talk lovely talk "So am I! Is this a poor person thing?"
+            else:
+                wait 1000
+            jump landlady_menu
+        "[Give your landlady %{$data.landlady.rentPriceText} pounds to pay your rent] <span class='prompt'>[[MOVE ON]]</span>" if (>= $stats.money.value $data.landlady.rentPrice):
+            jump landlady_pay
+        "\\"Mam, have you ever heard of a 'Non-fungible Painting'?\\" <span class='prompt'>[[MOVE ON]]</span>" if (&& $data.global.nastyNFP (has_item? sillySheep) (!= $data.landlady.attemptedScam true)):
+            jump landlady_sheep
+        "\\"Mam, have you ever heard of a 'Bridge'?\\" <span class='prompt'>[[MOVE ON]]</span>" if (&& $data.global.nastyNFP (== $data.crypto.hasBridge true) (!= $data.landlady.attemptedScam true)):
+            jump landlady_bridge
+        "\\"Mam, have you ever heard of a 'an Eiffel Table'?\\" <span class='prompt'>[[MOVE ON]]</span>" if (&& $data.global.nastyNFP (== $data.crypto.hasEiffelTable true) (! $landlady.attemptedEiffel true)):
+            jump landlady_eiffel
+        "\\"Actually, I'm having second thoughts.\\" [Do a gay little wave] \\"Bye!\\" [Walk away] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            set data.global.visitedLandlady true
+            talk landlady talk "E- excuse me!?"
+            jump goToGameMap
+
+landlady_pay:
+    if (== $data.landlady.rentPrice 100):
+        add_stat money -100
+    if (== $data.landlady.rentPrice 80):
+        add_stat money -80
+    if (== $data.landlady.rentPrice 75):
+        add_stat money -75
+    if (== $data.landlady.rentPrice 55):
+        add_stat money -55
+    play sound coins
+    "Your Landlady counts through the money. It passes through her hands like cards in a casinos' shuffler. Water through a river. A cruel woman's fingers down another woman's salivating throat."
+    "Your Landlady likes how the pennies and notes feel against her fingers. Cold. Hard. Soft. Each unique. Each now *hers*."
+    "It takes her less than two seconds to count. She's had practise. She counts it two more times anyway."
+    clear_dialog
+    choice:
+        talk landlady talk "Wonderful. I'll see you in a month Ms..."
+        "\\"It's Ghost.\\"":
+            talk landlady talk "Hmm. Yes, Ms Ghost."
+            if (roll landlady_pay_name_lovely lovely 20):
+                talk lovely talk "She genuinely couldn't recall your name."
+            else:
+                wait 1000
+    clear_dialog
+    talk landlady talk "Ta ta now. Cheerio."
+    complete_objective landlady rent
+    complete_quest landlady landladySuccess
+    unlock_achievement rent
+    clear_dialog
+    play sound doorclose
+    animate #narrat-app narrat-screenshake
+    run transition_instant generic_winter
+    "She shuts the door on you."
+    clear_dialog
+    choice:
+        talk orb talk "That's that sorted, for now at least. Let's get on with our day, yes?"
+        "<span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+
+landlady_sheep:
+    set data.landlady.selling "silly sheep non-fungible painting"
+    set data.landlady.rentTime "three"
+    choice:
+        talk landlady talk "I... I think I might have heard something or other about them on the radio... why?"
+        "\\"They're just so goofy and silly! They're great! Worth a lot of money too, you know?\\"":
+            talk landlady talk "Money? Yes... I recall that being on ABC Radio Bluehills a few days ago... a lovely young man said he became rich investing in them. Kept talking about crab meat..."
+    jump landlady_negotiate
+
+landlady_bridge:
+    set data.landlady.selling "bridge"
+    set data.landlady.rentTime "six"
+    "Your Landlady blinks vacantly. It's what she does when she received auditory input asides 'please take all my money'."
+    clear_dialog
+    choice:
+        talk landlady talk "You're asking me if I've ever heard of bridges?"
+        "\\"Yes!\\"":
+            talk landlady talk "Well, I suppose I have, yes."
+        "\\"No. Well. Yes. It was kind of rhetorical, I guess.\\"":
+            talk landlady talk "Well, I suppose I have, yes."
+    clear_dialog
+    choice:
+        "She nervously looks back into her house. What if her crossword runs away... Did she get five across wrong? Leech is spelt with two e's, right?"
+        "\\"The bridge market is booming these days, actually. Crossing not just small bodies of water, but the gulf of space... all the way to the moon!\\" [Sweep your arms wide] \\"The moon is what we in the business call the stock market, I think?\\"":
+            talk landlady talk "The bridge market i- is booming, is it?"
+    jump landlady_negotiate
+
+landlady_negotiate:
+    clear_dialog
+    set data.landlady.attemptedScam true
+    set data.landlady.nfp_convinced 0
+    if (roll landlady_negotiate_butter_nasty nasty 40):
+        set data.landlady.nastySuggestion true
+        talk nasty talk "Butter her up a little more. Tell her you heard the same story, it was about how one sold for one... no... *two* million pounds. If that doesn't wet her pussy, say it was a wealthy Oceanian geezer what bought it."
+    talk lovely talk "Your Landlady isn't stupid, she can *usually* sniff out a scam, but she's greedier than she is smart, and sometimes her distrustful nature falters..."
+    if (roll landlady_negotiate_mlm_orb orb 40):
+        set data.landlady.orbSuggestion true
+        talk orb talk "She bought three tons of makeup last year when her friend Jill got her into a MLM. Reassure her this isn't an MLM. Just say people are jealous, tories eat that shit up."
+    else:
+        wait 1000
+    if (roll landlady_negotiate_dawnsight_lovely lovely 40):
+        set data.landlady.lovelySuggestion true
+        talk lovely talk "Remind her that Saint Dawnsight approves of entrepreneurship. Your Landlady loves her holiness almost as much as I do moiself~"
+    else:
+        wait 1000
+    clear_dialog
+    if $data.landlady.nastySuggestion:
+        add data.landlady.negotiate_convinced 1
+        choice:
+            "Your Landlady looks at you apprehensively. She's unsure where this is going. Her nose twitches. Her whiskers bounce. She wants her money."
+            "\\"I think I heard the same radio programme! That Oceanian gentlethem bought one for two million pounds, didn't they?\\""
+                talk landlady talk "He- two million? Yes I think he did, didn't it..."
+                clear_dialog
+                talk nasty talk "She's trying to rationalise the terrible decision she wants to make. Good work."
+        clear_dialog
+    if $data.landlady.orbSuggestion:
+        add data.landlady.negotiate_convinced 1
+        choice:
+            "Your Landlady is eyeing you curiously."
+            "\\"Obviously a lot of people think the whole thing is one of those big pyramid schemes, but we both know the truth about those people, don't we?\\" [Tap your nose]":
+                choice:
+                    talk landlady talk "We do?"
+                    "\\"That they're just jealous. Always the same with the workshy poor, isn't it?\\"":
+                        talk landlady talk "Hmm. Quite. Yes..."
+                        if (roll landlady_negotiate_poor_lovely lovely 20):
+                            talk lovely talk "Part of her is pretty sure *you're* a workshy poor, but another part of her liked that you said something she agreed with."
+                        else:
+                            wait 1000
+        clear_dialog
+    if $data.landlady.lovelySuggestion:
+        add data.landlady.negotiate_convinced 1
+        choice:
+            "Your Landlady is eyeing you curiously."
+            "\\"Holiness is a path paved by investment. Saint Dawnsight said that, I believe. I always think of how proud she would be when she looks down people like you.\\"":
+                talk landlady talk "She may well have done yes. She was a very wise woman..."
+        clear_dialog
+    if (== $data.landlady.negotiate_convinced 0):
+        choice:
+            "Your Landlady is eyeing you curiously."
+            roll landlady_nfp_deal_nasty nasty 99 "[Attempt to convince Your Landlady she should buy your %{$data.landlady.selling}]":
+                success "":
+                    jump landlady_negotiate_success
+                failure "":
+                    jump landlady_negotiate_failure
+    if (== $data.landlady.negotiate_convinced 1):
+        choice:
+            "Your Landlady is eyeing you curiously."
+            roll landlady_negotiate_deal_nasty nasty 80 "[Attempt to convince Your Landlady she should buy your %{$data.landlady.selling}]":
+                success "":
+                    jump landlady_negotiate_success
+                failure "":
+                    jump landlady_negotiate_failure     
+    if (== $data.landlady.negotiate_convinced 2):
+        choice:
+            "Your Landlady is eyeing you curiously."
+            roll landlady_negotiate_deal_nasty nasty 60 "[Attempt to convince Your Landlady she should buy your %{$data.landlady.selling}]":
+                success "":
+                    jump landlady_negotiate_success
+                failure "":
+                    jump landlady_negotiate_failure
+    if (== $data.landlady.negotiate_convinced 3):
+        choice:
+            "Your Landlady is eyeing you curiously."
+            roll landlady_negotiate_deal_nasty nasty 20 "[Attempt to convince Your Landlady she should buy your %{$data.landlady.selling}]":
+                success "":
+                    jump landlady_negotiate_success
+                failure "":
+                    jump landlady_negotiate_failure  
+
+landlady_negotiate_success:
+    choice:
+        talk nasty talk "This is it, you know what to do, Ghost. You've got this."
+        "\\"You know, I'd have my rent money, only I spent it all on an NFP myself. Silly Sheep #69.\\" [Show Your Landlady the receipt] \\"It'll be worth millions any day now but... well, I suppose my duty is to make sure you get your due first, isn't it?\\" [Hand over the receipt to your Silly Sheep] \\"Will you accept this?\\"" if (== $data.landlady.selling "silly sheep non-fungible painting"):
+            remove_item sillySheep 1
+            run transition_instant landlady_sheep
+            "Your Landlady hesitates for just a moment, but it's too late. When she takes it from your hand, holds it up to her eye and nods, you've already won."
+        "\\"You know, I happen to own a bridge myself. The one down near the river, made of iron? It'll be worth billions any day now but... well, I suppose my duty is to make sure you get your due first, isn't it?\\"" if (== $data.landlady.selling "bridge"):
+            set data.crypto.hasBridge false
+            "Your Landlady hesitates for just a moment, but it's too late. You've already won."
+    clear_dialog
+    choice:
+        talk landlady talk "It's a little unorthodox... but I suppose it'll cover your rent, for now. Let's say %{$data.landlady.rentTime} months of it, hmm?"
+        "\\"Such generosity! Thank you Mam!\\"":
+            "Your Landlady titters to herself."
+            clear_dialog
+            run transition_instant landlady_ghost
+            talk nasty talk "She actually thinks *you're* the loser of this deal. Adorable."
+            clear_dialog
+            choice:
+                talk landlady talk "The pleasure is all mine, Ms..."
+                "\\"It's Ghost.\\"":
+                    talk landlady talk "Hmm. Yes, Ms Ghost."
+                    if (roll landlady_nfp_success_name_lovely lovely 20):
+                        talk lovely talk "She genuinely couldn't recall your name."
+                    else:
+                        wait 1000
+    clear_dialog
+    talk landlady talk "Ta ta now. Cheerio."
+    complete_objective landlady rent
+    complete_quest landlady landladyNegotiateSuccess
+    unlock_achievement invest_landlady
+    clear_dialog
+    play sound doorclose
+    animate #narrat-app narrat-screenshake
+    run transition_instant generic_winter
+    "She shuts the door on you."
+    clear_dialog
+    if (roll landlady_nfp_success_rich_orb orb 40):
+        if (== $data.landlady.selling "silly sheep non-fungible painting"):
+            talk orb talk "<span class='writtenText'>'Wheeeee! I'm rich!'</span> she just said to herself. She's rushing to the telephone to let her husband know they can afford a holiday to the American Sea this summer."
+        else:
+            talk orb talk "<span class='writtenText'>'Wheeeee! I'm rich!'</span> she just said to herself. She's rushing to the telephone to let her husband know she is now the proud owner of <span class='writtenText'>'the bridge just outside town, yes, you know, the one with the crab man!'</span>"
+    else:
+        wait 1000
+    clear_dialog
+    talk lovely talk "You don't think she'll try and get revenge on Ghost when she realises she's been had, do you?"
+    if $data.global.orbMonoxideLeak:
+        talk orb talk "What's she going to do? Let Ghost get even *more* carbon monoxide poisoning from that incorrectly fitted stovetop?"
+    talk nasty talk "Worst comes to worst we know where she lives, and I know some three easy tricks to get away with arson you won't believe. Tip one: Glass all witnesses."
+    clear_dialog
+    choice:
+        talk orb talk "That's that sorted. For now at least. Let's get on with our day, yes?"
+        "<span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+
+landlady_negotiate_failure:
+    "A furrow forms on Your Landlady's brow. You've lost her."
+    clear_dialog
+    choice:
+        talk landlady talk "Cash, please."
+        "\\"But Mam, don't you realise that Art3 is the future!?\\"" if (== $data.landlady.selling "silly sheep non-fungible painting"):
+            choice:
+                talk landlady talk "A- art 3? There's a third one now?"
+                "\\"Yes! And you could be in on the ground floor!\\"":
+                    choice:
+                        talk landlady talk "Oh for goodness sake. This is no different to when Maude, bless her soul, got everyone at my husband's golf club into 'independent makeup entrepreneurship'. It's a scam, dear."
+                        "\\"But look how silly my Silly Sheep is!\\" [Yelp] \\"Or- or- I mean! *Imagine* how silly it is! You can't look at it, you might funge it!\\" [Jab a finger at Your landlady accusingly] \\"Don't you funge my sheep you godsdamn bitch!\\"":
+                            talk landlady talk "I have no interest in 'fudging' anything! Now calm down before I alert the neighbourhood watch and pay me your rent!"
+                            clear_dialog
+                            talk nasty talk "Sorry Ghost, we did our best, but it's time to let it go. Maybe your Silly Sheep *will* grow in value, eh?"
+                            talk orb talk "It won't."
+                            talk nasty talk "Look, I'm trying to make her feel better about getting shafted buying the thing in the first place, okay?"
+                            jump landlady_menu
+        "\\"But Mam, bridge!\\" [Wave your arms around to express the exciting concept of 'bridge']" if (== $data.landlady.selling "bridge"):
+            talk landlady talk "Oh for goodness sake. This is no different to when Maude, bless her soul, got everyone at my husband's golf club into 'independent makeup entrepreneurship'. It's a scam, dear. Now your rent, if it please you?"
+            clear_dialog
+            talk nasty talk "Sorry Ghost, we did our best, but it's time to let it go. Maybe your bridge *will* grow in value, eh?"
+            talk orb talk "It won't."
+            talk nasty talk "Look, I'm trying to make the dumb broad feel better about getting shafted buying the thing in the first place, okay?"
+            jump landlady_menu
+
+landlady_eiffel:
+    set data.landlady.attemptedEiffel true
+    set data.landlady.selling "eiffel table"
+    "Your Landlady blinks vacantly. It's what she does when she received auditory input asides 'please take all my money'."
+    clear_dialog
+    choice:
+        talk landlady talk "You're asking me if I've ever heard of <span class='writtenText'>'a an the Eiffel Table?'</span>"
+        "\\"Yes!\\"":
+            talk landlady talk "Well."
+        "\\"No. Well. Yes. It was kind of rhetorical, I guess.\\"":
+            talk landlady talk "Well."
+    clear_dialog
+    "She pauses and swallows some spit. Beads of sweat begin to appear on her brow."
+    clear_dialog
+    talk landlady talk "I- I suppose I must have. Yes. The Eiffel Table..."
+    clear_dialog
+    talk orb talk "Oh fuck. She doesn't know what the Eiffel Table is. It's one of the most famous landmarks on the planet and she doesn't know what it is. How does this woman even remember to breathe?"
+    talk lovely talk "Perhaps we should jog her memory. Remind her of the Eiffel Table, Ghost."
+    clear_dialog
+    choice:
+        talk landlady talk "I- is this going somewhere?"
+        "\\"You know the one I mean, don't you? The big cast iron structure in Pawris! It's across the channel, I think?\\"":
+            choice:
+                talk landlady talk "Table..."
+                "\\"That's right mam! Table! And for the low price of exactly my rent for the next several months you can own it! It'll be worth trillions any day now, you know?\\"":
+                    talk landlady talk "Table..."
+                "\\"Table.\\"":
+                    "Your Landlady nods."
+                    clear_dialog
+                    talk landlady talk "Yes... table..."
+    clear_dialog
+    talk nasty talk "...Not sure we can sell her much in this state lads. The fucks happened to her?"
+    if (roll landlady_eiffel_foreign_lovely lovely 40):
+        choice:
+            talk lovely talk "She accidentaly thought about something foreign for more than a few fleeting moments, and something inside her broke."
+            "\\"Will she be okay?\\"":
+                talk nasty talk "Who cares."
+                if (roll landlady_eiffel_tea_orb orb 20):
+                    talk orb talk "She'll be fine after a cup of tea and some alone time with her Anglian flag."
+                else:
+                    wait 1000
+    else:
+        wait 1000
+    clear_dialog
+    talk landlady talk "Table... Pawris... yes..."
+    clear_dialog
+    choice:
+        talk nasty talk "Let's just convince her we've paid her. Fuck it. What have we got to lose?"
+        roll landlady_eiffel_deal_nasty nasty 20 "[Attempt to convince your Landlady that you totally just landed her a big sack with a pound sign on it to pay your entire years rent up front]":
+            success "":
+                "Your Landlady nods."
+                clear_dialog
+                talk landlady talk "Yes... paid your rent... yes..."
+                clear_dialog
+                talk orb talk "You should get that in writing."
+                clear_dialog
+                choice:
+                    talk landlady talk "Paid your rent... table..."
+                    "\\"Could I get that in writing?\\"":
+                        "Your Landlady nods and totters away into her cavernous house."
+                        clear_dialog
+                        play sound doorclose
+                        animate #narrat-app narrat-screenshake
+                        run transition_instant generic_winter
+                        "She returns a few moments later with a scrap of paper; the words <span class'writtenText'>'rent paid'</span>, scrawled across it with her signature. She passes it to you, and vacantly closes the door on you."
+                complete_objective landlady rent
+                complete_quest landlady landladyNegotiateSuccess
+                unlock_achievement invest_landlady
+                clear_dialog
+                talk orb talk "Well. Not the most orthodox approach to dealing with landlords, but it worked, I suppose."
+                talk nasty talk "Orbthodox hahahaha."
+                clear_dialog
+                choice:
+                    talk orb talk "Yes. Sure."
+                    "<span class='prompt'>[[CONTINUE]]</span>":
+                        play sound spendAction
+                        talk lovely talk "You don't think she'll try and get revenge on Ghost when she realises she's been had, do you?"
+                        if $data.global.orbMonoxideLeak:
+                            talk orb talk "What's she going to do? Let Ghost get even *more* carbon monoxide poisoning from that incorrectly fitted stovetop?"
+                        talk nasty talk "Worst comes to worst we know where she lives, and I know some three easy tricks to get away with arson you won't believe. Tip one: Glass all witnesses."
+                        jump goToGameMap
+            failure "":
+                "The moment you utter the word 'money' Your Landlady snaps out of her haze. Perhaps you put too much inflection on it? Either way, Your Landlady is, unfortunately, no longer a vegetable."
+                clear_dialog
+                talk landlady talk "Sorry, I must have dozed off... how impolite of me. Anyway, I'll be collecting your rent money now, please."
+                jump landlady_menu

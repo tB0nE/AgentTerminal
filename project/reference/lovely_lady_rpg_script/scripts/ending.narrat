@@ -1,0 +1,668 @@
+ending:
+    clear_dialog
+    run transition_instant generic_wake
+    set data.ending.visitors 0
+    if $data.ending.presentWriter:
+        add data.ending.visitors 1
+    if $data.ending.presentSinner:
+        add data.ending.visitors 1
+    if $data.ending.presentWeapon:
+        add data.ending.visitors 1
+    if (!= (quest_succeeded? landlady) true):
+        set data.ending.presentLandlady true
+        add data.ending.visitors 1               
+    if (objective_started? houseSnake boneman):
+        set data.ending.presentBoneman true
+        add data.ending.visitors 1
+    
+    stop music
+    play sound punch
+    run transition_pain
+    "THUMP."
+    clear_dialog
+    choice:
+        talk orb talk "Ghost? You okay there?"
+        "Why does my head hurt so much?":
+            choice:
+                talk nasty talk "Because you just fell out of bed. Haha. Wanker."
+                "Why did I fall out of bed!":
+                    if (|| $data.ending.presentBoneman $data.ending.presentWriter $data.ending.presentSinner $data.ending.presentWeapon $data.ending.presentLandlady):
+                        talk lovely talk "Because someone is knocking your door, and you subconsciously tried to go answer it while you were still in dream land."
+                        talk nasty talk "Bitch said dream land."
+                    else:
+                        talk lovely talk "Because no one is knocking your door. I guess you're so used to it that the lack of knocking caused your body to violently convulse in shock."
+    if (!= (quest_succeeded? fixHouse) true):
+        clear_dialog
+        run transition_cold
+        "A cold jolt forces its way up your spine like a snowmans cumshot."
+        "You are freezing. So so cold even."
+        if (&& (== (has_item? cig) true) (!= $data.global.nastyCigSave true)):
+            if (roll ending_cig_nasty nasty 40):
+                set data.global.nastyCigSave true
+                talk nasty talk "Shit, my mate Baz almost froze to death after a snowman fell on him. Light a fag. It'll keep you going."
+            else:
+                wait 1000
+        clear_dialog
+        choice:
+            "You shiver. Your little teeth chatter. This is it."
+            "<span class='gold'>[Focus really hard on your love for women]</span>" if (== $data.dawnsight.spokeToDawnsight true):
+                empty_layer 1
+                play sound warm
+                "The warmth in your heart keeps you going... for now. Fix your roof, please."
+                clear_dialog
+            "[Reach for your cigarettes and light one in an desperate attempt to warm up]" if (&& (== (has_item? cig) true) (== $data.global.nastyCigSave true)):
+                "Your little arm shivers and wobbles, your fingers are so numb they barely work, but you manage to grab a cigarette and light it. It's not very warm, but it's enough to stave off the dark."
+                clear_dialog
+                empty_layer 1
+                choice:
+                    talk orb talk "You should really fix your roof, Ghost."
+                    "I- I'm fine... [Shiver]":
+                        unlock_achievement cold
+                        run skip
+            "Orb... Lovely Lady... Nasty Girl... I... I... [Catch your death of cold]":
+                unlock_achievement death_cold
+                empty_layer 1
+                jump ending_credits
+    if (quest_succeeded? dream):
+        clear_dialog
+        choice:
+            "You recall your dream. The fire. The sword. This was your destiny. The knocking downstairs is perhaps but the next step on your crusade."
+            "Orb, I think you might be an angel sent by her holiness to aid me in my Jihad against women feeling sad.":
+                choice:
+                    talk orb talk "...Okay. I don't think I am, but that's nice, Ghost."
+                    "I think you are. Thank you for your help :)":
+                        talk orb talk "...No problem."
+    if $data.ending.presentBoneman:
+        choice:
+            "More knocking. Who could it be?"
+            "[Go downstairs and open the front door]":
+                jump ending_boneman
+    clear_dialog
+    set_screen day_five
+    play sound sting_day
+    wait 8000
+    set_screen generic_wake
+    if $data.ending.presentLandlady:
+        jump ending_landlady_intro
+    if (|| $data.ending.presentWriter $data.ending.presentSinner $data.ending.presentWeapon):
+        jump ending_friends
+    else:
+        jump ending_alone
+
+ending_boneman:
+    run transition morning_boneman
+    clear_dialog
+    play sound boneman
+    stop music
+    "<span class='boardgame'>You open your door and The Boneman appears.</span>"
+    unlock_achievement boneman
+    if $data.ending.presentLandlady:
+        clear_dialog
+        talk landlady talk "Excuse me? Excuse me sir? Sir! You're blocking *my* front door."
+        run transition ending_landlady_boneman
+        clear_dialog
+        "<span class='boardgame'>The Boneman awkwardly looks over his shoulder.</span> Your Landlady is stood behind him, arms crossed. Chest puffed out in a display of frustration."
+        clear_dialog
+        talk landlady talk "The young 'lady' hasn't paid her rent, so I'm here to evict her. Unless your business is more important I'd suggest you come back later, sir."
+        clear_dialog
+        "Her tone of voice is very much *not* suggesting. <span class='boardgame'>The BoneMan looks at you awkwardly.</span>"
+        clear_dialog
+        choice:
+            talk boneman talk "<span class='boardgame'>Au weia Schatzi, woit einglich de Hausschlange rächn, owa hiatz iss a wengal unguad woan. Des ane moi lossmas guat sei, owa, ah, schreibs das hinters Ohr, gell?</span>"
+            "Ja, Bitte.":
+                play sound boneman
+                "<span class='boardgame'>The boneman unappears.</span>"
+                run transition ending_landlady
+                unlock_achievement boneman_landlady
+                if $data.ending.presentWriter:
+                    clear_dialog
+                    choice:
+                        talk writer talk "Would <span class='writtenText'>'scare le bleu'</span> be too obvious?"
+                        "\\"Oh! I didn't see you there! Hello!\\" [Do a gay little wave]":
+                            talk writer talk "Morning, Ghost."
+                if $data.ending.presentSinner:
+                    clear_dialog
+                    choice:
+                        talk sinner talk "I'm choosing to chalk that up to all the oestradiol I smoked this morning."
+                        "\\"Oh! I didn't see you there! Hello!\\" [Do a gay little wave]":
+                            talk sinner talk "Madame."
+                if $data.ending.presentWeapon:
+                    clear_dialog
+                    choice:
+                        talk weapon talk "Haven't had The BoneMan appear in a while. Good to see he's still doing well for himself..."
+                        "\\"Oh! I didn't see you there! Hello!\\" [Do a gay little wave]":
+                            talk weapon talk "Mhm. Morning."
+                if (&& $data.ending.presentWriter $data.ending.presentSinner $data.ending.presentWeapon)
+                    unlock_achievement ending_busy
+                jump ending_landlady
+            "Nein, ich würde lieber sterben, wenn das okay ist?":
+                talk boneman talk "<span class='boardgame'>Oh. Oh. Alles klar.</span>"
+                clear_dialog
+                "<span class='boardgame'>The BoneMan turns once again to your Landlady.</span>"
+                clear_dialog
+                talk boneman talk "<span class='boardgame'>Bis boid Schatzerl.</span>"
+    jump ending_credits
+
+ending_landlady_intro:
+    if (|| $data.ending.presentWriter $data.ending.presentSinner $data.ending.presentWeapon):
+        play sound doorknock
+        choice:
+            "The knocking at your door sounds increasingly competitive."
+            "[Go downstairs and open the front door]":
+                run transition generic_winter
+                "You open your front door. What will be behind it? Cold air, mostly. Autumn is growing old."
+                clear_dialog
+                if $data.ending.presentWriter:
+                    clear_dialog
+                    talk writer talk "Ghost."
+                if $data.ending.presentSinner:
+                    clear_dialog
+                    talk sinner talk "Madame."
+                if $data.ending.presentWeapon:
+                    clear_dialog
+                    talk weapon talk "Mhm. Morning."
+                clear_dialog
+                run transition ending_landlady
+                if (== $data.ending.visitors 2):
+                    talk landlady talk "Excuse me, but you're blocking *my* front door."
+                    clear_dialog
+                    "Your Landlady barges past your slightly confused acquaintance and huffs. Her automobile is still running in the background, growling for her."
+                else:
+                    talk landlady talk "Excuse me, you lot, but your little mob is blocking *my* front door."
+                    clear_dialog
+                    "Your Landlady barges past your slightly confused acquaintances and huffs. Her automobile is still running in the background, growling for her."
+    else:
+        set data.ending.alone true
+        choice:
+            "The knocking at your door sounds increasingly frustrated."
+            "[Go downstairs and open the front door]":
+                "You open your front door. What will be behind it? Cold air, mostly. Autumn is growing old."
+                run transition ending_landlady
+                clear_dialog
+                talk landlady talk "You."
+                clear_dialog
+                "Your Landlady huffs. Her automobile is still running in the background, growling for her."
+    clear_dialog
+    choice:
+        talk landlady talk "It's nine o'clock, woman. People with jobs are up by now, you know?"
+        "\\"You are a landlady.\\"":
+            talk landlady talk "And it's a lot of work!"
+        "\\"I'm awake!\\"":
+            "Your Landlady looks you up and down. You're very clearly half asleep."
+            clear_dialog
+            talk landlady talk "Barely."
+    jump ending_landlady
+
+ending_landlady:
+    clear_dialog
+    talk landlady talk "I made myself very clear that if you did not pay your rent by yesterday evening I would be taking action to secure *my* cottage from your squatting."
+    talk landlady talk "If I was a worse woman I'd not even give you notice, but unlike you I *respect* others, not exploit them. You need to be out of this place in a week."
+    talk landlady talk "I *will* be charging for any damage, so don't you dare sell any of the copper to the local, good for nothing birds."
+    if $data.ending.presentWriter:
+        run transition ending_landlady_writer
+        clear_dialog
+        "The Pulp Writer, who has been listening to Your Landlady quietly as a blood vessel on her temple bulges, starts gesticulating continentally."
+        clear_dialog
+        talk writer talk "Si ces salauds de sociaux-démocrates ne nous avaient pas trahis à Lyon, la révolution se serait déjà propagée ici et les gens comme vous seraient suspendus aux FUCKING lampadaires!"
+        clear_dialog
+        "She spits some grey, slightly bloody spit into the dirt."
+        clear_dialog
+        talk landlady talk "This is *Anglia*, woman. We speak *Anglian*, not gobbledygook here, thank you very much. Why don't you hurry on down to Doughver and hop on a dinghy back to... to... whatever part of Afrika you come from, hmm?"
+        if (roll ending_landlady_mort_lovely lovely 20):
+            talk lovely talk "If you're going to make a 'menaces d'mort' one supposes its best to do it in a language your target can't understand well enough to prosecute you for."
+            talk nasty talk "The Anglian swearing was a nice touch though, gets the point across. That's debate club 101."
+        else:
+            wait 1000
+    elseif $data.ending.presentSinner:
+        run transition ending_landlady_sinner
+        clear_dialog
+        talk sinner talk "Forget ye not, woman, of the feast that awaits you after the end. An endless banquet of brick and mortar and copper."
+        clear_dialog
+        "Your Landlady looks up at The Sinner, eyes wide."
+        clear_dialog
+        talk landlady talk "W- what!?"
+        clear_dialog
+        talk sinner talk "Your eyes are the wrong colour. Your eyes have the wrong glaze."
+        clear_dialog
+        "Your Landlady attempts to splutter out a response, but quickly gives up and looks back to you with a scowl."
+        clear_dialog
+        talk landlady talk "Find better company."
+    if (&& (== $data.ending.alone true) (== (random 0 100) 100)):
+        clear_dialog
+        "Your Landlady is interrupted by a great lumbering sound. Could it be?"
+        run transition ending_elemental
+        "Oh my god, yes, yes it is, it's an Earth Elemental."
+        clear_dialog
+        talk landlady talk "!?!?!?"
+        complete_quest landlady
+        clear_dialog
+        play sound explosion
+        animate #narrat-app narrat-screenshake
+        "The Earth Elemental fires a boulder out of its mouth, instantly obliterating Your Landlady, before continuing down the lane."
+        run transition_ending "house"
+        clear_dialog
+        talk orb talk "Huh. Well. That solves that problem, I suppose."
+        talk lovely talk "Walkies!?"
+        talk nasty talk "Walkies."
+        jump ending_shiver
+    else:
+        clear_dialog
+        choice:
+            "Your Landlady turns and storms away."
+            "\\"Wait! Can't I pay you now! I have money!\\"" if (<= $data.landlady.rentPrice $stats.money.value):
+                "Your Landlady stops. Back still to you, and clenches her fists."
+            "\\"Wait! Can't I pay you in a day or two! I'll get money!\\"":
+                "Your Landlady stops. Back still to you, and clenches her fists."
+        clear_dialog
+        talk landlady talk "No. I made my terms very clear. I know your type. Mark my words, if I don't get you out of this place in a month you'll have made off with all the metal and roof tiles like... like... like one of *those* people."
+        if (roll ending_landlady_slur_orb orb 40):
+            talk orb talk "She just had to desperately restrain herself from dropping an ethnic slur."
+        else:
+            wait 1000
+        clear_dialog
+        play sound caraway 3
+        run transition_ending "house"
+        if $data.global.smashedCar:
+            "Your Ladylady clambers into her somewhat worse for wear automobile and drives away. She is furious."
+        else:
+            "Your Landlady clambers into her automobile and drives away. She is furious."
+        if $data.ending.alone:
+            clear_dialog
+            choice:
+                talk lovely talk "Dearie me. She seems a bit upset."
+                "I think I'm going to get evicted. Pretty good bit, right? [Nervously laugh]":
+                    talk orb talk "Not really, no."
+                "Should I steal all the metal and roof tiles from the cottage while I still have time?":
+                    talk nasty talk "Could do. Fuck it. I sold half the copper wiring in Lunden a few years back."
+            jump ending_shiver
+        else:
+            if $data.ending.presentWriter:
+                clear_dialog
+                choice:
+                    talk writer talk "She seems upset."
+                    "\\"I think I'm going to get evicted. Pretty good bit, right?\\" [Nervously laugh at The Pulp Writer]":
+                        talk writer talk "Yes. Very funny, Ghost."
+                    "\\"Do you want to help me steal all the metal and roof tiles from the cottage while I still have time?\\"":
+                        choice:
+                            talk writer talk "Tempting. I'm not sure I fancy carting anything across town though, do you?"
+                            "\\"Not really. I'm a very weak little rat. Still.\\" [Pick up a rock and hurl it though one of the windows]":
+                                play sound thud
+                                "The rock bounces off of the window and lands in a nearby bush."
+                                clear_dialog
+                                talk writer talk "Hah. Oh Ghost. Fille étrange."
+                clear_dialog
+                "The Pulp Writer sniffles. Sighs."
+                clear_dialog
+                talk writer talk "Whatever, she is a capitalist whore and I have room in my apartment, if you need it."
+                if $data.ending.presentSinner:
+                    clear_dialog
+                    talk sinner talk "As do I."
+                    clear_dialog
+                    "The Pulp Writer frowns."
+                    if (roll ending_landlady_cleaner_lovely lovely 20):
+                        talk lovely talk "<span class='writtenText'>'Probably hers is cleaner...</span>"
+                    else:
+                        wait 1000
+            else:
+                if $data.ending.presentSinner:
+                    clear_dialog
+                    choice:
+                        talk sinner talk "Bitch."
+                        "\\"I think I'm going to get evicted. Pretty good bit, right?\\" [Nervously laugh at The Sinner]":
+                            talk sinner talk "I suspect you might do, yes."
+                        "\\"Do you want to help me steal all the metal and roof tiles from the cottage while I still have time?\\"":
+                            talk sinner talk "Not really, no."
+                    clear_dialog
+                    "The Sinner muses on something. A mint vapour curls from the corner of her mouth."
+                    clear_dialog
+                    talk sinner talk "Whatever. You're welcome to stay at my place, if you need to."
+                    if $data.ending.presentWriter
+                        talk writer talk "I also have room in my apartment, if you need it."
+                        "The Sinner frowns."
+                        if (roll ending_landlady_cleaner_lovely lovely 20):
+                            talk lovely talk "<span class='writtenText'>'Mine is probably cleaner...</span>"
+                        else:
+                            wait 1000
+            if $data.ending.presentWeapon:
+                clear_dialog
+                "The Weapon is quiet."
+                if (roll ending_landlady_weapon_lovely lovely 20):
+                    if $data.weapon.redHanded:
+                        talk lovely talk "They're wondering if they need to keep watch on their metal and roof tiles."
+                    else:
+                        talk lovely talk "They're not all that surprised you didn't pay your rent."
+                else:
+                    wait 1000
+        jump ending_walk
+
+ending_friends:
+    play sound doorknock
+    choice:
+        "More knocking. Who could it be?"
+        "[Go downstairs and open the front door]":
+            run skip
+    run transition_ending "house"
+    if $data.ending.presentWriter:
+        clear_dialog
+        talk writer talk "Ghost."
+    if $data.ending.presentSinner:
+        clear_dialog
+        talk sinner talk "Madame."
+    if $data.ending.presentWeapon:
+        clear_dialog
+        talk weapon talk "Mhm. Morning."
+    if (&& $data.ending.presentWriter $data.ending.presentSinner):
+        clear_dialog
+        "The Pulp Writer and The Sinner appear to be engaged in what could only be described as a staring contest but with smoking."
+        "The Pulp Writer is the first to notice you have opened the door, but she does not look away from The Sinner. She will not be so easily defeated."
+        clear_dialog
+        talk writer talk "Who is this woman, Ghost. Why is she so tall."
+        talk sinner talk "I'm a transexual. I'm allowed to be tall."
+        talk writer talk "So am I. Doesn't give me the right to go towering over women, does it?"
+        clear_dialog
+        talk orb talk "Unsure what's going on here. The vibes are fucked."
+    jump ending_walk
+
+ending_walk:
+    if $data.ending.presentWeapon:
+        "The Weapon doesn't stand too close. They keep looking off to the woods."
+        if (roll ending_friends_eager_lovely lovely 20):
+            if (|| $data.ending.presentWriter $data.ending.presentSinner):
+                talk lovely talk "They're eager to get moving and weren't expecting any company."
+            else:
+                talk lovely talk "They're eager to get moving."
+        else:
+            wait 1000
+    if $data.ending.presentWeapon:
+        clear_dialog
+        talk weapon talk "I'm eager to get moving."
+        if $data.ending.presentSinner:
+            clear_dialog
+            "The Sinner looks at The Weapon. She's considerably taller than them."
+            clear_dialog
+            talk sinner talk "Might I ask your name?"
+            clear_dialog
+            talk weapon talk "Uh..."
+            clear_dialog
+            "The Weapon stammers for a bit, unused to being spoken to normally."
+            clear_dialog
+            choice:
+                talk sinner talk "Ah, shy. I see. Perhaps you can introduce me, Ghost?"
+                "\\"This is my neighbour! They're really into being depressed!\\"":
+                    talk weapon talk "I am not <span class='writtenText'>'really into being depressed'</span>, I'm <span class='writtenText'>'really into being a realist'</span>."
+                    talk weapon talk "I know what's going on in the world, and react to it accordingly. I know the end is coming. That's not depressing, it's just true."
+            clear_dialog
+            talk sinner talk "Ahh... it is good to meet someone else who has seen behind the mask. I think we shall enjoy talking together. Tell me, do you have any theories on when the Endzeit will come for us? The writhing?"
+            clear_dialog
+            "The Weapon blushes."
+            clear_dialog
+            if $data.weapon.writeBook:
+                talk weapon talk "I... sure. I've been thinking of writing them into a book, actually..."
+                clear_dialog
+                talk sinner talk "Have you now? I look forward to receiving a signed copy."
+            else:
+                talk weapon talk "I... sure."    
+            if (roll ending_walk_sure_nasty nasty 40):
+                talk nasty talk "Oh these two are *so* going to fuck, and it's not going to be particuarly good for either of them. Good for them! Good for them!" 
+            else:
+                wait 1000
+        clear_dialog
+    if $data.ending.presentSinner:
+        clear_dialog
+        "The Sinner looks at you, head cocked."
+        clear_dialog
+        choice:
+            talk sinner talk "You look nice today. A little unkempt. Have you washed?"
+            "\\"My lawyer has advised me not to comment on my cleanliness at this time.\\"":
+                "She licks her lips."
+                clear_dialog
+                talk sinner talk "Mhm. Well, I am sure we will find out."
+            "\\"Oh you *know* I didn't wash today.\\"":
+                "She licks her lips."
+                clear_dialog
+                talk sinner talk "I look forward to finding out just how true that is."
+            "\\"I didn't wash today no, but I have some bath water left in the bath from the other day in there just in case I need to.\\"" if $data.ghost.keptBathwater:  
+                "She licks her lips."
+                clear_dialog
+                talk sinner talk "Well, I've never turned down a wine tasting before..."
+                clear_dialog
+                talk nasty talk "Nice."
+                talk lovely talk "Nasty!"
+        if $data.ending.presentWriter:
+            clear_dialog
+            "The Sinner peers down at your other guest, The Pulp Writer."
+            clear_dialog
+            talk sinner talk "And you, you must be the writer of mon livre prefere? Oui? I recognise you from the photograph in the dust jacket."
+            clear_dialog
+            talk writer talk "Vote... votre livre préféré ?"
+            clear_dialog
+            "The Pulp Writer looks aghast. Utterly unused to being told this. If she could blush she would. The Sinner simply smiles and leans into you. She whispers into your ear."
+            clear_dialog
+            if $data.ending.presentWeapon:
+                talk sinner talk "Ghost, I am going to fuck both of your friends."
+            else:
+                talk sinner talk "Ghost, I am going to fuck your friend."
+            clear_dialog
+            choice:
+                talk nasty talk "That was a statement of fact, not a request for permission."
+                "[Salute The Sinner] \\"Godspeed, whore.\\"":
+                    talk sinner talk "Merci."
+                "\\"But what if *I* want to get fucked. Why is nobody thinking about *my* needs!\\"":
+                    talk sinner talk "Who said I wasn't? Maybe me fucking your friends *is* what you need? Did you never consider this?"
+    clear_dialog
+    if $data.ending.presentWeapon:
+        if (|| $data.ending.presentSinner $data.ending.presentWriter):
+            talk weapon talk "I uh, I'm going to go wait by the woods. Don't take too long."
+            run transition_ending "house_noWeapon"
+            clear_dialog
+            unlock_achievement ending_weapon
+            "They march off, a slight limp on their left leg."
+            if (roll ending_walk_tension_lovely lovely 20):
+                talk lovely talk "They're sensing too much weird sexual tension for their liking. Giving you a chance to get it out of your systems."
+            else:
+                wait 1000
+        else:
+            clear_dialog
+            choice:
+                talk weapon talk "We going for a walk or not?"
+                "\\"I think so, yes!\\"":
+                    talk weapon talk "Mhm."
+                    clear_dialog
+                    unlock_achievement ending_weapon
+                    run transition_ending "house_noWeapon"
+                    "The Weapon turns and starts marching towards the woods. A slight limp on their left leg."
+                    clear_dialog
+                    choice:
+                        talk nasty talk "Going to be some *great* conversation on this walk, huh?"
+                        "It's okay. I think The Weapon is warming up to the weird shit that comes out of my mouth. I'm sure we'll have a lovely time.":
+                            talk lovely talk "I'm sure!"
+    clear_dialog
+    if $data.ending.presentWriter:
+        talk writer talk "Thank you for inviting me, Ghost. I have not gotten out for une petite randonnée for a while."
+        if (roll ending_walk_sexy_lovely lovely 40):
+            talk lovely talk "She's intentionally playing up the Frankish because she thinks you find it sexy."
+            talk nasty talk "Bloody well do as well, cor!"
+        else:
+            wait 1000
+        clear_dialog
+        choice:
+            "You look at the scrungly woman. She's so pretty."
+            "[Give her a little kiss]":
+                run transition_ending "kiss_writer"
+                "You take her by surprise. She blows cigarette smoke into your mouth by accident, and you start coughing."
+                clear_dialog
+                choice:
+                    talk writer talk "Goodness me. Where did this come from?"
+                    "\\"Pretty lady. Simple as.\\"":
+                        talk writer talk "Simple as..."
+                    "[Shrug] \\"Felt like it.\\"":
+                        talk writer talk "Ah. <span class='writtenText'>'Vibes'</span> usually you call this, yes?"
+                clear_dialog
+                "She kisses you back. Just a little peck on the cheek."
+            "[Don't give her a little kiss (evil route)]":
+                talk nasty talk "Virgin."
+        clear_dialog
+        unlock_achievement ending_writer
+        // talk weapon talk "Mhm. Morning."
+        // clear_dialog
+        "The Pulp Writer lights a cigarette, and starts to walk down the lane, slowly disappearing into the morning fog. The glow from her smoke signalling her position like a sexy, scrungly angler fishes lure."
+        "She sneezes, it's muffled by the fog. It's cold out. Autumn is starting to turn to winter."
+        clear_dialog
+        talk writer talk "Allons-y, Ghost."
+        clear_dialog
+        "The Pulp Writer is not so good with cold. You're her little radiator now, Ghost. You better catch up to her."
+        clear_dialog
+        if $data.ending.presentSinner:
+            run transition_ending "kiss_sinner_one"
+            choice:
+                talk sinner talk "My my. How sweet. You'll make me jealous, Ghost. Or is that why you invited me along? Usually it's me doing the cucking."
+                "[Stand on your tippy toes and give her a little kiss too]":
+                    run transition ending_kiss_sinner_three
+                    choice:
+                        "Her lips taste like rose. She bites your tongue, very gently."
+                        "[Pull away from her] \\"Yowch!\\"":
+                            "The Sinner snickers."
+                "\\"I'll be honest I didn't plan on cucking you today, but I think I'll roll with it.\\"":
+                    talk sinner talk "By all means. "
+                    run transition ending_kiss_sinner_two
+                    clear_dialog
+                    "She leans down and kisses the top of your head. Snickers cruelly."
+                    if (roll ending_walk_cruel_nasty nasty 20):
+                        talk nasty talk "The revenge she is planning for you... fucking hel, it's going to be so hot."
+                    else:
+                        wait 1000
+                "\\"I'll be honest, this was my plan all along. Ever since I woke up with no memory my sole objective has been to cuck you specifically.\\"":
+                    talk sinner talk "Ah, to be a womans muse... how empowering."
+                    run transition ending_kiss_sinner_two
+                    clear_dialog
+                    "She smirks, before leaning down and kissing the top of your head. She snickers cruelly."
+                    if (roll ending_walk_cruel_nasty nasty 20):
+                        talk nasty talk "The revenge she is planning for you... fucking hel, it's going to be so hot."
+                    else:
+                        wait 1000
+            clear_dialog
+            talk sinner talk "Come, let us be off."
+            clear_dialog
+            unlock_achievement ending_sinner
+            "She marches forth to the woods."
+            jump ending_end
+    clear_dialog
+    if $data.ending.presentSinner:
+        choice:
+            "You look at the tall woman. She's so tall. She's so fucking tall. What the fuck."
+            "[Stand on your tippy toes and give her a little kiss]":
+                run transition_ending "kiss_sinner_three"
+                choice:
+                    "Her lips taste like rose. She bites your tongue, very gently."
+                    "[Pull away from her] \\"Yowch!\\"":
+                        "The Sinner snickers."
+                        run transition_ending "kiss_sinner_one"
+            "[Don't give her a little kiss (evil route)]":
+                talk nasty talk "Virgin."
+                run transition_ending "kiss_sinner_two"
+                clear_dialog
+                "She smirks, before leaning down and kissing the top of your head. She snickers cruely."
+        clear_dialog
+        talk sinner talk "Come, let us be off."
+        clear_dialog
+        unlock_achievement ending_sinner
+        // talk weapon talk "Mhm. Morning."
+        "She marches forth to the woods."
+    jump ending_end
+
+ending_alone:
+    clear_dialog
+    choice:
+        "No one is knocking at your door, but you feel you should go and check no one is there anyway, just in case."
+        "[Go downstairs and open the front door]":
+            run transition generic_door
+    jump ending_shiver
+
+ending_shiver:
+    clear_dialog
+    "The fog makes you shiver. It's a cold, lonely morning."
+    clear_dialog
+    choice:
+        talk orb talk "There could have been someone here for you, you know. If you'd done things differently."
+        "Eh. Maybe there will be tomorrow.":
+            talk orb talk "Maybe. I don't think we'll see that in this story though."
+            clear_dialog
+            talk poppy talk "Start a new game and try to get a different ending!"
+        "Oh. That's sad. I'd like to go back and redo some of my choices so there can be a woman here in front of me, please.":
+            talk poppy talk "Start a new game and try to get a different ending!"
+    if $data.intro.fuckNarrator:
+        clear_dialog
+        talk nasty talk "Oi love, did you get my DM?"
+        talk poppy talk "I did! I really liked the bit about my armpits, thank you, Nasty Girl!"
+        unlock_achievement ending_poppy
+        clear_dialog
+        talk lovely talk "Goodness me, looks like a woman did appear after all!"
+        talk orb talk "Talking about armpits with the non-canon self-insert... What a grim way to end the story..."
+        talk poppy talk "Almost as grim as my pits are LOL."
+        talk nasty talk "LOL."
+    else:
+        unlock_achievement ending_alone
+    clear_dialog
+    choice:
+        talk lovely talk "So darling, what's the plan for today?"
+        "I don't know. Maybe just wander around some more. Do some tasks and talk to women etc.":
+            jump ending_end
+
+ending_end:
+    //run transition generic_door
+    //wait 2000
+    if (!= (quest_succeeded? hrt) true):
+        if (!= $data.ending.alone true):
+            run transition generic_door
+        talk nightmare talk "<span class='nightmare'>and here we are, together still. you really do seem to love me really, don't you? it's like you *enjoy* the nightmare.</span>"
+        if (has_item? hrt):
+            talk nightmare talk "<span class='nightmare'>what? you went out of your way to get a hold of the experimental drugs you kept whining about, but were too scared to take them? having doubts huh?</span>"
+            talk nightmare talk "<span class='nightmare'>for the best really. they're irreversible, you know?</span>"
+        else:
+            choice:
+                talk nightmare talk "<span class='nightmare'>i'm glad though. i enjoy your company oh so much :-)</span>"
+                "I'll be getting rid of you soon, when I get my hrt... I promise.":
+                    talk nightmare talk "<span class='nightmare'>*if* you get your hrt</span>"
+        clear_dialog
+        talk nightmare talk "<span class='nightmare'>whatever happens, just know that i'm with you. i'm with you to the end, </span><span class='nightmareQuote'>'ghost'</span><span class='nightmare'>.</span>"
+    clear_dialog
+    run transition_ending "one"
+    choice:
+        "Daffodil Lane is quiet now. It might snow next week. A zeppelin disappears into the clouds above Bluehills. Another day in our lovely ladyverse."
+        "So is this it? We just keep going on? We just continue like this day after day after day?" if (!= (quest_succeeded? houseSnake) true):
+            choice:
+                talk orb talk "That's generally how life works, yes."
+                "I thought it was the end? [Look at the player] Of the game I mean.":
+                    run skip
+        "So is this it? We just keep going on? We just continue like this, feeding the House Snake day after day after day?" if (quest_succeeded? houseSnake):
+            choice:
+                talk orb talk "That's generally how life works once you've befriended the House Snake, yes."
+                "I thought it was the end? [Look at the player] Of the game I mean.":
+                    run skip
+    if (&& (== (objective_completed? houseSnake hungry) true) (!= (objective_started? houseSnake boneman))):
+        run transition_ending "two"
+    talk lovely talk "The end? How sad! I was having such a darling time!"
+    run transition_ending "three"
+    talk orb talk "Time doesn't just have an arbitrary cut off point, Ghost. It keeps going and it never ends."
+    talk nasty talk "Until you die, ey?"
+    run transition_ending "four"
+    if (roll ending_end_die_orb orb 20):
+        talk orb talk "Until you die, yes. Fortunately I'm fairly certain we aren't dying just yet."
+    else:
+        talk orb talk "Until you die, yes."
+    clear_dialog
+    wait 2000
+    run transition_ending "five"
+    wait 8000
+    jump ending_credits
+
+ending_credits:
+    clear_dialog
+    stop music
+    stop ambient
+    stop sound
+    play music intro
+    run transition_instant credits
+    wait 10000
+    stop music
+    menu_return

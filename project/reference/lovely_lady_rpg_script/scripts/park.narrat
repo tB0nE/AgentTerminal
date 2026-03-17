@@ -1,0 +1,111 @@
+park:
+    play sound click
+    choice:
+        "Bluehills park promises to underwhelm you, so you might as well get it over with."
+        "[Explore the park] <span class='prompt'>[[-1 ACTION]]</span>":
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            run transition_black park
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    set data.global.visitedPark true
+    "The park is strange, somehow. A little oasis of greenery amongst the dull brown palette of the city."
+    "A sparse selection of trees unnaturally scattered around. One has the word <span class='writtenText'>'merde'</span> scratched into it, for some reason."
+    clear_dialog
+    "It feels almost unnerving. Artificial nature might look like nature, but it is not nature. Hedgerow leaves and managed lawns pulled taut over a grinning iron skull."
+    "The skin of nature stretched over the face of civilisation, she who is too ashamed to bare openly her true form. She knows what would happen if ever she did away with the vizard."
+    clear_dialog
+    "<span class='writtenText'>Act I, Scene II:</span>"
+    "<span class='writtenText'>'No mask? No mask!'</span>"
+    clear_dialog
+    clear_dialog
+    "Still, it deceives you into finding it pretty, lures you into its trap, and you can hear birds sing merrily from the trees. Perhaps it isn't so bad."
+    clear_dialog
+    "There's a statue towards the centre of the park. It depicts an academic, you can tell because of their big, dorky glasses. In one hand they clutch a book, and in the other a quill."
+    "Excitingly this statue is *also a fountain*. Water cascades from the nib at such an angle as to suggest motion, that this stone squirrel is sweeping her instrument t'wards their work to dot the final sentence of their thesis. It's an impressive piece of engineering, if nothing else."
+    clear_dialog
+    if (roll park_statue_orb orb 20):
+        talk orb talk "Bluehills University opened its doors in 1404, to the children of the wealthy landed gentry, at least. This statue was built in 1904, to celebrate the universities 500th anniversary."
+        talk orb talk "It depicts the 1904 graduate Olive Ogilvy, though locals 'affectionately' call them Olive the Obnoxious Overachiever."
+    else:
+        wait 1000
+    clear_dialog
+    "Beside Olive sits a smaller brass statue of Wazzok the Warsheep. A plaque speaks fondly of how she was found in the hills of Rome, taken in by the 1st Bluehills Rifles, and marched with them to victory."
+    if (&& (== (objective_started? writer article) true) (!= (objective_completed? writer article) true) (!= (objective_completed? writer article) true) (== $stats.day.value 2)):
+        set data.ghost.sawWazzok true
+        talk orb talk "There's an easy win on the war hero article front..."
+        clear_dialog
+    "In the north corner of the park there's a small hill, maybe two meters tall. 'Hill', in this context meaning 'small pyramid of dirt with a staircase leading to its peak'."
+    "A grim looking fox is stood, chain smoking, beside it. They hold a sign which advertises climbs to the top of 'Mount Bluehills' for the low low price of one Anglian pound."
+    clear_dialog
+    talk orb talk "This is literally the shittest thing I have ever seen."
+    if (roll park_launder_orb orb 40):
+        talk orb talk "It's also a money laundering thing. Someone on the Bluehills city council is playing us for fools."
+    talk nasty talk "We should go kick it over."
+    talk orb talk "It's made of one ton of rock and dirt, Nasty Girl, it's not a sandcastle."
+    clear_dialog
+    choice:
+        talk lovely talk "'Tis rather exciting, I think! I dare say I speak for all of us when I say we should pay the toll and ascend to the summit!"
+        "Good idea, Lovely Lady! [Pay one Anglian pound to climb to the top of the lump of dirt and experience crushing depression at a negligibly higher altitude]" if (>= $stats.money.value 1):
+            jump park_mount
+        "Good idea, Nasty Girl! [Run up to the pile of dirt and give it a good hard kick]":
+            jump park_mountKick
+
+park_mount:
+    clear_dialog
+    set data.park.mountClimb true
+    add_stat money -1
+    play sound coins
+    choice:
+        "The attendant takes your money and stands aside from the stairs. They blow a big lungful of smoke into the air, which you assume means 'have fun'."
+        "[Climb the stairs]":
+            "You climb the stairs and reach the top of the small mound of dirt."
+            clear_dialog
+            choice:
+                talk lovely talk "Goodness! That was exciting wasn't it!"
+                "Holy crackers! I'm so high up!":
+                    talk lovely talk "I'm so happy! Wheeee!"
+                    choice:
+                        talk orb talk "Riveting. Can we get going?"
+                        "[Get going] <span class='prompt'>[[CONTINUE]]</span>":
+                            play sound spendAction
+                            jump goToGameMap
+                "This is so shit.":
+                    talk orb talk "What did you expect? It's a small mound of dirt that you just paid to clamber up."
+                    if (! $data.park.kickedMount):
+                        choice:
+                            talk nasty talk "Let's go back down to the bottom and kick this piece of shit over."
+                            "Agreed. [Descend the stairs, walk a few meters away and then run back towards Mount Bluehills and use the momentum to kick it over]":
+                                jump park_mountKick
+                            "Let's not. [End this exercise in wasting time] <span class='prompt'>[[CONTINUE]]</span>":
+                                play sound spendAction
+                                jump goToGameMap
+                    else:
+                        choice:
+                            "You descend the small mound of dirt. It must have been good exercise; you feel exactly a pound lighter."
+                            "[Leave the park] <span class='prompt'>[[CONTINUE]]</span>":
+                                play sound spendAction
+                                jump goToGameMap
+                "[Look at the attendant] \\"I'm really sorry for kicking Mount Bluehills earlier.\\"" if $data.park.kickedMount:
+                    choice:
+                        "The attendant doesn't respond, unless perhaps their cloud of smoke could be considered a response, which in this case it couldn't. After a moment you descend the small mound of dirt. It must have been good exercise; you feel exactly a pound lighter."
+                        "[Leave the park] <span class='prompt'>[[CONTINUE]]</span>":
+                            play sound spendAction
+                            jump goToGameMap
+
+park_mountKick:
+    clear_dialog
+    set data.park.kickedMount true
+    play sound punch
+    run transition_pain
+    "You charge up to the small mound, kick it really hard, yowl in pain as you almost break your foot, and run away. The attendant briefly flicks the world's least committed scowl at you before going back to their smoke."
+    choice:
+        talk nasty talk "Fuck yeah! We got them good!"
+        "Okay, Lovely Lady's turn. [Meekly return to the mound and pay a single Anglian Pound to climb to the top of the lump of dirt and experience crushing depression at a negligibly higher altitude while also feeling really awkward about the fact you just ran up to it and kicked it right in front of an entire park full of people]" if (&& (!= $data.park.mountClimb true) if (>= $stats.money.value 1)):
+            jump park_mount
+        "[Leave the park] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap

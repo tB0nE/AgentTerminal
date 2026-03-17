@@ -1,0 +1,92 @@
+writer_late:
+    play sound click
+    if (has_item? article):
+        choice:
+            "It is time to take your article to The Pulp Writer and receive her judgement. You're late though, so don't except your judgement to be particularly positive."
+            "[Show your article to The Pulp Writer and hope she doesn't kill you for being late, or at least, if she *does* kill you, she makes it quick] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                run transition_black writer_door
+                clear_dialog
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+    else:
+        choice:
+            "You don't have an article, but perhaps The Pulp Writer will accept an apology instead? She seemed so friendly, after all."
+            "[Visit The Pulp Writer and hope she doesn't kill you, or at least, if she *does* kill you, she makes it quick] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                run transition_black writer_door
+                clear_dialog
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+                
+    set data.writer.visitedLate true
+    choice:
+        "A haggard apartment tucked away in a small alley on the edge of Bluehills. A cobbled walkway that, if it were not littered with refuse, would be quite beautiful. You climb the rusting metal stairs outside the building to the second floor of the brick structure. This is where The Pulp Writer resides."
+        "[Knock on the door]":
+            play sound doorknock
+            "There is the sound of awkward, clumsy movement inside."
+            clear_dialog
+            play sound dooropen
+            run transition_instant writer_door_open
+            "The door opens a crack. A grey eye lit by an orange ember glares out at you for a moment before the door is opened fully."
+            clear_dialog
+            talk writer talk "Shitting fuck."
+            clear_dialog
+            "She mumbles the profanities like she's gargling sand."
+    clear_dialog
+    choice:
+        talk writer talk "Tell me you at least wrote *something*."
+        "\\"I did!\\" [Wave your article about] \\"Look!\\"" if (has_item? article):
+            choice:
+                talk writer talk "Hmm. It doesn't matter either way. You're too late. I already wrote it for you and sent it off to our dickhead boss an hour ago."
+                "\\"I'm very sorry! I didn't mean to let you down! I wanted to come apologise...\\"":
+                    talk writer talk "Well you did let me down. What am I supposed to do, eh?"
+                    clear_dialog
+                    "She shakes her head."
+                    clear_dialog
+                    talk writer talk "Off you go. Bye."
+                    jump writer_late_end
+                "\\"I didn't have time to come see you yesterday, sorry, my arbitrary number of actions per day really limit what I can or can't do!\\"":
+                    talk writer talk "Don't fucking talk at me. Number of actions. Putain d'enfer. Fuck off."
+                    jump writer_late_end
+                "\\"I'll just go sorry.\\"":
+                    talk writer talk "Do, please."
+                    jump writer_late_end
+        "\\"I didn't...\\"" if (!= (has_item? article) true):
+            choice:
+                talk writer talk "So you thought you'd just turn up empty handed? Why bother? Apologising? Gloating? Rubbing my face in sheep shit?"
+                "\\"I didn't have time, sorry\\"":
+                    talk writer talk "No, you did have time, en fait."
+                    jump writer_late_end
+                "\\"I'd like to apologise.\\"":
+                    talk writer talk "Okay. I do not uh... how do you say... care?"
+                    jump writer_late_end
+                "\\"I'll just go sorry.\\"":
+                    talk writer talk "Yes. Do."
+                    jump writer_late_end
+
+writer_late_end:
+    clear_dialog
+    play sound doorclose
+    run transition_instant writer_door
+    animate #narrat-app narrat-screenshake
+    "The Pulp Writer closes the door on you."
+    clear_dialog
+    talk lovely talk "Oh me oh my. One rather thinks you fumbled that one, darling. She seems awfully unhappy with you."
+    talk nasty talk "You think?"
+    talk lovely talk "Oui oui, je pense!"
+    clear_dialog
+    choice:
+        talk orb talk "Well, that's somewhat fucked you out of a reliable source of income, Ghost. That's a bad thing, generally."
+        "It's fine, I have investments. <span class='prompt'>[[CONTINUE]]</span>" if $data.ghost.investor:
+            play sound spendAction
+            talk orb talk "No. You don't."
+        "I am a very silly little rat. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk orb talk "Yes. You are."
+    complete_quest writer writerLate
+    jump goToGameMap

@@ -1,0 +1,780 @@
+apartment:
+    play sound click
+    choice:
+        "The mysterious card shuffling fox you met at the cathedral seemed awfully keen to meet you at her apartment. How can one say no to such an intriguing and alluring woman?"
+        "[Visit The Sinner] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            run transition_black apartment_alone
+            set_button button_apartment false
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    complete_objective sinner apartment
+    "Apartment 1, 13 Rosethorn Lane."
+    "The Sinner is currently in her kitchen, hunting for a drink."
+    clear_dialog
+    "You have been left alone in her lounge, sat awkwardly at her coffee table. An ashtray, and a copy of a book titled <span class='writtenText'>'Sous la couronne noire ou : Ciel d'épines'</span> keep you comapny. The poor book is battered. Incredibly so."
+    if (roll apartment_book_orb orb 40):
+        talk orb talk "<span class='writtenText'>'Under the Black Crown or: Sky of Thorns'</span>, roughly translated. The Sinner reads it at least once a month. It speaks to her of a great structure built by ones own misdeeds, a great structure that topples and crushes those trapped beneath it. It is about individual responsibility for evil, about those who did not tear the structure down, she feels."
+        if (roll apartment_eyes_orb orb 60):
+            talk orb talk "Across town, grey eyes roll."
+        else:
+            wait 1000
+    else:
+        wait 1000
+    clear_dialog
+    "A set of cards, the ones she toyed with in the church, are placed with too much intent to be called scattered sit atop a coffee table soaked in purple stains. Bruises that taste of wine."
+    if (roll apartment_toyed_lovely lovely 20):
+        talk lovely talk "She would not appreciate the word <span class='writtenText'>'toyed'</span>."
+    else:
+        wait 1000
+    run transition apartment_doorway
+    clear_dialog
+    "The Sinner herself soon reappears. She's barefoot, not that that matters to you, right? One of her hands grasps a bottle, the other fiddles with her necklace. Her fingers slip away from it after a short moment, and its worn surface is revealed. "
+    if (roll apartment_necklace_orb orb 40):
+        talk orb talk "It had a rather satisfyingly smooth texture at one point, now it's just one of the many habits this woman has picked up from a decade of stress compressed into a short few years."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk sinner talk "<span class='writtenText'>'Chateux Saint-Arnoin'</span>? It's vintage nineteen-fifteen."
+        "\\"I love wine.\\" [Nod]":
+            set data.apartment.tookWine true
+            talk lovely talk "Yipii! Saint-Arnoin is famous for its wines! Squeak squeak! We LIKE to drink it."
+            talk nasty talk "We LIKE to put undue emphasis on words."
+        "\\"No thank you.\\"":
+            "The Sinner shrugs in a way that conveys both disappointment and nonchalance. An impressive feat."
+            clear_dialog
+            talk sinner talk "More for me."
+            clear_dialog
+            "She pours herself a glass and leaves yours empty; a monument to your lack of taste."
+    clear_dialog
+    talk sinner talk "It's somewhat sweeter than my usual preference, still, it reflects well on one to have range, yes? One can hardly put into words the texture of a dry wine if one has not experienced a sweeter wine, no?"
+    clear_dialog
+    "She lifts her glass to her nose, and shut her eyes. A not quite smile grows on her face."
+    clear_dialog
+    choice:
+        talk orb talk "It seems her vocabulary mostly consisted of the word <span class='writtenText'>'one'</span>, when wine was involved."
+        "\\"Do you drink a lot?\\"":
+            talk sinner talk "It's a hobby, one supposes."
+            clear_dialog
+            "Her eyes glance to the work desk a few feet away, and she motions her glass towards it."
+            clear_dialog
+            if $data.apartment.tookWine
+                choice:
+                    talk sinner talk "I keep notes. Compare tastes, textures and scents. A good wine is much like a good girl, no?"
+                    "[Nod sagely and take a sip]":
+                        "It tastes horrible. What did you expect? It's wine."
+            else:
+                talk sinner talk "I keep notes. Compare tastes, textures and scents. A good wine is much like a good girl, no?"
+        "[Remain silent]":
+            talk sinner talk "I probably drink too much of the stuff, but that can hardly be helped, no?"
+    clear_dialog
+    run transition apartment
+    "The Sinner sips her drink, but her eyes never leave you."
+    clear_dialog
+    if $data.ghost.oilyDress:
+        var dressWord "engine oil"
+    if (&& (== $data.ghost.oilyDress false) (== $data.ghost.cleanClothes false)):
+        var dressWord "flour"
+    if (|| (== $data.ghost.cleanClothes false) (== $data.ghost.oilyDress true)):
+        choice:
+            talk sinner talk "Your dress is covered in %{$dressWord}, you know?"
+            "\\"Yes.\\"":
+                talk sinner talk "How quaint."
+            "\\"No.\\" [Lie]":
+                talk sinner talk "Hmm. If you say so."
+                if (roll apartment_lie_lovely lovely 20):
+                    talk lovely talk "She knows you're lying, but she also knows she doesn't actually care."
+                else:
+                    wait 1000
+    else:
+        choice:
+            talk sinner talk "Your dress is very pretty, Ghost."
+            "[Blush] \\"Thank you mam\\"":
+                run skip
+            "Uuuuh no?":
+                talk sinner talk "Self-deprecation isn't sexy, Ghost."
+                if (roll apartment_deprication_lovely lovely 20):
+                    talk lovely talk "Hypocrite. She's literally self-deprecating in her mind right now."
+                else:
+                    wait 1000
+    clear_dialog
+    "The Sinner reaches for her cards. Her slender fingers shuffle them like... well, cards."
+    "It's mesmerising. Oh to be those cards, to feel those pale fingertips press into your mouth, or run across your cheek, or grip around your neck and *squeeze* the life out of it..."
+    clear_dialog
+    "The card backfaces are plain black, but each ever so slightly unique. Hand painted. Thick. You can feel the dry, flaking texture with your retinas alone."
+    if (roll apartment_ask_lovely lovely 20):
+        choice:
+            talk lovely talk "Ask her about the cards, Ghost. She wants you to."
+            "\\"Tell me about your cards.\\"":
+                run skip
+            "\\"The tiny nice lady who lives in my head wants me to ask you about your cards. This one's for you, Lovely Lady.\\"":
+                "A raised eyebrow."
+                if (roll apartment_raised_orb orb 40):
+                    talk orb talk "She assumed it was a slightly odd figure of speech."
+                else:
+                    wait 1000
+        clear_dialog
+        talk sinner talk "Ah... my Fourteen Cities Divination deck? It's of my own design. It's similar to lenormand."
+    else:
+        clear_dialog
+        wait 1000
+        talk sinner talk "Did I tell you about my cards, Ghost? They're of my own design. It's my Fourteen Cities Divination Deck. Think of it as being like lenormand."
+    clear_dialog
+    "She sips some wine and shrugs, glibly."
+    clear_dialog
+    talk sinner talk "Or tarot, one supposes."
+    if (roll apartment_tarot_lovely lovely 20):
+        talk lovely talk "She's hoping saying lenormand first will make her sound more cultured. It does."
+    else:
+        wait 1000
+    clear_dialog
+    talk sinner talk "The concept, and indeed the cards themselves came to me in a dream, a series of dreams even. Two hundred twenty-seven cards. Fourteen of which represent the angels. The cities."
+    clear_dialog
+    run transition carcosa
+    talk orb talk "The fourteen stars. The first constellation. The beginning of everything, and the end too. A vast, calm expanse of cloud sea. One could sail across it for a year and not find themselves on its other side."
+    talk orb talk "It is here that the fourteen cities linger on. The thirteen angels and the The Dreamer. Where she came from even I know not."
+    clear_dialog
+    choice:
+        talk orb talk "My knowledge concerns the waking world, and so what I know I know from hearsay. All I know is that there are fourteen cities upon high, surrounded on all sides by... do you know what a waterfall is?"
+        "I know waterfalls yes. Water falls down. [Nod vigorously]":
+            talk orb talk "Ok. Well it's not like a waterfall at all. It's more like a current, just in the shape of a waterfall, and made from swirling orange and pink cloud. It is here her nightmares dwell. The detritus thrown up by your world. The dreamt evils of an idiot goddess."
+    clear_dialog
+    choice:
+        talk orb talk "The Mother. The Sleeper. The First. We all owe our existance to her. Even the thirteen. From the beginning of time, till the day she wakes, or The War in Heaven kills her."
+        "<span class='writtenText'>'War In Heaven'</span>?":
+            if (roll orb_carcosa_king_orb orb 99):
+                choice:
+                    talk orb talk "In a few years The Imperial Inquisition will move to The Cloud Sea seeking parley with The First. Asking for aide in ending the Frankish occupation of the Ryneland. God was on their side during the war, surely. If they lost it could only be because she slept. A splinter group splits the organisation, seeking instead to slay The First, and put and end to the dream below. The Armies of Heaven will march against both, but even god can be surpassed by the atom, if that is what she believes. I'm not sure exactly how it's going to go down. My visions of it are foggy..."
+                    "Hmm. Seems stupid.":
+                        talk orb talk "It's incredibly stupid."
+                    "Fair enough. I think God *should* purge the Frankish from the Ryneland.":
+                        talk orb talk "You don't even know what the Ryneland is, Ghost."
+                    "Fucking jerries. We didn't go far enough. We should have let Frankreich annex the entire country...":
+                        talk orb talk "I'm not sure that would make them any less sore losers."
+            else:
+                choice:
+                    talk orb talk "I don't know enough details to really go into it, sorry. It's really dumb and might collapse reality."
+                    "Oh cool.":
+                        clear_dialog
+    run transition apartment
+    clear_dialog
+    "Your pale acquaintance pulls a card from the deck, seemingly at random, and passes it to you. A rat with a beret. LXIX: The Deranged Stranger."
+    "It is beautifully painted. Intricate little details, warm colours, but still so much black and red. The acrylic is layered thick, the card itself has a weight to it, physically and spiritually."
+    if (roll apartment_cards_orb orb 80):
+        set data.apartment.orbKnows true
+        talk orb talk "She recognises each card by the feeling of the paint... I have to question her neutrality when shuffling and drawing from the deck."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk sinner talk "See, this is you. It is why I found you so fascinating earlier."
+        "[Tap the card] \\"She's just like me for real...\\"":
+            run skip
+        "\\"You're so talented... I wish I could paint...\\"":
+            talk sinner talk "Then learn. I did."
+        "\\"Can I keep this?\\"":
+            talk sinner talk "No."
+            clear_dialog
+            "Her voice is stern, very slightly raised. A teacher scolding a child for eating glue. She seems to recognise this, and softens herself."
+            clear_dialog
+            talk sinner talk "I'll paint you into a proper portrait. You'd prefer that, I think."
+    clear_dialog
+    "She takes the card back, and mixes it into the deck. Bye bye Deranged Stranger."
+    clear_dialog
+    talk sinner talk "I think dreams are important, Ghost, don't you?"
+    clear_dialog
+    "She doesn't give you a chance to respond."
+    clear_dialog
+    choice:
+        talk sinner talk "I have, for some time now, experienced the same dream, over and over again... it was only the series of dreams that led me to the creation of the Fourteen Cities Divination Deck that were exceptions. They show me the way. An escape from the encroaching darkness..."
+        "\\"Would you do a reading for me?\\"":
+            "The Sinner considers your request."
+            clear_dialog
+            talk sinner talk "<span class='writtenText'>'She who spreadeth thy talents recieveth thine smile'</span>. Come. Sit next to me."
+            clear_dialog
+            choice:
+                "She budges to the side, leaving you not quite enough space to sit beside her."
+                "[Sit beside her]":
+                    play sound clothing
+                    run transition apartment_close
+                    talk sinner talk "Okay. What do you want to know, Ghost?"
+                    clear_dialog
+                    choice:
+                        "Her breath is warm against your cheek. She's so tall. A spire looming above The Cloud Sea. Her hands shuffle the deck, her eyes look at you."
+                        "\\"<span class='gold'>Who</span> am I?\\"":
+                            set data.sinner.reading "who"
+                        "\\"How do I get hormones?\\"":
+                            set data.sinner.reading "hrt"
+                        "\\"How do I get women to like me?\\"":
+                            set data.sinner.reading "women"
+    clear_dialog
+    run transition apartment_bg
+    set_screen apartment_back_left 1
+    set_screen apartment_back_middle 2
+    set_screen apartment_back_right 3
+    "The Sinner pulls three cards from various places throughout the deck, seemingly at random, and places them face down in a row."
+    clear_dialog
+    choice:
+        talk sinner talk "These cards relate not to the past, the present or the future, but to your entire self. Your soul, your body, your mind... everything. Cards are linked to adjacent cards, so the first is linked to the second, and the second to the third. Understood?"
+        "[Nod] \\"Yes.\\"":
+            talk sinner talk "Good."
+        "[Nod] \\"No.\\"":
+            talk sinner talk "It's fine. The ritual is simple to follow, you need only watch."
+    clear_dialog
+    "She reaches for the first card. Her fingers caress the back, exploring the contours of the layered paint. One finds the imprint it left long ago when the paint was still wet. The Sinner's breath flutters, and she flips it."
+    clear_dialog
+    if (== $data.sinner.reading "hrt"):
+        play sound pageturn
+        set_screen apartment_moon 1
+        choice:
+            talk sinner talk "II: The Moon. A bringer of gifts. Northern, I think..."
+            "\\"The moon is northern?\\"":
+                talk sinner talk "I... never mind. Pretend I didn't say that."
+                clear_dialog
+                talk nasty talk "Course the moons northern, it's up ain't it?"
+                clear_dialog
+                talk sinner talk "What matters is that The Moon can be hard to reach, but she is always there for you."
+                clear_dialog 
+                "She catches your eye."
+                clear_dialog
+                talk sinner talk "If someone guides you to her, that is..."
+    if (== $data.sinner.reading "women"):
+        play sound pageturn
+        set_screen apartment_kiss 1
+        talk sinner talk "Ah... LXXV: The Kiss. Romance on the horizon perhaps? A new flame?"
+        clear_dialog
+        "She leans into you."
+        clear_dialog
+        talk sinner talk "Or perhaps just a walk of shame, hmm? I suppose you'll find out..."
+    if (== $data.sinner.reading "who"):
+        play sound pageturn
+        set_screen apartment_ghost 1
+        choice:
+            talk sinner talk "C: The Ghost."
+            "\\"That's me!\\" [Point at the card] \\"That's me! Squeak squeak!\\"":
+                talk sinner talk "As though ordained, no?"
+                talk sinner talk "She represents the loss of self, invisibility... but perhaps there are women who might take note of her, hmm?"
+                clear_dialog
+                "She catches your eyes."
+                clear_dialog
+                talk sinner talk "Such a woman would be very important to her..."
+    clear_dialog
+    "She reveals the second card."
+    play sound pageturn
+    set_screen apartment_stranger 2
+    clear_dialog
+    talk sinner talk "LXIX: The Deranged Stranger."
+    talk sinner talk "My oh my, what a coincidence... she represents strange, odd women. She smells... interesting, but not bad per sey. She does not plan ahead, marching instead aimlessly into the swirling fog of life. Talks absolute shit. Surprisingly good in bed."
+    clear_dialog
+    "The Sinner flips the final of the three cards."
+    if (== $data.sinner.reading "who"):
+        play sound pageturn
+        set_screen apartment_songbird 3
+        clear_dialog
+        talk sinner talk "CXXXIV: The Songbird: Ahhh, she's a funny one."
+        talk sinner talk "Never stops talking, but her voice, her thoughts are a delight. Her white wings unfurl and are the delight of all. The prime target of any taller women. Um. I mean, larger birds."
+    else:
+        play sound pageturn
+        set_screen apartment_pale 3
+        clear_dialog
+        talk sinner talk "LXXVIII: The Pale Spectre."
+        talk sinner talk "She represents a dying woman. Her decline may be spiritual or physical. She often smells of substances, wine and cigarettes perhaps. She has something you seek, *if* you earn her favour."
+    clear_dialog
+    talk sinner talk "Onto the final card, one of the fourteen."
+    talk sinner talk "This card carries with it the overall theme, the musk of the reading. Heed it well, Ghost, for it is of utmost importance."
+    clear_dialog
+    play sound pageturn
+    "The Sinner closes her eyes, slows her breath and carefully draws a card from the middle of the deck. She places it on the table."
+    "Her words held true, before you is a gold trimmed card. It's artwork far more impassioned than any of the already impressive cards."
+    clear_dialog
+    if $data.apartment.orbKnows:
+        talk orb talk "I told you! She claims to be picking the cards at random, but very clearly intentionally plucks a Fourteen Cities card each time. Seems to me she's not drawing these cards randomly at all, the fiend!"
+        talk orb talk "She somehow recognises the texture of every single one of her cards! That must take an ungodly amount of dedication and memory training, I- golly. G- goodness... is this what sexual attraction feels like? I- I think I need a lie down..."
+    else:
+        if (roll apartment_random_orb orb 80):
+            set data.apartment.orbKnows true
+            talk orb talk "Now hold on here a moment. She claims to be picking the cards at random, but very clearly intentionally plucks a Fourteen Cities card each time. Seems to me she's not drawing these cards randomly at all, the fiend!"
+            talk orb talk "She somehow recognises the texture of every single one of her cards! That must take an ungodly amount of dedication and memory training, I- golly. G- goodness... is this what sexual attraction feels like? I- I think I need a lie down..."
+        else:
+            wait 1000
+    clear_dialog
+    play music magenta
+    empty_layer 1
+    empty_layer 2
+    empty_layer 3
+    run transition apartment_seventh
+    talk sinner talk "Ah... The Seventh City... escape... salvation... mercy... <span class='magenta'>magenta</span>..."
+    clear_dialog
+    "The Sinner glances into your eyes, checking you are suitably impregnated with the importance of The Seventh. She looks back across the spread and nods to herself, almost invisibly."
+    if (roll apartment_happy_lovely lovely 20):
+        talk lovely talk "She's happy with her work."
+    else:
+        wait 1000
+    clear_dialog
+    stop music
+    play music intro
+    run transition apartment_close
+    choice:
+        talk sinner talk "Did that help at all, Ghost?"
+        "\\"I think so, yes.\\"":
+            talk sinner talk "I'm glad."
+        "\\"Unsure. I guess I'll find out.\\"":
+            talk sinner talk "The cards always help, sometimes it just takes a while to realise so."
+        "\\"I think the cards are very pretty!\\"":
+            "The Sinner cocks her head."
+            clear_dialog
+            talk sinner talk "Yes? Well. I appreciate you saying so."
+        "\\"Now, there's just one thing bothering me. Just a small thing is all. You pull four cards from your deck for each reading, one of which *has* to be one of The Fourteen Cities. Now, excuse me for saying this but, that seems awfully difficult to do at random. My friend Orb's really into cards, a real card shark, y'know? Anyway, it's just that Orb's always telling me that it would be impossible to do that, to pull one of fourteen specific cards out on command I mean... unless, I suppose... you picked specific cards on purpose, based on touch alone, with the goal of hitting on chicks and making yourself sad? Eh, no need to worry about it. I'm sure it's nothing...\\"" if $data.apartment.orbKnows:
+            "The Sinner scowls, but it slowly morphs into a more neutral face."
+            clear_dialog
+            if (roll apartment_kill_lovely lovely 20):
+                talk lovely talk "She is using every ounce of her power to force neutrality. Her left arm is twitching. She wants to kill you."
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk sinner talk "Fate is a strange thing, Ghost. The Fourteen know when they are called upon."
+                "\\"Oh bopper, well I'm convinced. Thank you for the reading, mam.\\"":
+                    run skip
+                "\\"Well, if you say so.\\"":
+                    run skip
+    clear_dialog
+    "The Sinner packs the cards back into their box. She does this with a gentleness that would leave a florist tending to a wedding bouquet flustered."
+    if (roll apartment_kiss_lovely lovely 40):
+        talk lovely talk "She blows them a goodbye kiss. She always does when she puts them away. It's easy to miss. She does it ever so softly."
+    else:
+        wait 1000
+    jump apartment_menu
+
+apartment_menu:
+    clear_dialog
+    choice:
+        "The Sinner gazes out of the window. It is getting dark. Her reflection, somewhat gaunt, looks back at her. A ghostly spectre. A twitch in her left eye."
+        "[Look around the room]":
+            "It's a small room. The haze makes it feel even smaller."
+            "Crystals. Knick knacks. A nude portrait. Several curiously shaped, barely even hidden sex toys. Dust and stains. Sentence fragments."
+            clear_dialog
+            "This fox is a mess. It's kind of sexy."
+            jump apartment_menu
+        "\\"How long did it take you to make your cards? Can I make some? I bet I could make some really good ones that would make you smile every time you drew them.\\"":
+            talk sinner talk "NO."
+            if (roll apartment_menu_baby_lovely lovely 20):
+                talk lovely talk "You may as well have just asked her if you could renovate her baby."
+                talk orb talk "Asked her *what*."
+            else:
+                wait 1000
+            clear_dialog
+            talk sinner talk "Ahem. No. Sorry, Ghost, but the deck is full. It was curated to a very specific selection of cards seen in my dreams."
+            if (roll apartment_menu_cards_orb orb 20):
+                choice:
+                    talk orb talk "The very specific selection of *Two-hundred twenty-seven* cards, at least half of which are just variations on 'pathetic bottom I'd like to annihilate'."
+                    "That's me!":
+                        run skip
+                    "That's not me. I'm a top.":
+                        run skip
+            else:
+                wait 1000
+            clear_dialog
+            talk sinner talk "It took a long time to make them, though less time than it perhaps should have. I did little else for several months. Burnt though an entire art schools worth of paint..."
+            talk sinner talk "Each card mirrors an image from a dream. The images, they stay in my head with perfect clarity. Transferring that to the physical world takes time, iteration. The cards must be perfect if they are to be imbued with power."
+            if (roll apartment_menu_practise_orb orb 20):
+                talk orb talk "It was slow at first, but eventually she could perfect twenty cards in a day. She went from an ameteur painter to a skilled artist with terrifying speed."
+            else:
+                wait 1000
+            clear_dialog
+            talk sinner talk "The paint is layered, you probably noticed they are far thicker than say... playing cards? The thickness comes both from iteration, but the texture is important. The images in my dreams have a feeling, a weight to them."
+            talk sinner talk "That..."
+            clear_dialog
+            "She slowly runs a finger across the box she keeps her cards in."
+            clear_dialog
+            talk sinner talk "And I like to feel them. I enjoy the sensation."
+            clear_dialog
+            "Her finger leaves the edge of the box, it longs for more. More sensation. The Sinner watches you."
+            if (roll apartment_menu_lick_nasty nasty 20):
+                talk nasty talk "She's looking at your lips."
+            else:
+                wait 1000
+            jump apartment_menu
+        "\\"Why did you start divinating. Divinining. Diviniting?\\"":
+            talk sinner talk "Why does anyone? The future, the present and even the past are all three clouded by storm, and when your life is uprooted by coal dust and you have no post to tie yourself on to."
+            clear_dialog
+            "She sips her drink."
+            clear_dialog
+            talk sinner talk "It is a comfort. Like a cigarette, a fine wine, or a woman. The Fourteen hang above us, The Dreamer dreams her dream, I cannot change this, but I know where the dream is going."
+            talk sinner talk "Where it is going, and how one day to escape it."
+            clear_dialog
+            "She shrugs, feigning nonchalance."
+            clear_dialog
+            talk sinner talk "And it is a hobby. We all need one of those, don't we, Ghost?"
+            if (roll apartment_menu_obsession_orb orb 60):
+                if $data.apartment.orbKnows:
+                    talk orb talk "Increasingly it falls into the category of 'obsession'... 'compulsion', even. She gains no comfort from it."
+                else:
+                    talk orb talk "Increasingly it falls into the category of 'obsession'... 'compulsion', even. She gains no comfort from it. Especially given her... predisposition towards bending the results. It's an act of self punishment for an imagined sin."
+            else:
+                wait 1000
+            jump apartment_menu
+        "\\"Is there any other way to see the future? Maybe I could try them all and be more sure about what's going to happen?\\"":
+            talk sinner talk "Firstly, divination, and Fourteen Cities divination especially, are more complicated than <span class='writtenText'>'seeing the future'</span>. They are an exploration into the soul. Into the world. The dream."
+            clear_dialog
+            "Another sip."
+            clear_dialog
+            talk sinner talk "But to answer your question, yes. The ancient Mesopotamians would sacrifice sheep and read their entrails. Or they would examine miscarried foetuses, animal or mammal. Two heads was a bad omen. Three heads a worse one."
+            choice:
+                talk sinner talk "A barbaric method, perhaps, but maybe it worked? I wouldn't know, and I don't need to know. I have my cards. The guidance of The Fourteen."
+                "\\"I see. I should go kill some animals and check out their guts.\\" [Nod]":
+                    talk sinner talk "You probably shouldn't. It'd stain your pretty fur."
+                    if (roll apartment_menu_blood_nasty nasty 20):
+                        talk nasty talk "<span class='writtenText'>'Not that some blood stains wouldn't suit you...'</span>"
+                    else:
+                        wait 1000
+                "\\"That sounds horrible... poor sheep...\\"":
+                    talk sinner talk "It's unpleasant, yes. My cards are..."
+                    if (roll apartment_menu_cruelty_orb orb 40):
+                        talk orb talk "She can't in good faith say <span class='writtenText'>'cruelty free'</span>. Her paint were produced abroad. Ohio Isle. Stolen land."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk sinner talk "No animals were intentionally harmed."
+                    if (roll apartment_menu_harm_orb orb 40):
+                        talk orb talk "A lie. She uses a lot of shellac and she knows it."
+                    else:
+                        wait 1000
+            clear_dialog
+            talk sinner talk "There's also astrology, the zodiac, tea leaves, lead chip reading, newspaper horoscopes..."
+            talk sinner talk "And prayer, one supposes. Though I have little faith in that."
+            clear_dialog
+            talk lovely talk "Her holiness, Saint Dawnsight, is *always* there to guide us. Some of you people just don't care to listen. Hmpf."
+            jump apartment_menu
+        "\\"I like your apartment. Tres bon!\\"":
+            choice:
+                talk sinner talk "Ah, tu parles francais aussi?"
+                "[Stare at her completely blank faced]":
+                    "She stares back."
+                    jump apartment_stare
+                roll apartment_menu_french_lovely lovely 20 "Lovely Lady, some help?":
+                    success "":
+                        choice:
+                            talk lovely talk "'Oui'."
+                            "[Look at The Sinner] \\"Oui.\\"":
+                                talk sinner talk "Merveilleuse"
+                    failure "":
+                        choice:
+                            talk lovely talk "Apologies darling, my memories failing me right now. Maybe next time Orb decides to crash into you it should drag a Frankish dictionary into your chest cavity too, hmm?"
+                            "[Keep staring at The Sinner completely blank faced]":
+                                jump apartment_stare
+            jump apartment_menu
+        "[Sniff up some of the oestradiol vapour]":
+            "Minty fresh."
+            clear_dialog
+            choice:
+                talk sinner talk "You like the smell?"
+                "\\"Oh yes oh yes! Squeak!\\"":
+                    "She smirks."
+                "\\"Drugs are good :)\\"":
+                    talk sinner talk "They are, I agree."
+            "Lovely as the drugs are, they're making you very dozy."
+            jump apartment_menu
+        "<span class='prompt'>[[MOVE ON]]</span>":
+            jump apartment_end
+
+apartment_stare:
+    clear_dialog
+    choice:
+        "The Sinner stares back."
+        "[Keep staring at her completely blank faced]":
+            jump apartment_stare
+        "\\"Yes.\\" [Lie]":
+            talk sinner talk "Merveilleuse"
+        "\\"No. Sorry.\\"":
+            talk sinner talk "Ah. Quel dommage."
+            clear_dialog
+            talk nasty talk "She said she wants to dom you."
+            if (roll apartment_stare_dom_lovely lovely 20):
+                talk lovely talk "She said <span class='writtenText'>'what a shame'</span>."
+            else:
+                wait 1000
+    jump apartment_menu
+
+apartment_end:
+    clear_dialog
+    wait 4000
+    "The conversation slumps. The Sinner's air of confidence breaks, ever so slightly. She seems smaller."
+    clear_dialog
+    choice:
+        talk lovely talk "She seems sad..."
+        "\\"You seem sad. Are you sad?\\"":
+            choice:
+                talk sinner talk "I suppose I am a bit, yes."
+                "\\"I thought so... you seemed it...\\"":
+                    run skip
+        "\\"Give me a smile crocodile!\\"":
+            choice:
+                talk sinner talk "A smile? Why? Do I seem sad?"
+                "\\"Yes!\\"":
+                    run skip
+                "[Stern] \\"I said give me a smile, crocodile.\\"":   
+                    run skip
+        "[Say nothing]":
+            talk sinner talk "I apologise for not being the most... hosting... of hosts, only I'm troubled, Ghost."
+    clear_dialog
+    "The Sinner swirls her wine, and takes a sip. She sighs. It fogs up the glass, ever so slightly."
+    clear_dialog
+    talk sinner talk "We spoke before about my hometown, yes? In Briargrey. Do you know what job I worked, before the accident?"
+    if (roll apartment_end_job_orb orb 40):
+        talk orb talk "She has the dead eyes of a bureaucrat."
+        set data.apartment_orbGuessedJob true
+    else:
+        wait 1000
+    if (roll apartment_end_job_lovely lovely 40):
+        talk lovely talk "She has the tired eyes of a teacher."
+        set data.apartment_lovelyGuessedJob true
+    else:
+        wait 1000
+    if (roll apartment_end_job_nasty nasty 40):
+        talk nasty talk "She smells like wine. She was a wine taster."
+        clear_dialog
+        talk lovely talk "She is literally drinking wine right now. That's why she smells of wine."
+        talk nasty talk "Sut."
+        set data.apartment_nastyGuessedJob true
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk sinner talk "Go on, take a guess."
+        "\\"You were a bureaucrat.\\"" if $data.apartment_orbGuessedJob:
+            "The Sinner neglects to comment."
+            clear_dialog
+            talk lovely talk "She took that as a minor insult."
+            talk nasty talk "Hahahaha! Orb you dickhead!"
+        "\\"You were a teacher.\\"" if $data.apartment_lovelyGuessedJob:
+            talk sinner talk "Correct! My, aren't you a clever one..."
+            clear_dialog
+            talk lovely talk "I was right! Wheeeeee!"
+            if $data.apartment_nastyGuessedJob:
+                talk nasty talk "Okay but she is drinking wine though so you can see how I reached my conclusion yeah?"
+        "\\"You are currently drinking wine, hence the smell.\\"" if $data.apartment_nastyGuessedJob:
+            talk sinner talk "I am yes. That's not my profession though, woe as I am to admit it."
+            clear_dialog
+            talk nasty talk "Eh, close enough. I was basically right."
+            talk orb talk "I *wish* I had your air of self-confidence, Nasty Girl."
+        "\\"Witch. You're a crafter of spells\\".":
+            "The Sinner laughs."
+            clear_dialog
+            choice:
+                talk sinner talk "Oh darling, I *wish* I could do real magic."
+                "\\"But you can do magic, you did some in the cathedral remember?\\"":
+                    talk sinner talk "T-that was a magic *trick*, not actual magic. Y- you didn't realise?"
+                    clear_dialog
+                    talk lovely talk "Oh my gods she fooled us."
+                    talk nasty talk "What the fuck???"
+                    talk orb talk "Gasp. Wow. What a twist. Wow."
+                    clear_dialog
+                    talk orb talk "Fuck you all."
+                "\\"Hahahahah yeah same hahahaha.\\"":
+                    "She smiles."
+                    if (roll apartment_end_guilt_magic_lovely lovely 20):
+                        talk lovely talk "She's genuinely quite touched that you thought she might be a professional witch."
+                    else:
+                        wait 1000
+        "[Shrug] \\"I don't know. An emerald scrumpler. Is that a thing? Am emerald scrumpler?\\"":
+            talk sinner talk "That isn't a thing, no."
+            clear_dialog
+            talk lovely talk "I think you'll find it is! I'll have you know Papi hired several! Someone had to scrumple his emeralds and it *certainly* wasn't going to me moi~"
+    clear_dialog
+    talk sinner talk "I was a teacher, art, mostly, and some Anglian literature and foreign language classes too. Unorthodox, in as small and forgotten a town as Briargrey, but I convinced the school master that it would be a good long term boon to the mining industry, if we ever had to start working with foreign equipment..."
+    if (roll apartment_end_foreign_orb orb 40):
+        talk orb talk "One of the most painful conversations of her life. She just wanted to introduce the next generation to the world beyond Helvellyn valley, but that argument would never fly with the administration."
+    else:
+        wait 1000
+    clear_dialog
+    "She reaches for her necklace. Digs her finger into the point of the crystal a little too hard. It hurts good."
+    clear_dialog
+    talk sinner talk "You know when they execute deserters, why the firing squad is made up of so many people? It isn't just an attempt to turn the deserter into Schweiz cheese, no. It's to diffuse guilt. Assuage responsibility. Not all of the guns are loaded."
+    talk sinner talk "Perhaps *I* didn't kill them. I spent my days nurturing children, and my nights next to the fireplace idly plotting their murder."
+    clear_dialog
+    choice:
+        talk orb talk "The school was in the area struck by the landslide. She will never forgive herself."
+        "Forgive herself for what?":
+            choice:
+                talk orb talk "Buying coal to warm her house. That's it."
+                "*That's* what she feels guilty about? Buying coal?":
+                    talk orb talk "It's illogical, yes, but in her mind she directly murdered her town."
+    clear_dialog
+    talk sinner talk "Prithee let me tell you about the dream. The forever dream. The one that haunts my nights."
+    clear_dialog
+    talk nasty talk "Oh boy, nothing more fun that listening to someone tell you about their dreams. Rolls eyes."
+    talk lovely talk "Did you just say <span class='writtenText'>'rolls eyes'</span> out loud?"
+    talk nasty talk "No. Winks at the audience."
+    clear_dialog
+    play music magenta
+    choice:
+        talk sinner talk "I'm in this... this void. It's all black, as far as the eye can see. It's empty but for myself and one other being. It's The Reaper. The one from the old Corvid legends."
+        "\\"Mhm... okay, reaper... got it...\\" [blink and fall asleep for a few microseconds]":
+            "You've gotten so sleepy. Your body has given up absorbing the oestrodil fumes and is now fully comitted to having a little nap. It's nice, actually, though the promise of an upcoming rambling story is a little scary, with how wiped you are."
+    if (roll apartment_end_reaper_orb orb 60):
+        talk orb talk "The Reaper, or 'The Raven', has been part of northern Europa's bird folklore for thousands of years. It's an offshoot of the corvid belief in the beyond as a place one is ferried to. The Reaper comes for those whose time has come, and carries them in its talons to the beyond. There it will measure ones worth."
+        clear_dialog
+        talk orb talk "The dead's heart balanced on one wing, and their sin, manifest as blood, soaked into the other. A giant feathery scale that can see your soul. It wants you to pass its test, it takes no pleasure in your failure and its duty to leave you there in the void, or hel, as I think you people call it."
+        talk orb talk "In recent times, mostly though the fault of your fellow mammals it tends to hold a pair of scales in its beak, though knowing our new friend, The Sinner, she's dreamt up some far more bizarre measure of her own worth."
+    else:
+        wait 1000
+    clear_dialog
+    talk sinner talk "It's huge, as though I am looking at the moon, with feathers made of blades that shine like a bettles carapace, all purple and turquoise and green, hmm? A scythe in place of its beak with a tip so sharp as to cut me just by looking upon it."
+    talk sinner talk "It doesn't speak, it doesn't even squark. It just stares at me. I know to turn around, and behind me I see it. I see the mound. It's coal and cork and iron and cloth and wood and barbed wire and glass. It is my sins, every last one of them. They are here to judge me worthy of redemption, and so I eat."
+    clear_dialog
+    talk sinner talk "I bite into the mound, and I chew. It tastes of coal and dirt and rust and ash. It is not edible, and so the metal and glass cuts my mouth. My face becomes caked in dried blood dirtied with coal dust." 
+    clear_dialog
+    "She appears queasy even reminiscing on it."
+    if (roll apartment_end_eating_orb orb 80):
+        talk orb talk "She's been struggling to eat lately. She's wasting away. Becoming her own reaper."
+    else:
+        wait 1000
+    clear_dialog
+    talk sinner talk "Anyhow, it takes a while but at some point I am met with an epiphany."
+    clear_dialog
+    talk sinner talk "This is more than just a lump of twisted metal and coal and possessions, it is *me*, it is my body, my corpse. It is massive, unrecognisable, but it is me. Eventually, the hard outside gives way, and inside is... it's like... like... hmm..."
+    clear_dialog
+    "She stubs her cigarette out on her tongue."
+    clear_dialog
+    choice:
+        talk sinner talk "Like a doughnut, you know those, yes?"
+        "[Nod] \\"Jam.\\"":
+            talk sinner talk "Jam. Yes. Quite."
+            if (roll apartment_end_rhetorical_lovely lovely 20):
+                talk lovely talk "It was a rhetorical question."
+            else:
+                wait 1000
+            clear_dialog
+            talk sinner talk "Anyway, as I was saying..."
+        "\\"Doughnut? Yes, the dough nuts.\\" [Nod]":
+            talk sinner talk "...Quite."
+            if (roll apartment_end_rhetorical_lovely lovely 20):
+                talk lovely talk "It was a rhetorical question."
+            clear_dialog
+            talk sinner talk "Anyway, as I was saying..."
+        "\\"Doughnut? Yes, you nut in the dough.\\" [Nod]":   
+            talk sinner talk "...Quite."
+            if (roll apartment_end_rhetorical_lovely lovely 20):
+                talk lovely talk "It was a rhetorical question."
+            else:
+                wait 1000
+            clear_dialog
+            talk sinner talk "Anyway, as I was saying..."
+        "\\"No. Explain <span class='writtenText'>'doughnut'</span> to me.\\"":
+            "The Sinner frowns."
+            clear_dialog
+            talk sinner talk "Fried dough, sometimes in a ring shape, sometimes just a circle. Some have jam inside of them, it is these specifically that I am referring to."
+            if (roll apartment_end_doughnut_orb orb 20):
+                set data.apartment.doughnut true
+                talk orb talk "A doughnut is a- oh. Little slow on the mark there. I'm really not with it right now, sorry. This woman smokes *way* too much oestradiol, and I think it's affecting all of us. Except her, apparently. She's unsettlingly used to this."
+                clear_dialog
+                talk nasty talk "Only. Doughnut here. You're a dough... eh, forget it..."
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk sinner talk "Anyway, as I was saying..."
+                "\\"Sorry, what is this <span class='writtenText'>'jam'</span> you speak of?\\"":
+                    talk sinner talk "Let's pretend I never brought up doughnuts, yes?"
+                    if $data.apartment.doughnut:
+                        talk orb talk "Jam is made with fruit heated in water and sugar such that it becomes a sort of jelly. It tends to be quite sweet, especially when inside a doughnut. In Anglia it is most commonly strawberry or raspberry. Phew! Still got it after all."
+                        clear_dialog
+                        talk nasty talk "Only raspberry here is you mate. Haha. Still got it after all."
+                        clear_dialog
+                        talk sinner talk "Anyway, as I was saying..."
+                "[Nod]":
+                    talk sinner talk "Anyway, as I was saying..."
+    clear_dialog
+    talk nasty talk "Doughnuts are is tasty. I LIKE to eat. Dough on the nut. Nut."
+    clear_dialog
+    play ambient magenta_two 1
+    talk sinner talk "I claw and bite my way right through its outer layer, each mouthful worse than the last, and inside there is blood. There is so much blood. It doesn't taste of blood though, not exactly. There are hints of it, iron and all that, but it tastes of wine. Chateaux Saint-Arnoin. My favourite."
+    clear_dialog
+    talk sinner talk "Floating in the blood, like strawberry seeds, there are bones. Skulls, mostly. Some cracked, some hewn in half, some shattered with bullet holes. Some are mangled in ways I cannot even describe. Each one looks at me, and each one screams as my teeth break biting into it."
+    talk sinner talk "The reaper is behind me still. It is there the entire time, watching me silently. It never once takes its eyes off of me. I eat, and I eat and I eat and it is *so* hard."
+    clear_dialog
+    talk sinner talk "Why? I ate this all once before, did I not? In life? Why can I no longer stomach it? What happened to my appetite?"
+    talk sinner talk "It varies, how long the dream continues. Sometimes I eat very little, other times there are just a few splatters of blood left on the black ground for me to kneels down and lap up, but eventually, inevitably, I vomit."
+    clear_dialog
+    talk sinner talk "It's a bile that is black with coal and burnt wood and metal and crimson with blood and wine. It burns, the sting and the smell of acid. It hurts so much."
+    clear_dialog
+    stop music
+    stop ambient 1
+    play music intro
+    talk sinner talk "It hurts so much, and then I wake up."
+    clear_dialog
+    "The Sinner lights a new cigarette, content that her delivery of the story was every bit as melodramatic as she had intended."
+    clear_dialog
+    talk sinner talk "I had that dream again only yesterday morning, you know?"
+    clear_dialog
+    talk sinner talk "After I woke up I went for a walk and stumbled into the park. I noticed a rose near the base of Mount Bluehills, and I just stared at it."
+    talk sinner talk "For hours. All afternoon, until the sun began to shine through the petals like light through stained glass."
+    talk sinner talk "There was no feeling quite like it. A dysphoria for a life not lived, a dysphoria for a world that no longer exist. My fur is caked in coal dust and blood, and the hairs burrow into me like nails. That flower saps the soil of its nutrients, but it does not know its crime..."
+    clear_dialog
+    talk sinner talk "Oh to return to that innocence, the innocence of a flower..."
+    clear_dialog
+    "She is staring past you now. Imagining that flower."
+    clear_dialog
+    choice:
+        talk orb talk "Thoughts?"
+        "This bitch needs therapy.":
+            talk nasty talk "Agreed. It's hot as fuck."
+        "I think I've had the same dream, more or less.":
+            run skip
+        "I know what a doughnut is." if $data.apartment.doughnut:
+            talk orb talk "Okay. Thanks for letting me know."
+        "My head feels like it's made of cosy blankets... zzz...":
+            talk orb talk "Mmm... me too, honestly..."
+    clear_dialog
+    talk sinner talk "The more I muse on it the more I realise that I am wrong. It is not a dream. It's a vision. A prophesy. This horror will be my fate."
+    clear_dialog
+    "She taps aways some ash from the end of her cigarette into the ashtray."
+    clear_dialog
+    talk sinner talk "What harm are a few more ashes on the mountain."
+    clear_dialog
+    "Uncomfortable silence."
+    clear_dialog
+    wait 4000
+    choice:
+        talk sinner talk "Are you awake, Ghost? You look half asleep."
+        "[Do a big yawn] \\"I think all of your drugs have made me eepy...\\"":
+            talk sinner talk "Eepy? Yes, they tend to do that. Perhaps you are not used to this high a concentration of oestrodil..."
+            if (roll apartment_end_dose_orb orb 40):
+                talk orb talk "Literally nobody is, aside her and Nasty Girl."
+            else:
+                wait 1000
+    clear_dialog
+    "The Sinner finishes her glass."
+    clear_dialog
+    talk sinner talk "For what it's worth you're welcome to stay, Ghost."
+    clear_dialog
+    "You feel a twinge, the feeling of a nail run from your tail, along your spine, before finally terminating at the scruff of your neck. How could you not shiver."
+    clear_dialog
+    talk lovely talk "It would be awfully rude of us to impose on her."
+    talk nasty talk "I, personally, have no qualms if The Sinner desires to impose on us."
+    clear_dialog
+    choice:
+        talk orb talk "I know you might want to, but you can't. Not tonight. I can't see exactly why, but you should wake up at home tomorrow, it's important, someone is coming. Just keep walking."
+        "\\"Another time. Goodnight.\\" <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk orb talk "It's for the best. Tomorrow morning brings an important visitor, wether you want them or not."
+        "\\"I'm so high hahaha.\\" [Leave without properly saying goodnight ] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk lovely talk "Tsk. Rude. Winmam."
+            talk nasty talk "Winmam."
+        "[Wink] \\"Orb says I have to... oh fuck I'm so drowsy... I gotta' get home! Very important.\\" [Wink] \\"According to Orb.\\" [Leave and them walk back into the apartment] \\"And Orb lives in my brain by the way? Sorry that wasn't really a question but uh...\\" [Leave and then walk back into the apartment] \\"Actually Orb lives in my chest but whatever hahahaha.\\" <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            run skip
+    talk sinner talk "Ghost. The town archive, tomorrow. I'll see you there."
+    clear_dialog
+    "She swirls yet another bottle of wine in her hand. The light of her dying candle flickering through the green glass as though swimming, inside her green eyes as though trapped."
+    clear_dialog
+    talk sinner talk "Sleep Well."
+    start_objective sinner archive
+    jump goToGameMap

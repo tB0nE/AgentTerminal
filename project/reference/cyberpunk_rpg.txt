@@ -1,0 +1,25 @@
+I am planning that this game is basically cyberpunk disco elysium.
+
+My idea is to keep the scale smaller, and the actual game mechanics to be more narrative, but will have a lot of the same mechanics.
+
+This game is heavily inspired by the games "Disco Elysium" and "Lovely Lady RPG", and the writing styles of "China Miéville" and "William Gibson"
+
+Here is a rough outline:
+
+In the future 2056, you are busy hacking some system, when ZZZZZZT your brain is fried, you disconnect and remember... NOTHING! Who you are, where you are, what you were doing, nothing! You look around your tiny home, it's a high tech shack. You investigate what you were doing, it looks like you were hacking something and your brain got fried, poor you.
+
+If you go outside, you are in a shanty town, a squatter camp. If you look in the mirror you are revealed as a young black man (or maybe a masculine woman).
+
+As you walk around and try to discover who you are, do quests, make friends, fufilling your failed hacking mission, you kind of explore the world.
+
+The world is a REALISTIC progression of our current one, just with more tech, where the world is split into 3 powerful spheres (america, europe, asia) with some unique neutral countries (like south africa).
+
+The setting is dunoon, cape town, a huge squatter camp stuffed between affluent wine farms and a beautiful coastline, you are south african, but your ancestory is not south african (malawian/nigerian/mozambique/zimbawbwe), you speak english very well, as you excelled at school, but you also speak SLANG (This should be some sort of pidgin language used in the townships, like xhosa mixed with shit, but english is overpowering)
+
+Themes have to do with tech AI, VR, hacking, etc. , inequality, such as we have in places like South Africa and the United States, Authoritism, unemployment, poverty.
+
+All very dark things. But. We find hope in the people, and the culture, from all walks of life.
+
+I think we also need to add a time mechanism. In Disco Elysium it is set over a few days, the same as Lovely Lady RPG. I think in our game, whatever hacking thing happened to you is killing you, and you find this out very early. You have 100 hours to live. At certain points in the script we probably just need to up the number of hours until it gets to 100. Once you get there the game ends, and according to what you did in your last 100 hours of life, we give them a report, telling them what they did and learnt. And that's the point of the whole game!
+
+In the game you can decide what you want to focus on, like finding out about yourself, try to get medical help, or just give up and enjoy yourself.

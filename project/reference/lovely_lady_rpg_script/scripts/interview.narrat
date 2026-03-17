@@ -1,0 +1,449 @@
+interview:
+    play sound click
+    choice:
+        "Your job requires you to write a short article about a hero of The Great War. The Weapon is one of those, right?"
+        "[Interview The Weapon] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set data.interview.weaponInterviewed true
+            run transition_black fields
+            set_button button_interview false
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    "It's not that The Weapon doesn't notice you approach, so much as they willingly choose not to acknowledge you."
+    if $data.weapon.redHanded:
+        choice:
+            talk orb talk "Probably because you robbed them yesterday."
+            "Probably yes. I'm a stupid girl.":
+                talk orb talk "Yes. You are a stupid girl, Ghost."
+            "It was a smart idea, I just didn't do it very well. It was a learning experience.":
+                talk nasty talk "That's the spirit. We'll ace it next time, right champ?"
+        clear_dialog
+        choice:
+            "The Weapon finally looks at you. They're not happy about it."
+            "\\"I'm sorry I tried to rob you yesterday.\\" [Point at your brain] \\"I had brain damage. I'm okay now though.\\"":
+                play sound punch
+                run transition_pain
+                choice:
+                    "They punch you in the neck."
+                    "\\"OW!\\" [Fly several meters backwards and crash into the ground, throwing up a crucifix shaped plume of dust and embedding yourself in a crater]":
+                        choice:
+                            talk weapon talk "Scram."
+                            "[Scram]":
+                                clear_dialog
+                                choice:
+                                    "Your run to your cottage, crying gay little tears."
+                                    "[Sniffle] All I did was take their possessions and look how I am treated. [Shake your head] I am the saddest little lady in all of Anglia...":
+                                        choice:
+                                            talk orb talk "Okay. Sure you are. Shall we get going?"
+                                            "No. [Sniffle] I think I'll sit here for a while feeling sorry for myself...":
+                                                jump goToGameMap
+    else:
+        choice:
+            talk nasty talk "Only one thing to do. Besiege them."
+            "[Wait. Linger. Persevere. Become sodden mud and matted barbed wire. Make this awkward social interaction your very own Somme]":
+                wait 8000
+                clear_dialog
+        choice:
+            "The fiction shatters. The Weapon makes a grave error. They glance, ever so vaguely in your direction, mainly in the hope that doing so might scare you off. Fool. Their gaze betrays the pretence of having not seen you. Their gates split open. You are in."
+            "\\"Hello!\\" [Do a gay little wave] \\"It's me again!\\"":
+                talk weapon talk "Yes. It *is* you again, isn't it."
+                clear_dialog
+                choice:
+                    talk weapon talk "What do you want?"
+                    "\\"I'm writing an article for 'Weird Tails' magazine, and I'd love to interview you!\\"":
+                        talk weapon talk "Weird Tails? That rag? What a load of rubbish. Tripe churned out to placate the dumb masses."
+                        clear_dialog
+                        choice:
+                            "They spit."
+                            "\\"That's the one, yes! Can I ask you some questions?\\"":
+                                "They scrunch their nose and sigh."
+                            "\\"I'll have you know Weird Tails is a bastion of literature and journalism in a wasteland of dreck!\\"":
+                                choice:
+                                    talk weapon talk "Mhm."
+                                    "\\"Can I ask you some questions?\\"":
+                                        "They scrunch their nose and sigh."
+                        clear_dialog
+                        if (roll interview_sigh_lovely lovely 60):
+                            talk lovely talk "<span class='writtenText'>'If you promise to go away immediately after, *fine*.'</span>"
+                            clear_dialog
+                        talk weapon talk "Shoot."
+                        if (roll interview_plan_lovely lovely 40):
+                            talk lovely talk "The Weapon already doesn't want this interview and will want it even less if it comes across as an attempt to write some blood thirsty propaganda. Work up to it, slowly."
+                            talk nasty talk "Like one of those 'Meet N Fuck' boardgames. Start with the thighs, end with the minge."
+                        else:
+                            wait 1000
+    clear_dialog
+    choice:
+        "The Weapon keep one eye on their field. The sheep are content. The Weapon is not. Mostly due to your presence. Today was going so well..."
+        "\\"So. War. Guns. Battles. Tanks. Tanks bop, don't you think? I'm writing an article about war heroes and I need *you*!\\" [Point at The Weapon like you're a recruitment poster]":
+            talk weapon talk "<span class='writtenText'>Tanks'</span>..."
+            "They mutter the word as if it was a slur and entirely ignore the rest of your sentence."
+            clear_dialog
+            choice:
+                talk weapon talk "The blade winged raven loves mechanisation. The finest propagandists in the world cannot make the average soldier pull the trigger on their fellow mammal. The armoured shell of the tank, the wings of the plane, they strip us of our own reality, of our own existence. We are no longer there. The trigger is pulled on a screaming hunk of metal. The corpse entombed inside is forgotten."
+                "[Nod] \\"Quite. Quite. Very normal. So, you're a war hero right?\\"":
+                    choice:
+                        talk weapon talk "No."
+                        "\\"Really? Are you sure?\\"":
+                            choice:
+                                talk weapon talk "Yes."
+                                "\\"Good talk! Good talk!\\"":
+                                    talk weapon talk "Certainly was. Off with you now. I have sheep to shepherd."
+                                    clear_dialog
+                                    choice:
+                                        "The Weapon turns away from you. This interview is over."
+                                        "Oh well there's other interviewees... <span class='prompt'>[[CONTINUE]]</span>":
+                                            play sound spendAction
+                                            jump goToGameMap
+                "\\"Can you tell me about what you did in the war?\\"":
+                    choice:
+                        talk weapon talk "What's there to tell?"
+                        "\\"What *isn't* there to tell! No seriously, what isn't there to tell? I can work backwards and fill in the gaps if it's easier for you.\\"":
+                            "The Weapon is visibly confused. They didn't quite follow that."
+                            clear_dialog
+                            choice:
+                                talk weapon talk "I uh... I should probably pay more attention to the flock. Pleasure talking to you."
+                                "\\"No no no! Wait! Tell me about sheep!\\" [Drop to your knees and beg] \\"Please tell me about sheep! Just keep talking to me!\\" [Wipe away some of the tears that are welling in your eyes]":
+                                    "The Weapon takes a small amount of damage."
+                                    clear_dialog
+                                    talk weapon talk "Heurk!"
+                                    clear_dialog
+                                    "They recover, a blush across their face."
+                                    if (roll interview_blush_lovely lovely 40):
+                                        talk lovely talk "This is the first time someone has ever actually begged to talk to them. It's a strange feeling."
+                                    else:
+                                        wait 1000
+                                    clear_dialog
+                                    talk weapon talk "Okay, okay... sheep..."
+                                    "They sigh."
+                                    clear_dialog
+                                    jump interview_sheep
+                                "\\"You're not going to tell me anything about the war, are you?\\"":
+                                    choice:
+                                        talk weapon talk "What's there to tell?"
+                                        "\\"What *isn't* there to tell! No seriously, what isn't there to tell? I can work backwards and... wait, haven't we been here before?\\"":
+                                            talk weapon talk "Certainly have. Off with you now. I have some shepherds to sheep, eh, sheep to shepherd."
+                                            clear_dialog
+                                            choice:
+                                                "The Weapon turns away from you. This interview is over."
+                                                "Oh well there's other interviewees... <span class='prompt'>[[CONTINUE]]</span>":
+                                                    play sound spendAction
+                                                    jump goToGameMap
+        "\\"So. Sheep. What are they about haha. Baaa.\\"":
+            jump interview_sheep
+
+interview_sheep:
+    talk weapon talk "They're mammals, like us. Just not enough like us to live in houses and pay taxes. The sheep in this field specifically are kept for their wool and milk."
+    clear_dialog
+    "They cast a glance over to the creatures. A smile almost flickers on their face, but it doesn't."
+    clear_dialog
+    talk weapon talk "I envy them. They got to stay here and chew cud while we were shipped over to the continent 'in defence of the empire'."
+    clear_dialog
+    "They say 'in the defence of the empire' in the same way someone might say 'mother found my piss drawer'."
+    clear_dialog
+    talk weapon talk "Sentience was a cruel joke... you don't see lesser beings suffer as we do. No sheep has ever had to breathe in their own piss to survive a gas attack..."
+    if (roll interview_sheep_chance_lovely lovely 40):
+        talk lovely talk "This is it. This is your chance. Get them to open up."
+    else:
+        wait 1000
+    jump interview_sheep_menu
+
+interview_sheep_menu:
+    clear_dialog
+    choice:
+        "One of the sheep bleats at you. Do they know you're talking about them? The Weapon looks over, checking up on the situation. The sheep are in their field. The grass is green. All is right in the world."
+        "\\"Do you know for sure none of your sheep have ever had to breathe in their own piss to survive a gas attack? Did you run a survey?\\"":
+            talk weapon talk "I, uh... no."
+            clear_dialog
+            "They frown."
+            clear_dialog
+            choice:
+                talk weapon talk "Sheep can't fill out surveys."
+                "\\"A crying shame... we could learn so much from them...\\"":
+                    talk weapon talk "..."
+                    jump interview_sheep_menu
+        "\\"Do you have a favourite sheep?":
+            talk weapon talk "No."
+            if (roll interview_sheep_menu_favourite_orb orb 40):
+                talk orb talk "Parsnip."
+            else:
+                wait 1000
+        "\\"Do you have a least favourite sheep?\\"":
+            talk weapon talk "No."
+            if (roll interview_sheep_menu_leastfavourite_orb orb 40):
+                talk orb talk "Polly."
+            else:
+                wait 1000
+        "\\"Have you ever ridden one of the sheep around and pretended to be a knight?\\"":
+            talk weapon talk "No."
+            if (roll interview_sheep_menu_ride_orb orb 80):
+                talk orb talk "Once."
+            else:
+                wait 1000
+        "\\"How many sheep do you have?\\"":
+            choice:
+                talk weapon talk "There's fifty in this flock. Fifty exactly."
+                "\\"Do they have names?\\"":
+                    talk weapon talk "Sally. Belinda. Matilda. Matilbaa. Critter. Ludwig. Rose. Camille. Charlotte. Elaine. Rosey. Poppy. Mia. Flop. Floppy. Parsnip. Fritter. Flopsy. Blimp. Skitter. Lily. Violet. Veronica. Penny. Polly. Popsy. Liana. Ray. Starmer. Grumble. Bumble. Fumble. Freya. Mary. Marie. Maris. Maria. Maaria. Maribaa. Sheep. Sheepy. Sheeper. Jewel. Moller. Dana. Spider. Aime. Antoinette. Carrot. Wooly."
+                    clear_dialog
+                    "They list the names off without so much as a stutter."
+                    if (roll interview_sheep_menu_know_orb orb 20):
+                        talk orb talk "They know each of them by sight. They know each of their personalities. 'Fritter', for instance, likes to jump over things, and her favourite food is carrot. The vegetable. Not the sheep."
+                    else:
+                        wait 1000
+        "\\"How did you get into shepherding?\\"":
+            talk weapon talk "Grew up on a farm near Swanmore. Father had me watching our flock before I was old enough to walk."
+            clear_dialog
+            "A tiny smile appears on their face."
+            clear_dialog
+            talk weapon talk "Bless... those were the days..."
+            clear_dialog
+            "A sniffle."
+            if (roll intervoew_sheep_menu_tear_lovely lovely 40):
+                talk lovely talk "They're using their entire force of will to keep a tear inside their tear duct."
+            else:
+                wait 1000
+            if (roll interview_sheep_menu_father_orb orb 60):
+                talk orb talk "Their father passed while The Weapon was abroad. One of the first victims of the pandemic in Anglia. The Weapon didn't find out until they were home. They didn't want to change career, but they couldn't bare to take over the old farm."
+            else:
+                wait 1000
+        "\\"Talking about sheep is great and all, but what I'd really like to hear about is any bopper war stories you have. Did you ever manage to shoot the Kaiser? Did you ever snipe an airplane out of the air? Did you ever take out a tank?\\" <span class='prompt'>[[MOVE ON]]</span>" if (!= (objective_completed? writer interview) true):
+            choice:
+                talk weapon talk "What the fuck are you talking about?"
+                "[Wave your arms about] \\"Things normal people want to read about! Things other than sheep!\\"":
+                    talk weapon talk "What normal people want is of no concern to me."
+                    if (roll interview_sheep_menu_normal_lovely lovely 40):
+                        talk lovely talk "<span class='writtenText'>'Normal people are idiots. Imbeciles.'</span>."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    choice:
+                        "The Weapon turns away from you. This interview is over."
+                        "Oh well there's other interviewees... <span class='prompt'>[[CONTINUE]]</span>":
+                            play sound spendAction
+                            jump goToGameMap
+        "\\"You said earlier these sheep got to stay here and chew cud while you were shipped over to the continent. I didn't quite follow that so please could you elaborate?\\" <span class='prompt'>[[MOVE ON]]</span>" if (!= (objective_completed? writer interview) true):
+            jump interview_war
+        "\\"Thank you for talking. I should get going.\\" [Do a gay little curtsey] <span class='prompt'>[[CONTINUE]]</span>" if (objective_completed? writer interview):
+            play sound spendAction
+            talk weapon talk "Mhm."
+            "The Weapon turns away from you, and counts their sheep. All present and accounted for..."         
+            clear_dialog
+            talk orb talk "We should head home and get this article written."
+            jump goToGameMap
+    jump interview_sheep_menu
+
+interview_war:
+    clear_dialog
+    choice:   
+        talk weapon talk "The Great War. Anglian Fourth Rifle Corps. I was a sniper."
+        "\\"Were you good at being a sniper?\\"":
+            choice:
+                talk weapon talk "Yes."
+                "How many people did you kill?":
+                    talk weapon talk "A lot."
+                    if $data.global.ravenKills:
+                        talk lovely talk "You really ought to stop asking people that question, Darling."
+                    else:
+                        if (roll interview_war_vague_lovely lovely 20):
+                            talk lovely talk "They're being intentionally vague."
+                        else:
+                            wait 1000
+                    if (roll interview_war_toll_orb orb 40):
+                        talk orb talk "They think they're responsible for around One hundred and fifty deaths. In reality they're only responsible for one hundred and seven death and forty-seven grazed pickelhaubes. I don't think knowing that would bring them much comfort though."
+                    else:
+                        wait 1000
+                "I'm not going to ask you how many people you killed. That would be rude.":
+                    "The Weapon just chews on their straw and eyes you suspiciously. No change there."
+    clear_dialog
+    choice:
+        talk weapon talk "Are we done?"
+        "\\"Not yet, sorry. Did you do anything notable? Do you have a war story you'd like to share?\\"":
+            choice:
+                talk weapon talk "No."
+                "\\"Okay.\\" [Nod and pretend to scribble down some notes]":
+                    talk weapon talk "No one shot was any more notable than another. I never missed, and so it became routine. A string of corpses, a trail of lives, ended or ruined by my hand."
+        "\\"Yes. Bye.\\" [Walk off without finishing your interview for no reason] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk weapon talk "Mhm. Goodbye."
+            clear_dialog
+            talk orb talk "Ghost! We never got our story! Go back and finish your interview!"
+            talk lovely talk "It's too late darling, it would be far too embarrassing to go crawling back now."
+            talk lovely talk "Let us instead go forth onwards friends! Onwards ever onwards!"
+            jump goToGameMap
+    clear_dialog
+    "Their eyes stay fixed a few inches to the side of your face. Zero eye contact, even accounting for the eye patch."
+    if (roll interview_war_explode_lovely lovely 40):
+        talk lovely talk "They can't look at you, not directly, because if they ever do they'll imagine your head exploding into bits, and they've seen that gruesome display play out more than enough for one life time."
+    else:
+        wait 1000
+    clear_dialog
+    talk weapon talk "Anything notable... no. I did not. Not officially, at any rate."
+    clear_dialog
+    "They muse for a moment."
+    clear_dialog
+    talk weapon talk "Blew the brains out of a high-ranking Inquisition officer once, I suppose. Bastard probably deserved it."
+    if (roll interview_war_inqusitionlore_orb orb 40):
+        talk orb talk "The Imperial Inquisition was Brennenburgs intelligence agency from the 19th century onwards. It hasn't done any actual 'inquisitioning' in a long time."
+        clear_dialog
+        talk orb talk "It was initially founded to protect the Holy Italian Empire, later Brennenburg, during the Dark Age when all manner of arcane threats were afoot."
+        talk orb talk "As the world slowly returned to normal the organisation morphed into the worlds most sophisticated spy network. Into the reason Brenneburg was able to become as politically and culturally dominant as it did."
+        talk orb talk "The Inquisition held sway over most the crowns in Europa, Anglia and Frankreich especially, eventually leading to their outright subjugations through marriage."
+        clear_dialog
+        talk orb talk "That was a long time ago. The order was a shadow of its former glory by the time the war started, and it's a shadow even of that these days."
+        talk orb talk "A holdout battalion. A relic of a war everyone else would rather forget. They will never surrender, but they will never, ever get their fight."
+        clear_dialog
+    talk weapon talk "I think about that lot often, you know? Over on that island, up to who knows what... you know what they're doing over on Gotland? No. Me neither. No one does. Not the Anglian intelligence service, not anyone..."
+    if (roll interview_war_tangent_orb orb 40):
+        choice:
+            talk orb talk "Uh oh. They're going off on a tangent. You need to stop them now if you don't want a repeat of yesterdays... monologue."
+            "\\"Sorry, I'm in a bit of a rush.\\" [Tap your wrist as though you are wearing a watch]":
+                talk weapon talk "Right."
+                talk lovely talk "They're annoyed to be interrupted, but they believe in respecting people time. When pushed, at least."
+                jump interview_story
+            "Actually I'd quite like to hear what they have to say. They might have some intriguing insights into modern geopolitics and history.":
+                talk orb talk "They absolutely don't, but fine."
+    else:
+        wait 1000
+    clear_dialog
+    talk weapon talk "They're still there, up to no good... experimenting... building *the* bomb. They might even get there first. Then what? The return of the Imperial dynasty? Hel, they could have resurrected the emperor, for all we know. With their... their science... their witchery..."
+    if (roll interview_war_inquisition_orb orb 60):
+        talk orb talk "They're *half* right. The Inquisition has been up to some pretty fucked stuff, but resurrecting the Kaiser is not one of them. What would that even achieve?"
+        talk orb talk "It doesn't matter regardless. The entire island goes up in smoke early next year. Some kind of weapons test gone awry, everyone assumes. Their entire institution and collection of 'weird stuff' is obliterated. The island is levelled. Windows break even in Musckow."
+        talk orb talk "The Soviets land on the island and claim it as their own when the radiation clears."
+        if (roll interview_heaven_orb orb 90):
+            wait 1000
+            clear_dialog
+            set data.ghost.knowsDreamer true
+            talk orb talk "Of course the reality is far more concerning. The War in Heaven, the final war, is coming. You may, if things go astray, find the dreamer awakes, and your world vanishes. You may find the armies of heaven march forth from their gates to retake the Rhineland from the Allied occupiers."
+            talk orb talk "You may notice nothing at all. The future is uncertain where the upper realm is concerned."
+        else:
+            wait 1000
+    else:
+        wait 1000
+    clear_dialog
+    talk weapon talk "Oceania... the reds.... The Inquisition... it doesn't matter... one of them will give the order... one of them will sign our death warrants and reign over our bones. The countdown has begun..."
+    clear_dialog
+    "They raise an outstretched hoof, and begin counting down. Vocalising a 'tick' and a 'tock' every few beats, until they swipe their arm down, their hoof stopping millimetres from your face. A blast of cold air hits over you like a shockwave."
+    clear_dialog
+    choice:
+        talk weapon talk "Bang. Armageddon... the Endzeit cometh..."
+        "\\"Anyway. Your war story?\\"":
+            talk weapon talk "Right."
+            jump interview_story
+        "\\"That bops. I think you might be right. Tell me more. How can I prepare for the Endzeit?\\"":
+            choice:
+                talk weapon talk "You can't."
+                "\\"Oh.\\"":
+                    choice:
+                        talk weapon talk "Unless you have a rifle. And a bunker full of nutrient powder. And convert your coins to gold bars."
+                        "\\"Right.\\"":
+                            talk weapon talk "Anyhow... you wanted to hear my war story..."
+                            jump interview_story
+
+interview_story:
+    clear_dialog
+    talk weapon talk "Commander visited me before I was let go. Something about a receiving some medal or other, with an implied 'you will also have to serve in the colonies and fight those dirty communists down in Afrika' in the small print."
+    talk weapon talk "I said no. He rephrased the offer to be an order."
+    if (roll interview_story_conscription_orb orb 60):
+        talk orb talk "Conscription didn't technically end until a few months after Brennenburg surrendered, but some of the luckier troops started to return home after just two weeks. Some are still waiting for their boat home. Those shipped in from New Southeast Wales-Upon-Swan especially."
+        talk orb talk "Still, the Anglian government cherrypicked those with particularly impressive service records for 'tactical redeployment', our shepherd friend among them. They could shoot a bird out of the sky from miles away, and did in fact, on many occasions."
+        clear_dialog
+    talk weapon talk "A week later I had my eye stabbed out in an alley fight, and I was discharged. Good. I'm not having anything to do with that shit show down south. It gets nastier down there every day, and for what? A slither of stolen land?"
+    clear_dialog
+    "They spit. The kind of spit that would, if willpower were enough to change its chemical makeup, be blood and bile."
+    clear_dialog
+    if (roll interview_story_alley_orb orb 60):
+        set data.interview.orbKnows true
+        choice:
+            talk orb talk "There was no alley fight. They got someone to do it to them. They never wanted to be able to squint down a scope again."
+            "\\"You got your eye stabbed out on purpose, didn't you?\\"":
+                "They don't react. They just keep chewing on their straw."
+                if (roll interview_story_chew_lovely lovely 40)
+                    talk lovely talk "Don't speak. Allow them chew on their thoughts for a moment."
+                    if (roll interview_story_straw_orb orb 20):
+                        talk orb talk "That is a bit of straw, Lovely Lady."
+                    else:
+                        wait 1000
+                else:
+                    wait 1000
+                clear_dialog
+                talk weapon talk "I did. You're right."
+                clear_dialog
+                "They squint their remaining eye and look deep into your soul."
+                clear_dialog
+                talk weapon talk "You're smarter than you look, little Rat. Smarter than the military police, even."
+                talk weapon talk "I got lucky. Met a Hyena, a reconnaissance driver I think, and a few drinks later she was playing the part of 'burly mugger'. She played it well. Huge lady. Scary. Smelt of salt and petroleum."
+                clear_dialog
+                "They chuckle."
+                clear_dialog
+                talk weapon talk "The brass had no doubt in my story. Deserters usually go for something less permanent. Less messy."
+                talk weapon talk "They gave me my medal, took my rifle, and sent me home. Never heard from them again. I've been forgotten. A half blind footnote in military history."
+                if (roll interview_story_decision_orb orb 40):
+                    talk orb talk "They made the correct decision. Anglia's pointless, petty conflict with the Commune and the rebels has very little in the way of strategic value, it exists only so that the nation can maintain a state of collective delusion and believe that yes, the Anglian empire survives."
+                    talk orb talk "That Anglia has not fallen into irrelevance under the shadow of its eastern rivals."
+                    talk orb talk "Wasting ones life over it would be pitiful. Killing in the name of it unforgivable."
+                    clear_dialog
+                    if (roll interview_story_bridge_orb orb 60):
+                        talk orb talk "One day soon the Noqui bridge crumbles in a hellish plume of dust and smoke and sea salt. A three-hundred-sixty million kilogram military carotid vaporised in an instant."
+                        talk orb talk "The Andorra Agreement falls apart. The demilitarised zone floods with shells."
+                        talk orb talk "A final, climactic burst of fighting, the burning skylines, the burning coasts, a fleet of Anglian vessels retreating from the crown jewel, and then it is over."
+                    else:
+                        wait 1000
+                else:
+                    wait 1000
+                clear_dialog
+                if (roll interview_story_raven_orb orb 60):
+                    choice:
+                        talk orb talk "Oh fuck."
+                        "What? What?":
+                            choice:
+                                talk orb talk "I am so godsdamn smart."
+                                "What? What?":
+                                    choice:
+                                        talk orb talk "Didn't even need omniscience for this. This deduction is raw, unfiltered 'me being the smartest mind in this stupid little head'."
+                                        "Orb please just tell me what you've realised.":
+                                            talk orb talk "I am so good. Yes. Fuck yes. I should be a detective."
+                                        "Actually, I don't care what you have to say Orb. I'm not enabling your smug self-satisfaction.":
+                                            talk orb talk "Tough. I'm telling you."
+                    clear_dialog
+                    talk lovely talk "One hopes whatever Orb has to say is something befitting of such sickening self-aggrandising..."
+                    talk nasty talk "Orb is jerking off right in our faces and I for one do not like it."                                    
+                    set data.global.knowsRavenBlindedWeapon true
+                    if $data.raven.met:
+                        choice:
+                            talk orb talk "The Raven blinded The Weapon. She did it. It was her."
+                            "Oh that? I guessed that ages ago. [Lie]":
+                                talk orb talk "No you didn't. Fuck you."
+                            "That's wild.":
+                                talk orb talk "I'm so smart. Gods. This bops. Wait till the other Orbs hear about how good vanity feels."
+                    else:
+                        choice:
+                            talk orb talk "A local mechanic blinded The Weapon. We could even go meet her. It was her. It wasn't a fight. She did it for The Weapon as a saint."
+                            "Okay. So someone I haven't met did something. Doesn't really mean much to me to be honest, Orb.":
+                                talk orb talk "Oh :-("
+                            "Wow! Pretty clever, Orb.":
+                                talk orb talk "I am aren't I? Pretty too, maybe?"
+                else:
+                    wait 1000
+                clear_dialog
+    talk weapon talk "The war in Europa was bad. But I've heard *stories* about what goes on down there. Stories that go beyond just 'bad terrain', 'massacres', 'rabies' and 'heat'. Fuck it all."
+    clear_dialog
+    "They shake their head."
+    clear_dialog
+    talk weapon talk "We'll be out of there by the thirties, and then our instruments of fascism will turn inwards to us. We are all going to die."
+    if (roll interview_story_afrika_orb orb 60):
+        talk orb talk "Anglia withdraws from central Afrika in thirty-two. They're not far off. The instruments of fascism just sort of fall apart on the way back, fortunately."
+        clear_dialog
+    choice:
+        talk weapon talk "Anyhow... that's it. That's all I have to tell you. Go write your article. Don't refer to me by name."
+        "\\"I don't know your name, actually.\\"":
+            talk weapon talk "Mhm. I'm happy to keep it that way."
+        "\\"I'm sorry you got your eye stabbed out. Or happy. Whichever you prefer.\\"":
+            talk weapon talk "If being half blind is the price to pay for the slithers of soul that still cling to my bones than it was a price well paid."
+    complete_objective writer interview
+    jump interview_sheep_menu  

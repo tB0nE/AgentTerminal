@@ -1,0 +1,456 @@
+morning_writer:
+    clear_dialog
+    set_stat day 2
+    set_stat actions 6
+    run transition_instant generic_wake
+    
+    play sound doorknock
+    play music intro
+    "KNOCK KNOCK KNOCK"
+    clear_dialog
+    "There is a knocking at your front door. It's not a friendly knocking. The <span class='goldItalic'>golden light</span> is vaporised by the 'you are about to have to talk to someone at 9AM' adrenaline rush."
+    clear_dialog
+    choice:
+        talk nasty talk "It's the pigs! Quick! Jump out the window!"
+        "[Jump out of the window]":
+            play sound punch
+            run transition_pain
+            "Your skull bashes into the glass and bounces off. It hurts, but what did you expect?"
+            clear_dialog
+            talk nasty talk "Haha."
+            talk orb talk "Ghost is very delicate, Nasty Girl. More porcelain doll than woman. Please stop encouraging her to do stupid things."
+        "[Don't do that]":
+            run skip
+    if (!= (quest_succeeded? fixHouse) true):
+        clear_dialog
+        "You shiver. It was a cold night. You'll catch your death of cold if you don't get that hole fixed soon..."
+    clear_dialog
+    play sound doorknock
+    "There's another knock. This one is *very* unfriendly."
+    clear_dialog
+    choice:
+        talk nasty talk "Shit. We're done for gang. We're going away for a long time if the rozzers know about my time with the Cawmden Cocksuckers."
+        "The Cawmden what???":
+            talk nasty talk "Cocksuckers. You can say the word, it won't bite you. Biting's a big foe pass in the cocksucking industry, y'know?"
+            talk lovely talk "Sigh. It's <span class='writtenText'>'faux pas'</span>, and the Cawmden... whatever, is the name of her old <span class='writtenText'>'gang'</span>, if you could call it that."
+            talk lovely talk "Beastly behaviour, but hardly Lunden's most wanted. They were mostly responsible for petty vandalism and public noise complaints, as well as crimes against common decency."
+            clear_dialog
+            choice:
+                talk nasty talk "One time me and the lads all got together and pissed so hard into the same urinal that the ceramic fucking cracked and it fell off of the wall. Shit fucking bopped."
+                "[Salute the concept of the lads] Dudes bop.":
+                    play sound doorknock
+                    "The thumping on the door continues. It's even less friendly now."
+                "Hmm.":
+                    talk lovely talk "Disgusting, isn't she?"
+        "I'm not taking that bait.":
+            play sound doorknock
+            "The thumping on the door continues. It's even less friendly now."
+    clear_dialog
+    talk orb talk "You should probably get that. It might be important, and by <span class='writtenText'>'might be important'</span> I mean <span class='writtenText'>'is important'</span>."
+    clear_dialog
+    if (roll morning_writer_clothes_lovely lovely 60):
+        set data.morning_writer_wearClothes true
+        talk lovely talk "Please remember to get dressed first, sweetie."
+        talk nasty talk "Literally why. Who cares. It's our house and we can be naked if we want. Pretty sure that's in the Brüssel Accords or some shit."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "The knocking intensifies. Whoever is downstairs would rather be anywhere than at your door, but they have no choice, it seems."
+        "[Go downstairs and open the front door]":
+            set data.global.writerNaked true
+            if $data.morning_writer_wearClothes:
+                talk lovely talk "Um, darling, aren't you forgetting something?"
+                talk nasty talk "AWOOOOOO! WE'RE DOING THIS! FUCK YEAH!"
+        "[Get dressed, and then go downstairs and open the front door]" if $data.morning_writer_wearClothes:
+            play sound clothing
+            talk nasty talk "Cuck. Clothes cuck. Whatever. Fuck you. I'm going back to sleep."
+            talk lovely talk "No you aren't, cease throwing a wobbly and act like a grown up."
+            talk nasty talk "sut fuck up."   
+    clear_dialog
+    set_screen day_two
+    play sound sting_day
+    wait 8000
+    play music writer
+    play sound dooropen
+    if (== (random 0 100) 100):
+        play sound frenchwoman
+    if $data.global.writerNaked:
+        set_screen morning_writer_naked
+        "It's like an electric shot. Woman. Woman. Woman. Here. Here. Here. Scary. Pretty. Smells interesting. Heuuuugh~"
+        clear_dialog
+        "Ahem."
+        clear_dialog
+        "Behind your door is a woman, she looks to be in her early thirties, save her eyes, which look older, or perhaps just more tired."
+        "She's just lit a cigarette, for warmth, more than anything else. The door is barely open before she begins talking. The fact that you're completely naked seems not to phase her beyond a momentary flash of a raised eyebrow."
+        clear_dialog
+        if (! $data.morning_writer_wearClothes):
+            talk lovely talk "Oh me oh my! We're naked!"
+            talk lovely talk "How did we not notice that? H- how embarrassing! Nooooooo! This is so d- demeaning! How awful! We're all exposed! What a s- shame..."
+            talk nasty talk "Who cares, this is great. Being naked rules."
+            if (roll morning_writer_naked_nasty nasty 40):
+                talk nasty talk "Besides. The woman at your door thinks you're cute, dipshit."
+            else:
+                wait 1000
+            clear_dialog
+            "The Pulp Writer stares at you, unblinking."
+        clear_dialog
+        talk lovely talk "Terrifying. This woman does *not* care."
+        talk nasty talk "Incredible. I love her. We should be friends with her. We'd never have to get dressed again."
+        clear_dialog
+        "Her voice has a slight Frankish tinge to it, a pretty accent garbled through ruined lung radio static, which makes it all the sexier."
+    else:
+        set_screen morning_writer
+        "It's like an electric shot. Woman. Woman. Woman. Here. Here. Here. Scary. Pretty. Smells interesting. Heuuuugh~"
+        clear_dialog
+        "Ahem."
+        clear_dialog
+        "She looks to be in her early thirties, save her eyes, which look older, or pehaps just more tired."
+        "She's just lit a cigarette, for warmth, more than anything else. The door is barely open before she begins talking. Her voice has a slight Frankish tinge to it, a pretty accent garbled through ruined lung radio static, which makes it all the sexier."
+    clear_dialog
+    choice:
+        talk writer talk "Our dickhead boss probably already explained this to you, but I'm collecting."
+        "\\"Sorry, who are you?\\"":
+            talk writer talk "What the fuck do you mean <span class='writtenText'>'who are you?'</span> I already have said, didn't I?"
+            clear_dialog
+            talk orb talk "She didn't."
+            if (roll morning_writer_whoAre_lovely lovely 40):
+                talk lovely talk "Don't point that out. She doesn't care, and it'll just annoy her. She's as tightly strung as a violin, this one."
+                talk nasty talk "<span class='writtenText'>'A violin'</span>. Embarrassing. Guitar for bottoms."
+                clear_dialog
+            choice:
+                "The woman eyes you with disdain. It isn't for you so much as it is for the situation she has been forced into by the enigmatic being know only to you as 'Our Dickhead Boss'."
+                "\\"Correct. You did. Please continue.\\"":
+                    "She breathes a sigh of relief. She wants this over as soon as possible."
+                "\\"Okay but you didn't introduce yourself though sooooooo...\\"":
+                    talk writer talk "Look. Does it fucking matter?"
+                    clear_dialog
+                    "It appears to matter to her. She looks like she's about to pop a blood vessel."
+                    clear_dialog
+                    talk writer talk "Putain de merde..."
+                    clear_dialog
+                    "She mutters under her breath, but the cigarette smoke allows the sound waves to vibrate more strongly than normal, making her perfectly audible."
+        "\\"You're <span class='writtenText'>'collecting'</span>?\\"":
+            talk writer talk "Mouais. C'est ce que j'ai dit."
+            clear_dialog
+            talk orb talk "It is what she said, yes."
+            clear_dialog
+            choice:
+                talk lovely talk "Collecting what? Blood? Taxes? Is this the tax woman? Fuck! Shit! We need to go upstairs and jump out of that window *now*!"
+                "[Run back upstairs and jump out of the window]":
+                    play sound footstepsinside
+                    "You make a tactical retreat from the tax lady and charge upstairs. With a running start you leap at the window."
+                    play sound punch
+                    run transition_pain
+                    choice:
+                        "Your skull bashes into the glass and bounces off. It hurts, but what did you expect?"
+                        "[Go back downstairs] \\"Sorry about that I'm back now.\\"":
+                            "Your guest sighs."
+                "[Don't do that]":
+                    run skip
+    clear_dialog
+    play music welcomeToEngland-CUNT
+    talk nightmare talk "<span class='nightmare'>hi. yeah, it's me. i hope you didn't forget me.</span>"
+    clear_dialog
+    "The Nightmare's voice is quieter in the cold light of day. It feels insidious. Cruel. But somehow a lesser entity than it was in the cold ceramic night."
+    clear_dialog
+    talk nightmare talk "<span class='nightmare'>i'm here too now :)</span>"
+    choice:
+        talk nightmare talk "<span class='nightmare'>i thought I'd wait till after your conversation started to let you know you havent trimmed your facial fur in two days. you look hideous. lmao.</span>"
+        "Oh crackers! Fuck! Fuck!"
+            talk nightmare talk "<span class='nightmare'>oh fuck! haha. yeah. that's about right</span>"
+        "Uh oh! I forgot I had to do that!":
+            talk nightmare talk "<span class='nightmare'>then it's a good thing you have a friend like me to help you out :)))</span>"
+        "It's fine. I don't mind having facial fur.":
+            choice:
+                talk nightmare talk "<span class='nightmare'>you do mind, sorry :-) you look like a m</span>"
+                "I look like a <span class='writtenText'>'m'</span>?":
+                    talk nightmare talk "<span class='nightmare'>you know ;)</span>"
+                "Don't finish that word.":
+                    talk nightmare talk "<span class='nightmare'>ok. i dont need to. you just said it in your head for me, right? thats on you.</span>"
+    clear_dialog
+    choice:
+        "Your muzzle itches. It feels dry. Wiry, like a tin scouring pad. It could cut someone, were they to run their hand across it. Yesterday was nice, but the wriggling and squirming deep *deep* inside you is back now. Perhaps forever."
+        "Why did you wait until *now* to tell me???":
+            choice:
+                talk nightmare talk "<span class='nightmare'>because i hate you. lol. lmao.</span>"
+                "*Why* do you hate me?":
+                    talk nightmare talk "<span class='nightmare'>huh? i dont??? what? i love you. we're friends remember. i look out for you, like just now i helped you remember that you were untrimmed. im nice actually? fuck you. I love you.</span>"
+        "Whatever. I'm busy.":
+            talk nightmare talk "<span class='nightmare'>ok champ, ignore it, it's fine. not like facial fur gets a little longer and a lottle more visible the longer you leave it alone or anything :-)</span>"
+    start_quest cleanup
+    stop music
+    play music writer
+    clear_dialog
+    if $data.global.writerNaked:
+        "The pulp Writer clears their throat. The sound of a storm drain clogged with shrapnel and viscera. They're glaring at you in frustration. You feel *so* naked."
+    else:
+        "The Pulp Writer clears their throat. The sound of a storm drain clogged with shrapnel and viscera. They're glaring at you in frustration."
+    clear_dialog
+    choice:
+        talk orb talk "You've been silent for about twenty seconds now. Are you okay? What's the matter?"
+        "You didn't hear any of that?":
+            talk orb talk "Excuse me? Hear any of what? Are you okay, Ghost?"
+    clear_dialog
+    talk writer talk "Hello? Always you keep not paying attention."
+    clear_dialog
+    "Her Anglian is ever so slightly broken. Not because she's bad at it, but because she rightfully does not respect it."
+    clear_dialog
+    talk orb talk "Just try to hold this conversation. Please. It seems important."
+    clear_dialog
+    choice:
+        talk writer talk "Your article. Can I take it?"
+        "[Nod] \\"Yes. My article. Of course. I have one of those.\\" [Nod again, more insistently this time]":
+            talk writer talk "Okay. Where is it? I *really* need to get going."
+            talk orb talk "You *don't* have an article. Why did you say that? Did you just assume you did? You didn't even think to check with me?"
+            if $data.global.getMotorcycle:
+                talk lovely talk "First the motorcycle, now this. Please stop telling people you have things you don't. It's going to land us in a lot of trouble sooner or later."
+            clear_dialog
+            choice:
+                talk writer talk "Well?"
+                "\\"Uuuuuuh uummmmm uuuuuh...\\"":
+                    talk lovely talk "This is excruciating."
+        "\\"Let's take a step back. I'm supposed to have an article?\\"":
+            talk writer talk "You d- I- What have you been doing for the last week, jacking off and getting high?"
+            clear_dialog
+            if $data.global.writerNaked:
+                "They look up and down your tired, pale, exposed body."
+                clear_dialog
+                talk lovely talk "They're wondering if you're *still* high. The <span class='writtenText'>'jacking off'</span> is now assumed."
+            talk nasty talk "I wish. We should do that. Drugs and jacking off I mean. We should get some drugs and then *do* the drugs and then jack off. We should buy drugs and jack off, everyone."
+    clear_dialog
+    choice:
+        talk writer talk "You haven't written an article, have you?"
+        "\\"No. Sorry. Was I supposed to?\\"":
+            "The Pulp Writer sighs. She is *so* tired."
+    clear_dialog
+    talk writer talk "We're running a piece called <span class='writtenText'>'Heroes of The Great War'</span>, that is to say an interview with a real life Bluehills <span class='writtenText'>'war hero'</span>."
+    talk writer talk "You were given the job because as the newest writer at 'Weird Tails', you were least likely to put up a fight. That's where you work, Weird Tails magazine, in case you'd somehow forgotten that too."
+    jump morning_writer_menu
+
+morning_writer_menu:
+    clear_dialog
+    choice:
+        "The Pulp Writer picks at something on her hand. She does this a lot, when she can feel things spiralling out of her control. Smoke curls away from her momentarily unattended cigarette."
+        "\\"Can you tell me a little about Weird Tails, just as a refresher. I only just woke up and I'm still half asleep. I do *not* have amnesia.\\"":
+            choice:
+                talk writer talk "You have amnesia? Like, you actually have amnesia? Bordel... I am *not* being paid enough to deal with this shit."
+                "\\"No no, I said I *don't* have amnesia.\\"":
+                    talk writer talk "Peu importe. Peu importe."
+                    clear_dialog
+                    "She taps some ash off of the end of her cigarette. The embers vaporise a bead of morning dew."
+                    clear_dialog
+                    if (roll morning_writer_mildew_orb orb 20):
+                        talk orb talk "The cottage's previous owner spent a lot of time abroad on business, the unkempt state of their cottage reflects this, but not them themself. They were ever so primp and proper."
+                        clear_dialog
+                    talk writer talk "Weird Tails is Anglia's <span class='writtenText'>'premium'</span> magazine for <span class='writtenText'>'quality'</span> short literature, <span class='writtenText'>'scary'</span> articles and <span class='writtenText'>'thought provoking'</span> non fiction, or so the tagline claims."
+                    talk writer talk "In reality it's tripe. Utter sheepshit. But it pays the bills, that's why you joined us, right?"
+                    clear_dialog
+                    "She looks down at her hand. Her fur is scruffy and matted from her incessant picking."
+                    clear_dialog
+                    talk writer talk "Gods..."
+                    clear_dialog
+                    "She stares off into the horizon. It's the first time she's lost focus on her purpose here since she arrived. Her nose twitches absent mindedly, breathing in some of her smoke."
+                    if (roll morning_writer_more_lovely lovely 40):
+                        talk lovely talk "<span class='writtenText'>'Is this really what it's come to?'</span>"
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk writer talk "Anyhow. That's Weird Tails. You're writing an article for it."
+                    jump morning_writer_menu
+        "\\"An article about a war hero doesn't seem all that weird, for a magazine called 'Weird Tales', I mean.\\"":
+            talk writer talk "Mouais. It's not. It's shit. Waste of a fucking page, but it's what the editor wants."
+            choice:
+                talk writer talk "I get it though, if we don't run some sheepshit fluff piece about our *brave war heroes* in time for Victory Day we'll get savaged by the Anglian Mail, and they already have a noose around our fucking neck after we ran that filth a few months back..."
+                "\\"Filth? Tell me more.\\"":
+                    set data.global.weirdTailsFilth true
+                    talk writer talk "No."
+                    clear_dialog
+                    if (roll morning_writer_filth_orb orb 20):
+                        talk orb talk "It was *nasty*."
+                    talk nasty talk "We should read it. Let's find a copy."
+                    clear_dialog
+                    talk writer talk "The less said about that the better."
+                    jump morning_writer_menu
+                "[Nod like you actually understand anything she's talking about]":
+                    jump morning_writer_menu
+        "\\"Uh. I like your hair mam.\\"":
+            talk writer talk "Okay. I am not here to talk about my hair."
+            if (roll morning_writer_menu_hair_lovely lovely 20):
+                talk lovely talk "She's actually touched. She refuses to admit or show it though."
+            else:
+                wait 1000
+            jump morning_writer_menu
+        "\\"Sorry I'm naked by the way.\\"" if $data.global.writerNaked:
+            "The Pulp Writer takes a drag of their cigarette."
+            clear_dialog
+            talk writer talk "You think I give a shit?"
+            if (roll morning_writer_menu_tits_nasty nasty 20):
+                talk nasty talk "She does give a shit. She already mentally noted that your tits are <span class='writtenText'>'trez jolly'</span>. Whatever the fuck that means."
+                if (roll morning_writer_menu_tits_lovely lovely 20):
+                    talk lovely talk "*tres joli."
+                else:
+                    wait 1000
+            else:
+                wait 1000
+            jump morning_writer_menu
+        "\\"What should I do?\\" <span class='prompt'>[[MOVE ON]]</span>":
+            jump morning_writer_whatToWrite
+
+morning_writer_whatToWrite:
+    clear_dialog
+    talk writer talk "Just... interview someone. Anyone. It only needs to be a page long."
+    talk writer talk "If they were in the war they're a <span class='writtenText'>'hero'</span> as far as the public is concerned. Your brave boys, girls and non-binaries could kick an orphan in the face and the mewling masses would still lick their fucking boots."
+    clear_dialog
+    choice:
+        talk writer talk "Do that, write it up, and bring it to me by the end of the day and I'll be out of your fur."
+        "[Nod] \\"I'll have an article for you by the end of the day, I promise.\\"":
+            talk writer talk "Bon."
+        "[Nod] \\"I'll make you proud, fellow writer.\\" [Salute them]":
+            "She rolls her eyes under her breath. Somehow."
+        "\\"No I mean what *exactly* am I writing? Please be more specific. Walk me through it word by word please.\\"":
+            talk writer talk "What the fuck are you even asking me? I'm your co-worker, not your godsdamn babysitter. What, you don't write your own notes? Just bring *something*, *anything* publishable to my apartment by the end of the day, I am *begging* you."
+            clear_dialog
+            "It's surreal, being spoken to so angrily by someone who is avoiding eye contact at all costs. It's like the words aren't even aimed at you, so much as they are sprayed generally into your vicinity. At the world as a whole."
+    clear_dialog
+    "She hands you a piece of lined paper. The penmanship is near unreadable, but it appears she's scrawled her address on it."
+    clear_dialog
+    talk writer talk "Get it done."
+    clear_dialog
+    if $data.global.writerNaked:
+        run transition generic_door_naked
+    else:
+        run transition generic_door
+    choice:
+        "A billow of warm smoke engulfs you. When it clears, mostly via your nostrils, she is gone. The Pulp Writer is not one for fanfare. A breeze passes over you. It's a cold morning."
+        "I don't think she liked me, and yet, my heart felt slightly funny when she spoke to me. Curious... curious...":
+            talk nasty talk "That's horniness. You're horny, Ghost."
+            choice:
+                talk lovely talk "It's love, you're in *love* Ghost."
+                "I am!?":
+                    talk lovely talk "I don't know, maybe!"
+                    clear_dialog
+                    choice:
+                        talk lovely talk "Isn't it an exciting thought though! Squeak squeak!"
+                        "But she kept being mad at me!":
+                            talk nasty talk "That's why you like her, dickhead. You're such a bottom it's pathetic."
+                            if (roll morning_writer_whatToWrite_frankish_lovely lovely 40):
+                                talk lovely talk "She was only a bit mad at you."
+                                talk lovely talk "Unfortunately she does not possess the Anglian pretension for veiling one's frustration behind a forked tongue and a fake smile, instead possessing the Frankish predisposition for honesty based violence."
+                            else:
+                                wait 1000
+        "I don't think she liked me, but that's okay, I'll still keep writing her garbage.":
+            run skip
+    clear_dialog
+    choice:
+        talk orb talk "So you're a writer. Any thoughts?" 
+        "I'm so fucking pumped to write. I love this shit. Inject writing directly into my veins. AWOOOO!":
+            talk nasty talk "AWOOOO!"
+        "Orb! I don't know how to write!":
+            talk orb talk "Yes you do, you'd not have gotten the job otherwise."
+            clear_dialog
+            if (roll morning_writer_whatToWrite_writer_nightmare nightmare 40):
+                talk nightmare talk "<span class='nightmare'>a lot of people fall into jobs they aren't qualified. their just meat to fill the office. they lie on their CVs. Or plagiarise... you'd know a lot about lying and plagiarising wouldn't you,</span> <span class='nightmareQuote'>'ghost'</span><span class='nightmare'>. Your entire life is a lie built atop a stolen gender and a thousand stolen womens spaces.</span>"
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk nasty talk "You'll do fine, love."
+                "If you're sure. Let's get this done.":
+                    run skip
+    clear_dialog
+    start_quest writer
+    start_objective writer article
+    talk lovely talk "Let's find ourselves a war hero to interview! Squeak squeak!"
+    if (roll morning_writer_whatToWrite_guy_nasty nasty 20):
+        set data.article.makeUpAGuy true
+        talk nasty talk "Why go to the effort of interviewing someone when we could literally just make up a guy. Who'd stop us? Orb? Pah! Orb, if you try to stop us I'll come at you with a knife."
+        talk orb talk "Uhuh. If you say so, Nasty Girl."
+    else:
+        wait 1000
+    jump morning_writer_writing_menu
+
+morning_writer_writing_menu:
+    clear_dialog
+    choice:
+        "Somewhere in the distance a crow caws. Somewhere further a magpie caws back."
+        "What about The Weapon? They did war stuff, didn't they?":
+            if (roll writher_intro_whatToWrite lovely 40):
+                talk lovely talk "I don't get the impression they want to discuss that with you, but you're correct, they <span class='writtenText'>'did war stuff'</span>."
+            else:
+                talk lovely talk "They <span class='writtenText'>'did war stuff'</span>, yes."
+            if $data.weapon.redHanded:
+                talk orb talk "You stole some wood from them yesterday. They probably aren't going to want to talk to you, so I wouldn't bother."
+            jump morning_writer_writing_menu
+        "Could you not just tell me about a war hero, Orb?":
+            talk orb talk "I suppose so? I'm not convinced I'm reliable enough for that to be a good plan though, as much as it pains me to admit it."
+            jump morning_writer_writing_menu
+        "We *could* just make up a guy." if $data.article.makeUpAGuy:
+            talk nasty talk "There is literally no reason not to. I reckon a good half of my free time is spent making up guys. I leave the making *out* for the chicks, heheh."
+            talk lovely talk "While it would be rather uncouth to lie to our new acquaintance and make up a guy, papi always says one should work smarter not harder. Eh, let's do it. C'est la vie, c'est la vie"
+            talk orb talk "Bad id'ee. Bad id'ee."
+            jump morning_writer_writing_menu
+        "<span class='prompt'>[[MOVE ON]]</span>":
+            if (roll morning_writer_writing_menu_raven_orb orb 60):
+                talk orb talk "Of course, our quest to find a burly dyke who can give us a hammer may also lead us to... not a war hero, exactly... but someone relevant, at least."
+                talk nasty talk "Burly dykes are always relevant ass hole."
+            else:
+                wait 1000
+            start_objective writer interview
+            clear_dialog
+            talk orb talk "We should stop standing around in the doorway like a... door, and get going. We've a lot to do today, Ghost."
+            clear_dialog
+            play sound baa
+            "Somewhere close, a sheep goes </span class='writtenText'>'baaaaaa'</span>. Another sheep replies; <span class='writtenText'>'baaaaa'</span>."
+            clear_dialog
+            choice:
+                talk nightmare talk "<span class='nightmare'>Ooh! Ooh! I just remembered something!</span>"
+                "What?":
+                    choice:
+                        talk nightmare talk "<span class='nightmare'>that you're forgetting something.</span>"
+                        "I gathered that yes. What is it?":
+                            choice:
+                                talk nightmare talk "<span class='nightmare'>I'm not telling.</span>"
+                                "Okay. I don't care. You were probably just going to say some vile shit like <span class='nightmareQuote'>'you're forgetting how much of a degenerate you are, you little tranny'</span>.":
+                                    talk nightmare talk "<span class='nightmare'>actually I was going to remind you that today is your appointment at the GIC, but I guess i'll just keep that to myself, you degenerate little tranny.</span>"
+                                "Please?":
+                                    talk nightmare talk "<span class='nightmare'>well, since you asked so nicely. Todays your appointment at the GIC. You better get there on time. Idiot.</span>"
+            clear_dialog
+            choice:
+                talk nightmare talk "<span class='nightmare'>It'll be a quick appointment. The doctor will take one look at you and know you're a little pervert.</span>"
+                "I am *not* a little pervert!":
+                    wait 4000
+                "Me being a little pervert has no bearing on my status as a little transgender rat.":
+                    wait 4000
+            clear_dialog
+            "There is no response. The nightmare has receded."
+            clear_dialog
+            choice:
+                talk lovely talk "Oh dear. She's staring off into space again. Can someone give her a poke?"
+                "Orb, why didn't you tell me today was my GIC appointment?":
+                    talk orb talk "It is? I didn't know. I'm hardly omniscient when trapped within the confines of this silly little body. Seems you remembered it yourself anyway, well done Ghost."
+                "Guess what team, we have an appointment with the gender clinic to go to today. No, I don't know what time.":
+                    talk orb talk "We do? What are the odds."
+            if (roll writher_intro_writing_menu_time_orb orb 20):
+                talk orb talk "You've been waiting for this appointment for... five years. What a functional healthcare system."
+            else:
+                wait 1000
+            clear_dialog
+            talk orb talk "I think it would be wise to spend some time preparing. Peering into the murky depths of the future I can see this going... poorly, if you don't make yourself look 'fuckable' enough for the doctor."
+            talk lovely talk "Goodness knows you could use a shower, you grimy little urchin. Papi would have you thrown into the stable, smelling as you do!"
+            start_quest hrt
+            start_objective hrt hrt
+            clear_dialog
+            choice:
+                talk orb talk "Not knowing when the appointment is exactly, we should get there as early as possible, just in case. It looks like we have even more to do today than we thought."
+                "But there's so much else I want to do... wander around... search the woods for beasts... find creatures and meet women etc... time is a curse, Orb... a damnable curse... <span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    talk orb talk "We can do anything you want Ghost, but let's try to be sensible and use our time wisely, hmm?"
+                    clear_dialog
+                    start_quest cryptids
+                    talk nasty talk "Fuck yes. I agree with Orb. Let's go hunt for cryptids in the abandoned AMOD zone."
+                    talk orb talk "I... no, that's not what I..."
+                    if $data.global.writerNaked:
+                        clear_dialog
+                        talk lovely talk "Let us at the very least get dressed before we venture out to meet the day, hmm?"
+                    jump goToGameMap

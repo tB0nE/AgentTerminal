@@ -1,0 +1,288 @@
+dream:
+    set data.game_map.inHouse false
+    add_stat day 1
+    set_stat actions 6
+    set data.dawnsight.prayedToday false
+    set data.global.crosswordDone false
+    set data.newspaper.readToday false
+    set data.gamemap.landladyPromptDone false
+    set data.pervert.talkCount 2
+    set data.pervert.talkWomen false
+    set data.pervert.talkLife false
+    set data.pervert.talkMoney false
+    set data.pervert.talkSelf false
+    if (&& (== $data.raven.fixedRoof true) (!= $data.gamemap.ravenFixedRoofPrompt true)):
+        clear_dialog
+        set data.gamemap.ravenFixedRoofPrompt true
+        if (&& (== (quest_completed? fixHouse) true) (!= $data.raven.badEnd true)):
+            set data.raven.fixedRoof false
+            "It seems The Raven attempted to keep her promise."
+            "A small note has been left on your front door. It just reads <span class='writtenText'>'Looks like someone else already fixed your roof? Maybe that just happens in the countryside, I dunno?'</span>."
+        else:
+            if (!= $data.raven.badEnd true):
+                set data.ghost.roofRepaired true
+                complete_objective fixHouse fixHouse
+                complete_quest fixHouse fixHouseSuccess
+                if (objective_started? fixHouse fixHouseUrgent):
+                    complete_objective fixHouse fixHouseUrgent
+                "It seems The Raven kept her promise. Fixing a roof is short work for her, and it's a lot quicker to get across Bluehills by motorcycle."
+                if $data.raven.goodEnd:
+                    "A small note has been left on your front door. It just reads <span class='writtenText'>'Heidi was not one to wallow in self pity'</span>."
+                elseif (== $data.ghost.motorcycleLie true):
+                    "A small note has been left on your front door. It just reads <span class='writtenText'>'Looked around for your motorcycle, couldn't see it. Maybe another time'</span>."
+                    clear_dialog
+                    talk orb talk "Gods dammit, Ghost."
+                else:
+                    "A small note has been left on your front door. It just reads <span class='writtenText'>'I fixed your roof.'</span>."
+            else:
+                set data.raven.fixedRoof false
+                "A small note has been left on your front door. It just reads <span class='writtenText'>'Fuck you. Cunt.'</span>."
+                clear_dialog
+                choice:
+                    talk orb talk "Great. You doxxed yourself to a huge angry lady, who you then proceeded to piss off further. Nice one, Ghost."
+                    "Well well well, if it isn't the consequences of my actions. [Smirk then get really serious all of a sudden] Oh fuck, it's the consequences of my actions.":
+                        talk orb talk "Relax. I'm pretty sure she isn't going to come out here to kill you."
+                        talk orb talk "...Pretty sure."
+    clear_dialog
+    if (&& (objective_started? houseSnake hungry) (== $data.houseSnake.fed false) (== $data.houseSnake.active true)):
+        start_objective houseSnake boneman
+    else:
+        set data.houseSnake.fed false
+        set data.gamemap.houseSnakePromptDone false
+    clear_dialog
+    if (== $stats.day.value 2):
+        jump intro_nightmare
+    else:
+        jump dream_main
+
+dream_main:
+    clear_dialog
+    stop music
+    run transition_instant generic_black
+    wait 4000
+    run transition_instant dream
+    clear_dialog
+    if (== $stats.day.value 2):      
+        "The cold ceramic fades away. You are cold. You are cold."
+        "It feels like death, but it's not."
+        clear_dialog
+        play music goldenhair
+        "<span class='goldItalic'>Events</span> are occurring."
+        clear_dialog
+        "Was <span class='nightmare'>The Nightmare</span> so important? Should it consume your thoughts?"
+        "Were its words worth their time?"
+        "Perhaps... perhaps..."
+        clear_dialog
+        "There is a <span class='goldItalic'>golden light</span>. A <span class='goldItalic'>golden light</span> somewhere."
+        "You can't see it, but it exists. It <span class='goldItalic'>exists</span>."
+        "Something is inside you. Unfurling. Rising from splintered bone and pulverised heart muscle."
+        "Could this be what it is to be reborn?"
+        "Perhaps... perhaps... but not yet..."
+        clear_dialog
+        "<span class='goldItalic'>She</span> is there for you, if you find her."
+        clear_dialog
+        "<span class='goldItalic'>They all are</span>."
+        clear_dialog
+        "Some sooner than you might expect..."
+        clear_dialog
+        start_quest dream
+        start_objective dream dream
+        stop music
+        jump morning_writer
+    if (== $stats.day.value 3):
+        play music goldenhair
+        "A tired sigh, somewhere distant. But <span class='goldItalic'>she</span> feels so close..."
+        "Fingers on your neck."
+        "A 'RAWR' bracelet. Neon green and neon pink."
+        "Three pingers deep, surrounded by dirty tiles."
+        "<span class='writtenText'>'Babe, no, you're so fucking beautiful'</span>."
+        clear_dialog
+        "<span class='goldItalic'>Golden light</span>... <span class='goldItalic'>golden light</span>..."
+        clear_dialog
+        stop music
+        jump morning_landlady
+    if (== $stats.day.value 4):
+        play music goldenhair
+        "A <span class='goldItalic'>warmth</span> in your chest. Flames. Strength. Lust. Love."
+        "The one girl in the street who said she liked your tights."
+        "You were so surprised you accidentality ignored her."
+        "Never heard her voice again."
+        clear_dialog
+        "<span class='goldItalic'>Her</span> smile. <span class='goldItalic'>Her</span> blush. <span class='goldItalic'>Her</span> lips."
+        clear_dialog
+        if (== $data.dawnsight.prayers 2):
+            "Today is the day. <span class='goldItalic'>She sits beside the telephone</span>. <span class='goldItalic'>She</span> will pick up, if you call for <span class='goldItalic'>her</span>..."
+        stop music
+        jump morning_weapon
+    if (== $stats.day.value 5):
+        play music goldenhair
+        if (quest_succeeded? dawnsight):
+            "White feathers. Countless eyes. Flame."
+            if $data.pride.stuffedBird:
+                "Somewhere, a distant <span class='writtenText'>'peep peep peep'</span>. A small grey <span class='goldItalic'>smile</span>..."
+            jump dream_ending_true
+        else:
+            if $data.pride.stuffedBird:
+                "Somewhere, a distant <span class='writtenText'>'peep peep peep'</span>. A small grey <span class='goldItalic'>smile</span>..."
+            "The <span class='goldItalic'>feeling</span> inside you. Does it change? No, but it's different..."
+            "White feathers. Countless eyes. Flame. It is still there. But it sleeps."
+            "<span class='goldItalic'>It sleeps</span>."
+            "<span class='goldItalic'>She</span> does not."
+            clear_dialog
+            "It's okay."
+            clear_dialog
+            "<span class='goldItalic'>She loves you all the same...</span>"
+            complete_quest dream dreamFailure
+            stop music
+            jump ending
+
+dream_ending_true:
+    "The <span class='goldItalic'>golden light</span> dims. <span class='goldItalic'>Her</span> form perceptible. <span class='goldItalic'>Her smile</span>... <span class='goldItalic'>her smile</span>..."
+    play sound warm
+    play music mayyourest
+    run transition intro_wings
+    choice:
+        talk marigold talk "Hello again, Ghost."
+        "Marigold?":
+            talk marigold talk "Tis' I, yes."
+            if $data.sinner.wentToCave:
+                talk marigold talk "It pleases me that you chose to stay with us in the plane of existence, Ghost, in the dream. Though often it is a trial, an ordeal, a crusade, I think that we would have been sadder for your erasure."
+                talk marigold talk "<span class='magenta'>Magenta</span> tempts many the woman, but always do I smile when they stay, if even for but one more kiss."
+    clear_dialog
+    "She gently strokes your cheek. Her fingertip, it is so soft."
+    "You could die happy in her presence. Her lips meet your forehead. A little kiss for a little miss."
+    clear_dialog
+    choice:
+        talk marigold talk "Let us talk, Ghost. I think that it is time."
+        "Talk about what?":
+            choice:
+                talk marigold talk "What else? <span class='goldItalic'>Women</span>."
+                "[Nod ethereally] <span class='goldItalic'>Women</span>...":
+                    "Your head feels weightless, it can move, but always there is softness. Like bathing in caramel. Resting on her chest. Fingers run through your hair."
+    set data.dream.women 0
+    jump dream_ending_true_women_menu
+
+dream_ending_true_women_menu:
+    clear_dialog
+    if (== $data.dream.women $data.dream.womenOptions):
+        jump dream_ending_true_wake
+    else:
+        choice:
+            talk marigold talk "Tell me about them, Ghost. The women you love. Tell me about them all."
+            "A writer. Weird and scrungly. Beautiful and sad." if (&& (== $data.ending.presentWriter true) (!= $data.dream.writerDone true)):
+                set data.dream.writerDone true
+                add data.dream.women 1
+                talk marigold talk "Women often become scrungly. It is a fundamental state of matter alongside solid, liquid, gas, plasma..."
+                talk marigold talk "It sometimes seems as though all women eventually scrungle just as all life eventually writhes."
+                jump dream_ending_true_women_menu
+            "A weird bitey woman with a death wish. Therapists dream, or therapists nightmare?" if (&& (== $data.ending.presentSinner true) (!= $data.dream.sinnerDone true)):
+                set data.dream.sinnerDone true
+                add data.dream.women 1
+                talk marigold talk "So many women cry over sins they cling to. Perhaps it comforts them, like a plush doll?"
+                talk marigold talk "But a plush doll stuffed with broken glass is no true comfort."
+                jump dream_ending_true_women_menu
+            "A Lovely Lady. She sits in my head. She spoon feeds me what to say." if (!= $data.dream.lovelyDone true):
+                set data.dream.lovelyDone true
+                add data.dream.women 1
+                talk marigold talk "I think fondly of Lovely Lady. She is a good friend of mine. Send her my regards, Ghost."
+                jump dream_ending_true_women_menu
+            "A Nasty Girl. She lounges in my head. She IV drips me filth to say." if (!= $data.dream.nastyDone true):
+                set data.dream.nastyDone true
+                add data.dream.women 1
+                talk marigold talk "Ah... I know of Nasty Girl. She is a strange woman, but I like her. I have kissed many girls like her."
+                talk marigold talk "They too feel sadness sometimes, you know?"
+                jump dream_ending_true_women_menu
+            "Not my landlady. I hope she dies very soon." if (!= $data.dream.landladyDone true):
+                set data.dream.landladyDone true
+                talk marigold talk "Often women say this to me. Would that one day a woman shall lead a greater crusade against the land owning parasites..."
+                jump dream_ending_true_women_menu
+            "A Saint. Her golden hair shields me. She loves me. She isn't a saint. She's just a girl, like me." if (!= $data.dream.marigoldDone true):
+                set data.dream.marigoldDone true
+                add data.dream.women 1
+                talk marigold talk "I love you too, Ghost. Always remember this. The world is dark. It is far too cruel for little ladies like us."
+                talk marigold talk "But that is why the Divine saw fit to gift other ladies unto this sad world, isn't it?"
+                talk marigold talk "To make the it worth the struggle."
+                jump dream_ending_true_women_menu
+            "Women... I love them all. The constellations themselves do not compare..." if (!= $data.dream.womenDone true):
+                set data.dream.womenDone true
+                add data.dream.women 1
+                choice:
+                    talk marigold talk "What are the stars but distant women?"
+                    "So true... so true...":
+                        jump dream_ending_true_women_menu
+            "I don't know about loving women... I've been hearing a lot about The Dreamer lately and it makes everything sound a little futile. What use is love today when she could wake tomorrow?" if (&& (!= $data.dream.dreamerDone true) (== $data.ghost.knowsDreamer true)):
+                set data.dream.dreamerDone true
+                talk marigold talk "Does a woman's smile ever *feel* futile, Ghost?"
+                jump dream_ending_true_women_menu
+
+dream_ending_true_wake:
+    if (>= $data.dream.women 6):
+        talk marigold talk "It seems to me you love women very much, Ghost. I love them too."
+        choice:
+            talk marigold talk "It's tiring though, Ghost. While my heart grows with every smile I create, my eyes grow weary. I'd like very much for you to take up my mantle, if you wish it. You are my angel, you know this."
+            "You've got it your maj. [Salute]":
+                talk marigold talk "No Ghost, *you've* got it."
+                choice:
+                    talk marigold talk "Kiss me, Ghost."
+                    "<span class='gold'>[Kiss her]'</span>":
+                        "Honey and sugar lip scrub. Energy drink. Nicotine. Berries. Sweat. She tastes of it all. She tastes of all woman. She tastes so so good. Her lips are so so soft. So so warm."
+                        clear_dialog
+                        talk marigold talk "I will sleep softly Ghost, the sweet memory of that kiss my quilt."
+                        talk marigold talk "Take care of <span class='goldItalic'>them</span> for me, as I have for so long."
+                        clear_dialog
+                        talk marigold talk "<span class='goldItalic'>I love you</span>."
+                        run transition dream_angel
+                        clear_dialog
+                        play music forallofthem
+                        "<span class='goldItalic'>Finally, they can be contained no longer.</span>"
+                        "<span class='goldItalic'>Your white wings unfurl.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>In your left hand a flaming sword.</span>"
+                        "<span class='goldItalic'>In your right a flaming spear.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>A thousand eyes with which to see.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>In your chest, Orb too is ringed in flame and feather. Gazing into the cosmos.</span>"
+                        "<span class='goldItalic'>You can see them.</span>"
+                        "<span class='goldItalic'>All lesbians. Hear their love, their sadness.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>You can be there for them.</span>"
+                        "<span class='goldItalic'>You with your all knowing heart, ever searching, ever longing.</span>"
+                        clear_dialog
+                        run transition_instant dream_club
+                        "<span class='goldItalic'>In the grimy stairwells.</span>"
+                        "<span class='goldItalic'>The ruins.</span>"
+                        "<span class='goldItalic'>The cafes.</span>"
+                        "<span class='goldItalic'>The woods.</span>"
+                        run transition dream_angel
+                        clear_dialog
+                        "<span class='goldItalic'>The one who lost herself in the iron rain.</span>"
+                        if $data.raven.goodEnd:
+                            "<span class='goldItalic'>The one who murdered them all. Every single person in the War.</span>"
+                        if $data.church.dawnsightStory:
+                            "<span class='goldItalic'>The one who wants to see blue sky again.</span>"
+                        if $data.ghost.metNKVD:
+                            "<span class='goldItalic'>The ones forever on the waiting list, awaiting their turn before the white gloves.</span>"
+                        "<span class='goldItalic'>The ones for who a parade is not enough. For who the thin facade of hope cannot heal.</span>"
+                        "<span class='goldItalic'>The one who seeks oblivion at the bottom of the wine bottle, at the bottom of the world.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>You can be there for them.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>You can make them smile.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>Her crusade is now yours.</span>"
+                        clear_dialog
+                        "<span class='goldItalic'>A crusade against lesbians feeling sad.</span>"
+                        complete_quest dream dreamSuccessAngel
+                        unlock_achievement angel
+                        jump ending
+            "No thank you mam, it seems too much responsibility for me. I'm very silly, you see.":
+                talk marigold talk "As you wish it, Ghost. All that I require is your smile."
+                complete_quest dream dreamSuccess
+    choice:
+        talk marigold talk "Your happiness fills my heart, Ghost. It is women like you that keep me going. That fuel my righteous crusade."
+        "Crusade against what?":
+            talk marigold talk "Lesbians feeling sad."
+            clear_dialog
+            "The <span class='goldItalic'>golden light</span> intensifies, and then she is gone."
+            jump ending

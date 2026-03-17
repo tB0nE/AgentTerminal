@@ -1,0 +1,399 @@
+dealer:
+    play sound click
+    choice:
+        "Tales spun of spider silk float upon the night-time wind and speak of a magnanimous being whomst haunts the area beneath the cover of moonlight. It is said she graces those pure of heart with hormones born of her own magic. She is Lady Moonshine, and she awaits you in the gloom."
+        "[Commune with Lady Moonshine] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_dealer false
+            run transition_black dealer_sky
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+    
+    stop music
+    play ambient amb_wind 1
+    if (objective_completed? hrt dealer):
+        jump dealer_return
+    choice:
+        "The moon hangs low, shining weakly though the thick autumn fog. It's dark, but from this hillside you can see the warm flow of streetlights in the distance. Hear the hum of the city winding down. Feel the bite of the coming frost. Mere meters away lurks your quarry."
+        "[Motion the shape of a crown across your chest, for spiritual protection]":
+            talk lovely talk "Our Lady who art in the Beyond, protect us today from the otherworldly one."
+            talk orb talk "We're meeting a quasi-legal drug dealer in a park, not journeying to the void to slay a creature of the night, you two."
+            clear_dialog
+            choice:
+                talk nasty talk "Those two are such fucking pussises."
+                "[Approach Lady Moonshine]":
+                    play music moonlight
+                    run transition dealer
+                    "There she is. A gaunt, hooded figure. Rim lit by stellar light."
+        "[Approach Lady Moonshine]":
+            play music moonlight
+            run transition dealer
+            "There she is. A gaunt, hooded figure. Rim lit by stellar light."
+    clear_dialog
+    complete_objective hrt dealer
+    talk nasty talk "Oh fuck me, this is too scary. Let's skedaddle the fuck out of here before we have our souls eaten."
+    clear_dialog
+    "The figure moves, ever so slightly, and ever so gracefully, to look upon you. Cold fog shrouds her like a cloak."
+    "The tip of her snout and the reflection of moonlight bouncing off of coloured glasses lenses are all that is visible of the enigmatic cryptid known only as 'Lady Moonshine'."
+    "Rolling from her like poison gas is an otherworldly scent. Indescribable. Unplaceable."
+    clear_dialog
+    talk lovely talk "Sniff sniff. PVA glue and a future of stress induced heart attacks, m'thinks."
+    if (|| (roll dealer_teacher_orb orb 40) (== $data.dealer.stickers true)):
+        set data.dealer.knowsDealerIsTeacher true
+        set data.dealer.stickers true
+        choice:
+            talk orb talk "She's a preschool teacher. The scent of PVA glue and earache are her constant companions."
+            "What does PVA glue have to do with being a preschool teacher.":
+                talk orb talk "Small children can only learn by cutting and sticking. That's just a fact Ghost, you shouldn't need me to explain this to you."
+                talk nasty talk "Even I know that Ghost, and I didn't even go to school on account of me 'not being a four eyed homo'."
+                clear_dialog
+                talk lovely talk "Oh, how I miss the days of cutting and sticking Frankish words together to form sentences with the tutor Papi hired for me..."
+                talk nasty talk "Hey now, last year wasn't that long ago Lovely Lady!"
+                talk lovely talk "Sigh..."
+    else:
+        wait 1000
+    clear_dialog
+    talk lovely talk "I notice Lady Moonshine isn't saying anything. Maybe she doesn't realise we're here to talk to her, despite us standing right in front of her? Mayhap we should greet her?"
+    if (roll dealer_speak_nasty nasty 20):
+        talk nasty talk "Never speak first. That's moonshine hormone dealer 101. You don't want to incriminate yourself right off the bat, do you?"
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "Some foggy breath exhales from beneath Lady Moonshines hood. It's an evocative sight that would only add to her enigma, if it wasn't also fogging up her glasses."
+        "\\"Hello! I'm Ghost!\\" [Do a gay little wave] \\"I'm here to buy some of your oestrogen please!\\"":
+            talk dealer talk "Ey up, m'luhv. Codeword?"
+        "[Nod criminally] \\"You got the goods?\\"":
+            talk dealer talk "Ey up, m'luhv. Codeword?"
+    if (roll dealer_codeword_orb orb 90):
+        set data.dealer.orbGuessedCodeword true
+        set data.dealer.knowsCodeword true
+        talk orb talk "It's <span class='writtenText'>'codeword'</span>. Opsec is not her strong point."
+        talk nasty talk "Sex op."
+        talk orb talk "Yes. Sex op. Thanks Nasty Girl."
+        talk nasty talk "You welcome."
+        clear_dialog
+        talk dealer talk "I said <span class='writtenText'>'Codeword?'</span>, love."
+    else:
+        wait 1000
+    jump dealer_codeword_menu
+
+dealer_codeword_menu:
+    clear_dialog
+    choice:
+        "Lady Moonshine somehow looks at you expectantly, while also not expecting much. Extraordinary. Only a servant of the cosmos could portray such a conflicting aura."
+        "\\"Codeword?\\"":
+            choice:
+                talk dealer talk "Sorry love, you asking what I mean by <span class='writtenText'>'codeword'</span> or you claiming the word <span class='writtenText'>'codeword'</span> is the codeword?"
+                "\\"I'm asking what you mean by codeword. I didn't realise I needed a codeword.\\"":
+                    talk dealer talk "Well you do. For security. Same reason I wear the hood, ey?"
+                    clear_dialog
+                    choice:
+                        "She points at her hood."
+                        "\\"Is selling moonshine oestradiol illegal?\\"":
+                            talk dealer talk "No. But I use a codeword and wear a mask none the less."
+                            if $data.dealer.knowsDealerIsTeacher:
+                                if (roll dealer_codeword_menu_journos_corb orb 60):
+                                    talk orb talk "She knows the journalists would end her for brewing transgendered hormones AND teaching children."
+                                else:
+                                    wait 1000
+                    jump dealer_codeword_menu
+                "\\"I'm saying the codeword is <span class='writtenText'>'codeword'</span>.\\"" if $data.dealer.knowsCodeword:
+                    talk dealer talk "Aye. 'Tis."
+                    talk nasty talk "Fucking seriously? Awoooooo! I was right, as normal!"
+                    talk lovely talk "Goodness me, she was."
+                    jump dealer_codewordCorrect
+        "\\"Codeword. As in, the codeword is <span class='writtenText'>'codeword'</span>.\\"" if $data.dealer.knowsCodeword:
+            talk dealer talk "Aye. 'Tis."
+            if $data.dealer.nastyGuessedCodeword:
+                talk nasty talk "Fucking seriously? Awoooooo! I was right, as normal!"
+                talk lovely talk "Goodness me, she was."
+            jump dealer_codewordCorrect
+        roll dealer_codeword_menu_steal_nasty nasty 50 "Nasty Girl, you hang out with this kind of shady type right. Can you guess her codeword?":                    
+            success "":
+                talk nasty talk "'Fraid not. Whole point of codewords is you can't really guess them, if they've been chosen well. Me and the cocksuckers used to use <span class='writtenText'>'hunter two'</span> as ours, till the rozzers got wind of it, and our backup codeword. These days we're on <span class='writtenText'>'hunter six'</span>, I think."
+                if $data.dealer.orbGuessedCodeword:
+                    jump dealer_codeword_orbSad
+                else:
+                    jump dealer_codeword_menu
+            failure "":
+                set data.dealer.knowsCodeword true
+                set data.dealer.nastyGuessedCodeword true
+                talk nasty talk "I dunno. <span class='writtenText'>Codeword'</span>?"
+                talk lovely talk "*Obviously* it is not codeword. One would hardly use the word <span class='writtenText'>'safeword'</span> as a safeword, would one now?"
+                if $data.ghost.sawComet:
+                    clear_dialog
+                    talk nasty talk "I dunno Lovely Lady, we did last night, right?"
+                    talk lovely talk "I! Uh! Squeak squeak!"
+                if $data.dealer.orbGuessedCodeword:
+                    jump dealer_codeword_orbSad
+                else:
+                    jump dealer_codeword_menu
+        "\\"I'm not sure I know the codeword. Can I buy some hormones anyway?\\"":
+            choice:
+                talk dealer talk "Codeword? What are you chattering about love?"
+                "\\"I thought you asked for a codeword?\\"":
+                    talk dealer talk "Ey? A codeword? Me? Never."
+                    if (roll dealer_codeword_bluff_nasty nasty 20):
+                        talk nasty talk "She's bluffing. She's good at it. Almost had me convinced too."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    choice:
+                        "Lady Moonshine tilts her head. A being such as herself must regard you as but an insect."
+                        "\\"Sniffle. I just want hormones your excellency... that's all I ask... I don't know the codeword...\\"":
+                            talk dealer talk "Codeword? No codewords here m'luhv. Just moonshine hormones."
+                            if (roll dealer_codeword_menu_lovely lovely 20):
+                                choice:
+                                    talk lovely talk "She was a little worried you were about to cry and cracked."
+                                    "What do you mean about to... I *am* crying... [Wipe a tear from your eye]":
+                                        run skip
+                            else:
+                                wait 1000
+                            jump dealer_codewordCorrect
+        "\\"I don't know the codeword but my friend says hi. She's a writer!\\"" if $data.writer.dealerWriterHi:
+            choice:
+                talk dealer talk "Aye the Frankish lass? I remember her. Quiet. Seemed sad."
+                "\\"She is.\\" [Nod] \\"Heavy is the black crown that hangs above her.\\"":
+                    talk dealer talk "Well, 'Tis better than a codeword. Let's get down t' business."
+                    jump dealer_codewordCorrect
+
+dealer_codeword_orbSad:
+    if $data.dealer.orbGuessedCodeword:
+        clear_dialog
+        talk orb talk "I already told you the codeword. Why did you ask Nasty Girl. Do you just not like me? Do you hate me? I'm going to cry."
+        talk nasty talk "Nothing personal, mate, only I'm more trustworthy than you, ain't I?"
+        choice:
+            talk nasty talk "Well, I'm *less* trustworthy, I mean, but that just makes me *more* trustworthy when shady dealings are afoot, ay?"
+            "Sorry Orb, but Nasty Girl is right.":
+                talk orb talk ":("
+            "I'm sorry Orb, I didn't meant to hurt your feelings.":
+                talk orb talk "It's fine I guess..."
+            "[Suddenly perk up] A foot? Where? [Start rapidly looking side to side and salivating]":
+                talk dealer talk "Bloody 'el. You okay m'luhv? You look like you've come down with a case of t'coaldust jitters."
+    jump dealer_codeword_menu
+
+dealer_return:
+    add_stat actions -1
+    "The night hangs as heavily as it did when last you were here. When last you looked upon Lady Moonshine."
+    play music moonlight
+    "She is here still, standing watch over Bluehills, standing watch under the pale moonshine."
+    clear_dialog
+    run transition dealer_offer_two
+    talk dealer talk "Ey up, m'luhv. Nice night out in'tit?"
+    talk dealer talk "You brought some pennies with you this time, aye?"
+    clear_dialog
+    run transition_instant dealer_offer_one
+    "She produces the goods, giving you the courtesy of looking over your purchase before you hand over any money."
+    jump dealer_menu
+
+dealer_codewordCorrect:
+    clear_dialog
+    play sound caraway
+    "An automobile trundles past, somewhere nearby. Its headlamps light up the lenses of her glasses, which shine brilliantly, just for a moment. Behind them you can see two green eyes. They're rimmed by sleep bags."
+    run transition dealer_offer_one
+    clear_dialog
+    if (roll dealer_codewordCorrect orb 20):
+        talk orb talk "Hey wait a moment, those aren't coloured lenses! Those are normal glasses with transparent, coloured paper glued over them! How can she even see anything!? This is an outrage!"
+        talk lovely talk "Calm down Orb, it's only some glasses, and your impotent rage is making you look rather childish."
+        talk orb talk "Sorry. Sorry. I just felt really betrayed is all."
+        clear_dialog
+    "Lady Moonshine rummages around her coats inside pocket, and eventually produces two small vials of clear liquid, and a packaged syringe."
+    clear_dialog
+    talk orb talk "Moonshine Oestradiol. That's the stuff."
+    talk nasty talk "A syringe! Fuck yes! That's how you know you're getting the *good* stuff!"
+    talk lovely talk "Heavens, I think I might faint..."
+    clear_dialog
+    choice:
+        talk dealer talk "Inject subcutaneously thrice monthly. This here's one dose. Don't give out more than one to a first timer I'm afraid, love. Just in case it doesn't agree with your bowels, you know?"
+        "\\"Thank you. I'll just get going then.\\" [Reach for the vial like you're a little tiny baby learning to grab things]":
+            run transition_instant dealer_offer_two
+            "Lady Moonshine snaps her hand away and tuts you. You feel the kind of shame you haven't felt since you stole your classmates sandwich, at the age of four."
+        "\\"I assume I have to pay you for this, don't I?\\"":
+            talk dealer talk "That's right, m'luhv."
+            clear_dialog
+            "She withdraws her hand, ever so slightly."
+            if (roll dealer_codewordCorrect_steal_lovely lovely 40):
+                talk lovely talk "This is the point where people have grabbed her goodies and run, in the past. She doesn't trust you, but it's not personal."
+            else:
+                wait 1000
+        "[Shake your head] \\"What *does* agree with my bowels...\\"":
+            choice:
+                talk nasty talk "All the hottest bottoms have IBS, no shame in that."
+                "[Shake your head again] Born to bottom, forced to top...":
+                    talk nasty talk "Let's not go that far, bottom."
+            clear_dialog
+    clear_dialog
+    choice:
+        talk dealer talk "That'll be thirty-five pounds, love."
+        "\\"Sounds reasonable.\\"":
+            "She exhales a cloud of icy vapour into your face. It reeks of oestradiol. It's not medicinal grade, but it *is* minty fresh."
+            clear_dialog
+            talk dealer talk "Well aye, 'tis."
+        "\\"Sounds unreasonable.\\"":
+            "She exhales a cloud of icy vapour into your face. It reeks of oestradiol. It's not medicinal grade, but it *is* minty fresh."
+            clear_dialog
+            talk dealer talk "Making hormones in your bathtub is expensive. Especially in't the current economy."
+            talk dealer talk "Importing the raw ingredients from Oceania's gotten a lot more expensive lately, and the Anglian growers only sell to 'tory owned legitimate healthcare providers' and cigarette companies."
+        "Gang, could I simply steal the hormones from her hands and scarper away into the night?":
+            talk nasty talk "Are you kidding? She's a fucking teacher making somewhat affordable moonshine oestrogen out of the kindness of her heart!"
+            talk nasty talk "But yeah, go off Ghost, feel free to mug her, make a jerk off motion at the weeping visage of Saint Dawnsight and sign the guestbook in Hel."
+            talk lovely talk "Deary me. Papi would have you shot with a hunting rifle like the animal you are, Ghost."
+            talk nasty talk "Cunt."
+    jump dealer_menu
+
+dealer_menu:
+    clear_dialog
+    if (&& $data.dealer.sillySheep $data.dealer.bridge $data.dealer.eiffelTable):
+        choice:
+            talk dealer talk "Bloomin 'el miss, have you spent *all* your money on scams?"
+            "\\"We prefer to use the word 'investments'!\\"":
+                talk orb talk "No we don't. I don't prefer that. Tell her I don't prefer that."
+            "\\"All of The Divines hottest women are doing it\\"":
+                talk lovely talk "Absolutely! It's the latest trend!"
+        choice:
+            talk dealer talk "Tell you what m'luhv, it's on t'house, just this one time, till you're back on your feet. Just no more buying owt from men who chew on crabs, ey m'luhv?"
+            "\\"You're giving me hormones for free? I'm such a good negotiator... no wonder I have such an impressive portfolio of investments...\\"":
+                talk dealer talk "Mhm."
+                clear_dialog
+                if $data.dealer.knowsDealerIsTeacher:
+                    talk orb talk "She's not impressed by your 'negotiation skills', you silly girl. She's doing this out of pity. She feels sorry for you. Like a child with a scraped knee. You're activating her teacher instincts."
+                else:
+                    talk orb talk "She's not impressed by your 'negotiation skills', you silly girl. She's doing this out of pity. She feels sorry for you. Like a wounded animal."
+                clear_dialog
+                talk dealer talk "Here."
+            "\\"That's so kind... I could cry...\\" [Cry]":
+                talk dealer talk "Chin up m'duck. Here."
+        clear_dialog
+        "Lady Moonshine hands you the hormones."
+        add_item hrt 1
+        jump dealer_conclusion
+    else:
+        choice:
+            talk dealer talk "So, will you be wanting some of this or not?"
+            "[Hand over thirty-five pounds]" if (>= $stats.money.value 35):
+                add_stat money -35
+                play sound coins
+                talk dealer talk "Ta ta."
+                clear_dialog
+                "She looks over your pennies, you can hear her audibly count them up. She has to start again twice. Her hands are shivering too much to keep track of her progress."
+                clear_dialog
+                talk dealer talk "All good love. Enjoy your oestrogen, okay now?"
+                add_item hrt 1
+                choice:
+                    "She passes you the vial and the syringe."
+                    "Thank you Lady Moonshine. I will not forget your kindness.":
+                        talk dealer talk "Aye."
+                jump dealer_conclusion
+            "\\"Do you accept payment in Silly Sheep paintings? They're legal tender. I think.\\"" if (has_item? sillySheep):
+                set data.dealer.sillySheep true
+                talk dealer talk "Bloody hel. Been fighting off that little git shilling those all week and now you're up to it too. No. I'm not interested in your sheep."
+                jump dealer_menu
+            "\\"Do you accept payment in bridge form?\\"" if $data.crypto.hasBridge:
+                set data.dealer.bridge true
+                choice:
+                    talk dealer talk "What would I need a bridge for, love?"
+                    "\\"Crossing large bodies of water! Crossing pits! Connecting two roads together! Connecting people and hearts!\\" [Wave your arms around excitedly] \\"What *don't* you need a bridge for!\\"":
+                        talk dealer talk "No thank you m'love. I'm quite happy wading through t'rivers, avoiding pits, and not using roads. As for my heart? 'Tis quite connected already."
+                jump dealer_menu
+            "\\"I own the Eiffel Table. I could trade you that?\\"" if $data.crypto.hasEiffelTable:
+                set data.dealer.eiffelTable true
+                "Lady Moonshine cocks her head."
+                clear_dialog
+                choice:
+                    talk dealer talk "You sure about that love?"
+                    "Positive. Or as they say in Frankreich, <span class='writtenText'>'ouisitive'</span>.\\"":
+                        jump dealer_menu
+            "\\"Could I trade in gold star stickers instead of money? Teachers love those.\\"" if (&& $data.dealer.stickers (has_item? stickers)):
+                "There's a long, drawn out moment of silence."
+                talk dealer talk "Aye okay love. Could use some of those."
+                if (roll dealer_menu_teacher_lovely lovely 40):
+                    talk lovely talk "She has decided not to acknowledge the fact you somehow guessed she was a teacher. She knows its her fault for smelling of PVA glue."
+                add_item hrt 1
+                choice:
+                    "She passes you the vial and the syringe."
+                    "\\"Thank you Lady Moonshine. I will not forget your kindness.\\"":
+                        talk dealer talk "Aye."
+                jump dealer_conclusion
+            roll dealer_menu_steal_nasty nasty 60 "[Literally just grab the moonshine oestrogen and run]":
+                success "":
+                    stop music
+                    add_item hrt 1
+                    "You snatch the vial and the syringe straight from Lady Moonshines hands and run like the wind."
+                    clear_dialog
+                    talk dealer talk "Hey..."
+                    if (roll dealer_menu_steal_lovely lovely 40):
+                        talk lovely talk "She's not mad, she's disappointed."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    run transition dealer_fall_one
+                    "You asthmatically stumble your way into a nearby field. Lady Moonshine is not following you on a silver chariot, nor is she jogging behind you. You made it, you sack of shit."
+                    clear_dialog
+                    talk nasty talk "You suck so bad Ghost, fuck you."
+                    talk lovely talk "A simply beastly woman! I'd have you thrown in an oubliette and left to rot."    
+                    talk orb talk "I want to tell you to kill yourself, but what's done is done. Let's just make the best of this nasty situation, hmm?"
+                    jump dealer_conclusion
+                failure "":
+                    stop music
+                    play sound knife
+                    choice:
+                        "You attempt to snatch the vial and the syringe straight from Lady Moonshines hands and grab the syringe a bit too well. Your yelp, a needle embedding itself in your homosexual little hand."
+                        "\\"Ouch!!!!! Ow! Ow!\\" [Fall over and roll about on the floor like a whiny little baby]":
+                            clear_dialog
+                            play sound punch
+                            run transition dealer_fall_two
+                            run transition_pain
+                            "You receive a nasty kick to your side, and a nasty insult to your ear."
+                            run transition_instant dealer_fall_one
+                            choice:
+                                "There's the sound of feet scuffling though grass. Lady Moonshine has fled."
+                                "\\"Euuuuuuggrrrrrrrgghfhghhhhh...\\"":
+                                    talk orb talk "Quit whining. You deserve worse."
+                                    if (has_item? cig):
+                                        run transition_pain
+                                        choice:
+                                            "You aren't sure how, exactly, but Lady Moonshines kick seems to have caused your lighter to catch fire, right by your bottom. Your ass is on fire."
+                                            "\\"YEOOOWWWL!!!!!\\" [Leap onto your feet and jump in the nearby duck pond to put out the fire]":
+                                                "Splash. The cold autumn air cools your singed little bottom. All is quiet, except all isn't quiet, there's ducks quacking at you."
+                                                remove_item cig 1
+                                                clear_dialog
+                                    talk nasty talk "You suck so bad Ghost, fuck you."
+                                    talk lovely talk "A simply beastly woman!"
+                                    clear_dialog   
+                                    choice:
+                                        talk orb talk "Well. I don't expect we'll be getting any hormones off of Lady Moonshine anytime soon. Nice one, Ghost. Twat."
+                                        "I'm the dumbest little lady in all of Anglia... [Shake your head sadly and ruminate on your sins] <span class='prompt'>[[CONTINUE]]</span>":
+                                            play sound spendAction
+                                            stop ambient 1
+                                            jump goToGameMap
+            "\\"I don't have thirty five pounds!\\"" if (< $stats.money.value 35):
+                run transition_instant dealer_offer_two
+                talk dealer talk "Your loss then, love. Come t'me again whenever you can, mhm?"
+                jump dealer_menu
+            "\\"I think I'll pass, actually.\\" [Don't buy the hormones] <span class='prompt'>[[CONTINUE]]</span>":
+                play sound spendAction
+                run transition_instant dealer_offer_two
+                talk dealer talk "Your loss then, love. Come t'me again if you change your mind, mhm?"
+                talk orb talk "Well that was a waste of every ones time."
+                stop ambient 1
+                jump goToGameMap
+
+dealer_conclusion:
+    clear_dialog
+    complete_objective hrt hrt
+    "You hold the vial between your fingers. It possesses some unearthly quality... a sparkle of moondust... a dash of the cosmos."
+    if (roll dealer_conclusion_glitter_orb orb 40):
+        talk orb talk "That's glitter. It must have got glued to the vial somehow."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk orb talk "We should head home and try this out."
+        "<span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            stop ambient 1
+            jump goToGameMap

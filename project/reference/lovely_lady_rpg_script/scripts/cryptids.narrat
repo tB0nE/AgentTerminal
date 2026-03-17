@@ -1,0 +1,559 @@
+cryptids:
+    play sound click
+    choice:
+        "You are struck by the sudden realisation that there could be cryptids living in the woods. What better way to spend time than to go look for them?"
+        "[Run around the woods going <span class='writtenText'>'pspspspspspsps'</span>, but in a slightly scared way] <span class='prompt'>[[-1 ACTIONS]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_cryptids false
+            run transition_black woods_one
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    set data.cryptids.cryptidsDone true
+    play ambient amb_forest 1
+    play music beware
+    choice:
+        talk orb talk "So. Would you like to remind me why we're out here again?"
+        "[Shrug] Looking for cryptids. I'm bored and it might make for some good filler content.":
+            talk orb talk "Looking for... there *aren't* any cryptids around here."
+            clear_dialog
+            talk lovely talk "Wrong! The Woodland Stranglepuss may well be lurking around any corner... behind any tree..."
+            talk orb talk "The... the what?"
+            talk nasty talk "Snagglepussy."
+            clear_dialog
+            if (roll cryptids_stranglepuss_orb orb 60):
+                set data.crtpyids.stranglepussImaginary true
+                talk orb talk "The Woodland Stranglepuss isn't *real*."
+                clear_dialog
+                talk orb talk "Not even in the 'because it's a myth' sense, because it's *not* even a myth. Lovely Lady has just made it up on the spot."
+                talk lovely talk "Entirely possible, darling! I *do* get confused sometimes! It's the vapours, you see..."
+            else:
+                wait 1000
+    clear_dialog
+    "Bickering done with, you return to your hunt."
+    "A chain link fence topped with razor wire leers at you. A deeply yonic gash invites you into the cordoned off area. Or out, depending on how freaky your kinks are."
+    clear_dialog
+    choice:
+        talk orb talk "This is AMOD land. The remnants of a base to be used in the event that Anglia was invaded. It's abandoned now. It was never needed."
+        "This seems like the kind of place a creature would live...":
+            choice:
+                talk orb talk "It seems like the kind of place unexploded ordnance would live. Don't get yourself killed, Ghost."
+                "You're not my mother. [Climb through the gaping wire vagina and begin hunting for ghoulies]":
+                    stop ambient 1
+                    play ambient amb_clearing 2
+                    run transition_disease
+                    run diseaseCounter
+                    "You catch your arm on a bit of metal as your pass through, it scratches you, and you whine like a whiny girl as some strange bacteria enter your bloodstream."
+    run transition amod
+    clear_dialog
+    play sound punch
+    run transition_pain
+    choice:
+        "You delve into the eerie, forgotten woodland and immediately eat shit by tripping over something."
+        "\\"Yowch!\\"":
+            if (roll cryptids_trip_orb orb 20):
+                set data.cryptids_knowsAboutMine true
+                talk orb talk "Watch out Ghost, there's an undetonated landmine there, don't trip on... oh. Sorry."
+            else:
+                wait 1000
+    clear_dialog
+    choice:
+        "A glint of light off of the rusty metal. You see yourself reflected in it, just for a moment. You climb back to your feet and dust yourself off. Your clothes are damp. The woods are moist. Humid even."
+        "[Poke it]":
+            run transition mine
+            if $data.cryptids_knowsAboutMine:
+                talk orb talk "Ghost, that's an undetonated land mine, remember. Don't play with it. Actually, don't even stand near it. Actually, we should just leave immediately."
+            jump cryptids_mine
+        "[Don't poke it]":
+            run skip
+            jump cryptids_menu
+
+cryptids_mine:
+    clear_dialog
+    choice:
+        "Nothing happens."
+        "[Poke it]":
+            add data.cryptids_minePoked 1
+            if (&& (== $data.cryptids_minePoked 2) (== $data.cryptids_knowsAboutMine true)):
+                talk orb talk "Ghost, stop it."
+                talk lovely talk "Yes! Cease this silliness at once, Ghost! My poor nerves..."
+                talk nasty talk "It's fine you pair of pussies. It's dead, innit?"
+                talk orb talk "<span class='writtenText'>'It's dead'</span>. You are so fucking stupid Nasty Girl."
+                talk nasty talk "Fuck up. Come bang me if you love me so much, idiot."
+            if (== $data.cryptids_minePoked 7):
+                play sound ting
+                "'Ting'."
+                clear_dialog
+                "The sound of... *something* rings from the victim of your incessant poking."
+                clear_dialog
+                talk nasty talk "Fucken hel. Don't like that."
+                talk orb talk "Me neither. Don't poke it again, please."
+                talk nasty talk "Poke it again, faggot."
+                talk orb talk "Some consistency would be nice, Nasty Girl."
+            if (== $data.cryptids_minePoked 8):
+                add_stat money 5
+                play sound coins
+                choice:
+                    "A few pennies falls out of the thing. How did they even get in there?"
+                    "Holy crackers, perhaps this bad boy is *full* of pennies... just think of the possibilities... [Look dreamily to the sky and smile imagining yourself swimming in a big pool of fifty or so pennies] If only... if only...":
+                        run skip
+            if (== $data.cryptids_minePoked 9):
+                stop ambient 2
+                play sound explosion
+                run transition_instant generic_white
+                animate #narrat-app narrat-screenshake
+                clear_dialog
+                "A sudden sharp light."
+                clear_dialog
+                "Your eardrums burst before you have a chance to hear the boom."
+                clear_dialog
+                "A mile away, a singed tail lands in a tree, like a toasted anaconda."
+                clear_dialog
+                "You died the way you lived. A very silly girl."
+                unlock_achievement death_landmine
+                jump ending_credits
+            jump cryptids_mine
+        "[Stop poking it]":
+            if $data.cryptids_knowsAboutMine:
+                talk orb talk "Good Gods. Thank you, Ghost, if I had a sphincter I'd unclench it."
+            run transition amod
+            jump cryptids_menu
+
+cryptids_menu:
+    clear_dialog
+    choice:
+        "The shells of dilapidated structures surround you. Leer over you. This place smells of moss and earth soaked in diesel. It smells nice, but also not nice, like a pretty lady."
+        "[Check out the big conc rete pyramid]":
+            "The big concrete pyramid, for lack of a better name, is empty. It's almost entirely hollow, with horrendously thick walls. You feel ever so small inside it."
+            if (roll cryptids_menu_pyramid_orb orb 20):
+                talk orb talk "A bunker used for storing munitions. If it explodes, the explosion is contained within. If the base outside it explodes, the walls stop the munitions in here from exploding. Clever."
+                talk orb talk "It's similar to the pyramids that live beneath the waves of The American Sea. The temples belonging to the Serpent people so long ago."
+                talk orb talk "Coated on the outside with red. A blood soaked faith to hold back the apocalypse."
+                talk orb talk "This pyramid only holds faith in the munitions that were once stored inside. Empty now. Either Endzeit was averted, or they no longer care to prevent it."
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                "You're in a big empty space. There's only one course of action."
+                "\\"HELLO!?\\"":
+                    talk ghost talk "HELLO!? Hello!? Hello..."
+                    clear_dialog
+                    "Your voice echoes back at you."
+                    if (roll cryptids_menu_voice_nightmare nightmare 20):
+                        talk nightmare talk "<span class='nightmare'>Really helps you hear how you actually sound to normal people. Deep. Booming. Loud.</span>"
+                        clear_dialog
+                    else:
+                        wait 1000
+            jump cryptids_menu
+        "[Tap the small conc rete pyramid]":
+            talk orb talk "Leviathans teeth. Anti-tank defences prepared in case of invasion. No longer needed. Left behind. A reminder of a battle never fought. So much was built 'just in case'. All of it forgotten."
+            jump cryptids_menu
+        "[Point at the little railway track] Choo choo!":
+            talk lovely talk "Choo choo!"
+            talk orb talk "It leads into the other structures, or it did at some point. A convenient way to transport heavy military equipment around the complex."
+            clear_dialog
+            talk orb talk "I find it fascinating how much planning went into this place, only for it to be discarded. The war that never came."
+            talk orb talk "You mammals are a strange bunch... so inefficient, so self-confident in and dedicated to your plans and schemes, only to forget about them forever... if the subject matter were less grim I'd almost be proud."
+            talk lovely talk "Choo choo!"
+            talk orb talk "...choo choo."
+            jump cryptids_menu
+        "[Head into what appears to be some kind of warehouse]":
+            "The inside of the warehouse... isn't. It's just a single wall, no floor, and a flooded basement, which you almost fall into. It reeks of decaying plant life and chemical run off."
+            clear_dialog
+            talk nasty talk "More like where house... lol..."
+            clear_dialog
+            if (roll cryptids_menu_warehouse_orb orb 40):
+                choice:
+                    talk orb talk "This used to be a storage area for military equipment. Motorcycles and tanks, mainly. The basement used to store tools and spare parts, but now mostly just stores rainwater and frogs."
+                    "Frogs... froggie... ribbit... [Peer into the basement in case you spot a frog]":
+                        "A ripple in the water... it's a frog! Hooray!"
+                    "[Leave any potential frogs alone]":
+                        run skip
+            talk lovely talk "Doesn't hold a candle to my swimming pool, I'm afraid..."
+            jump cryptids_menu
+        "[Be very quiet and listen]":
+            "A faint wind, but otherwise all is silent. No cryptids, sadly. Still, the woodland air is refreshing, and the sound of nothing heals you."
+            jump cryptids_menu
+        "[Poke the mine some more]" if $data.cryptids_knowsAboutMine:
+            run transition mine
+            jump cryptids_mine
+        "[Poke the mystery object some more]" if (!= $data.cryptids_knowsAboutMine true):
+            jump cryptids_mine
+        "Where are all the cryptids... this menu full of just looking at stuff is annoying me... I'm bored... I want to see some beings/things etc... <span class='prompt'>[[MOVE ON]]</span>":
+            jump cryptids_chase
+
+cryptids_chase:
+    clear_dialog
+    if (has_item? herring):
+        if (roll cryptids_chase_herring_orb orb 20):
+            choice:
+                talk orb talk "Here's an idea, try luring one here with that really horrible smelling fish you inexplicably purchased."
+                "My red herring?":
+                    talk orb talk "Yes. Put it on the floor and hide somewhere. Perhaps something will be lured over by it?"
+                    if (roll cryptids_chase_herring_lovely lovely 60):
+                        talk lovely talk "Orb just wants you to stop carrying a rotting fish around in your... whatever it is you store all the things you're carrying."
+                        talk orb talk "Basically, yes."
+                    else:
+                        talk lovely talk "The Stranglepuss, perhaps!"
+            clear_dialog
+            choice:
+                "You look at the fish you inexplicably bought. One of the cartoon stink lines goes right up your nose and makes you gag. Could it *really* serve a purpose here?"
+                "[Put your red herring on the ground and hide in a nearby bush]":
+                    run transition woods_cryptid_one
+                    choice:
+                        "You place your fish on the floor, pat it for good luck, and then slink your way into a nearby gooseberry bush."
+                        "[Eat a gooseberry and wait]":
+                            "At first... nothing. Only the gross, yet weirdly compelling sour taste of gooseberry."
+                            clear_dialog
+                            "But then..."
+                            clear_dialog
+                            play sound rustle
+                            run transition woods_cryptid_two
+                            "A creature... it slithers, no, crawls over to the fish, and gobbles it up... it's... it's..."
+                            clear_dialog
+                            play music bigmoney
+                            if (|| $data.global.cryptoSheepDone $data.global.cryptoBridgeDone $data.global.cryptoEiffelDone):
+                                talk lovely talk "Is that..."
+                                talk orb talk "It is."
+                            else:
+                                talk lovely talk "Is... is that a cryptid?"
+                                if (roll cryptids_chase_crypto_orb orb 80):
+                                    talk orb talk "If this chap was born a century from now he's be really into something spelt *vaguely* like 'cryptid', but no, it's not."
+                                else:
+                                    wait 1000
+                            clear_dialog
+                            talk herring talk "Gee wilikers... I was hoping that was the succulent smell of crab... well, investors can't be choosers..."
+                            clear_dialog
+                            play sound rustle
+                            run transition amod
+                            choice:
+                                "The Cryptid(?) looks around anxiously before snapping the herring up into his mouth and scampering off with it."
+                                "I want my fish back...":
+                                    talk lovely talk "I'm sorry for your loss, Ghost."
+                                    unlock_achievement crypto
+                                    play music beware
+                "[Keep your red herring, just in case you need it]":
+                    run skip
+            clear_dialog
+            talk nasty talk "Yawn. BORING. When are the cryptits turning up?"
+    else:
+        talk nasty talk "Too fucking right. Yarn. BORING. When are the cryptits turning up?"
+    talk orb talk "Never, most likely. That's one of the core tenets of being a cryptid."
+    clear_dialog
+    stop sound 2
+    play sound rustle
+    choice:
+        "A rustle in the undergrowth. Nearby. Something moving through foliage seemingly as erratically and scarily as possible. As possible."
+        "\\"WHAT THE FUCK WAS THAT!?\\"":
+            choice:
+                talk orb talk "That was a bird. They fell asleep mid-flight, crash landed and are now thrashing about confused. They'll be fine. You need to calm down, Ghost, you're a little on edge."
+                "Can you blame me? Cryptids could be anywhere!":
+                    talk orb talk "Given that they're not real, I highly doubt that."
+                    clear_dialog
+                    play sound branchsnap
+                    "A branch snaps in the distance. Was it the distance? Maybe it was closer? Maybe it was right behind you!"
+                    clear_dialog
+                    talk lovely talk "Eep! I dare say that's enough adventure for one day! Let us make haste to our warm, safe home, yes?"
+                    talk nasty talk "Oh my gods you are such a pussy, Lovely Lady."
+                    clear_dialog
+                    play sound branchsnap
+                    "Another branch snaps, this one close."
+                    clear_dialog
+                    talk nasty talk "FUCK OH FUCK WHAT THE FUCK WAS THAT!?"
+                    clear_dialog
+                    talk orb talk "It was dead branch cracking in the wind. Get a fucking grip you three."
+                    clear_dialog
+                    play sound branchsnap
+                    choice:
+                        "SNAP."
+                        "[RUN]":
+                            clear_dialog
+                            run transition woodsRunOne
+                            "You leg it, leaping back through the fence and out of the ruins. Whatever is after you follows, crashing through the vegetation with far more ease than your clumsy little body."
+                            clear_dialog
+                            talk lovely talk "Oh my gosh oh my gosh! Oh me oh my! I'm scared everyone!"
+                            talk nasty talk "AHAHA WE'RE GOING TO FUCKING DIE! THIS BOPS! I'M SO SCARED!"
+                            clear_dialog
+                            talk orb talk "We'll be fine. There's no danger. Just stop."
+                            jump cryptids_run
+
+cryptids_run:
+    clear_dialog
+    "The path forks! To your left a small hill, rotten wooden planks have been placed along the path as makeshift steps. To your right, the trees give way to clearing encroached with bramble bushes."
+    if $data.cryptids.loop:
+        clear_dialog
+        talk orb talk "We've already been here! You're running around in circles, Ghost! Good gracious this is pathetic!"
+    clear_dialog
+    choice:
+        "Hurry. *It* isn't far behind!"
+        "Oh. You're right Orb. Silly me. [Clamber up the hill] \\"AAAAH!\\"" if $data.cryptids.loop:
+            "You clumsily make your way up the hill. The wooden planks make it harder, if anything. Who put them there!?"
+            jump cryptids_run_brook
+        "Oh. You're right Orb. Silly me. [Head into the thorny clearing] \\"AAAAH!\\"" if $data.cryptids.loop:
+            "You scramble through the thorny undergrowth, a scratch breaks the skin on your arm and makes you moan like a slut."
+            jump cryptids_run_bog
+        "Oh. You're right Orb. Silly me. [Take the newly opened *third* route to the even further left] \\"AAAAH!\\"" if $data.cryptids.loop:
+            jump cryptids_run_end
+        "Oh. You're right Orb. Silly me. [Stop and turn around] \\"I accept my fate, Cryptid! You have bested me in this battle of tactics and brains! Make me your trophy, oh apex predator!\\"" if $data.cryptids.loop:
+            jump cryptids_run_stop
+        "[Clamber up the hill]" if (!= $data.cryptids.loop true):
+            set data.cryptids.loop true
+            "You clumsily make your way up the hill. The wooden planks make it harder, if anything. Who put them there!?"
+            jump cryptids_run_brook
+        "[Head into the thorny clearing]" if (!= $data.cryptids.loop true):
+            set data.cryptids.loop true
+            "You scramble through the thorny undergrowth, a scratch breaks the skin on your arm and makes you moan like a slut."
+            jump cryptids_run_bog
+        "[Stop and turn around. Die, possibly?] \\"I beseech thee, cryptid, make it quick!\\"" if (!= $data.cryptids.loop true):
+            set data.cryptids.loop true
+            jump cryptids_run_stop
+
+cryptids_run_brook:     
+    clear_dialog
+    choice:
+        "Ahead, a brook running through a small ravine! It's narrow enough that you could probably leap over it, but a rope swing dangling from a tree catches your eye!"
+        "[Leap over the brook]":
+            "You perform a perfect, olympic level double front flip and land safely on the other side of the small, shallow brook. No time for your lead medal, the beast is still following you! You run!"
+            jump cryptids_run_beehive
+        "[Swing over the brook using the convenient rope swing]":
+            "You swing over the brook and let out a gay little <span class='writtenText'>'wheee!'</span>. Safely across, you run."
+            jump cryptids_run_beehive
+        "[Jump into the brook and let it carry you out to sea]":
+            "You pelt towards the brook. This will work. This will work."
+            clear_dialog
+            talk orb talk "DON'T DO THAT. YOU'LL FUCKING DIE."
+            talk nasty talk "HERE WE GO LADIES WE'RE FUCKING DOING IT!"
+            choice:
+                talk lovely talk "Scream!"
+                "[Don't do that, leap over the brook instead]":
+                    "You perform a perfect, olympic level double front flip and land safely on the other side of the small, shallow brook. No time for your lead medal, the beast is still following you! You run!"
+                    jump cryptids_run_beehive
+                "[Don't do that, swing over the book using the convenient rope swing instead]":
+                    "You swing over the brook and let out a gay little <span class='writtenText'>'wheee!'<span>. Safely across, you run."
+                    jump cryptids_run_beehive
+                "[Do that]":
+                    talk orb talk "AAAAAGH!"
+                    talk nasty talk "FUUUUUUUUCK MEEEEEE!"
+                    talk lovely talk "Scream!"
+                    clear_dialog
+                    play sound punch
+                    run transition_instant generic_black
+                    run transition_pain
+                    "You plunge into the water. It's about an inch deep. You crack your face open on a big rock, for a moment, you see your own skull."
+                    unlock_achievement funnyFace
+                    clear_dialog
+                    if $data.ghost.funnyFace:
+                        choice:
+                            talk skull talk "Who you lookin' at, funny face?"
+                            "\\"LOL!\\"":
+                                "The laughter kills you before the brain damage."
+                    clear_dialog
+                    "Your eyesight fizzles out like a transmission doomed to static. It's over. It's over."
+                    jump ending_credits
+            "[Stop and turn around] \\"I give up! My body is yours to consume, oh foul beast!\\"":
+                jump cryptids_run_stop
+        "[Stop and turn around] \\"I give up! My body is yours to consume, oh foul beast!\\"":
+            jump cryptids_run_stop
+
+cryptids_run_bog:
+    clear_dialog
+    choice:
+        "You crash through the woods! Birds flutter from the perches as you approach, and then... you stop crashing. Your feet stop moving at all. Mud! A bog! Holy crackers, you're sinking!"
+        "[Pull yourself out of the bog by grabbing a nearby stick]":
+            "It almost costs you your shoes, but you're out."
+            clear_dialog
+            talk nasty talk "Don't lose your shoes, Ghost, we'll get too horny to run!"
+            talk lovely talk "Speaking of which, run! Squeak squeak!"
+            jump cryptids_run_beehive
+        "[Shrug] Guess I'll die.":
+            "The mud reaches your ankles. Your knees. Your gay little ass. Your tummy. Your left nipple. Your slightly higher right nipple. Your neck..."
+            run transition generic_black
+            "And then you are gone. A beret, floating on the surfaces of the bog, the only sign that you were ever here at all. A week later a gust of wind blows it into a tree."
+            clear_dialog
+            "The year is 3938. It is the Second Era of Mantis Reclamation. Your body is displayed in a museum. It's known as the 'Bog Idiot'."
+            clear_dialog
+            "Because that's what you were."
+            unlock_achievement death_bog
+            jump ending_credits
+        "[Stop and turn around] \\"I give up! My body is yours to consume, oh foul beast!\\"":
+            jump cryptids_run_stop  
+
+cryptids_run_beehive:
+    clear_dialog
+    choice:
+        "Directly ahead! A beehive! You need to dodge roll to the left or right before you end up covered in stings!"
+        "[Dodge roll to the left]":
+            "You dodge roll to the left and crash through some undergrowth. You're not out of the woods yet. Literally. You're still in the woods. Run!"
+            jump cryptids_run
+        "[Dodge roll to the right]":
+            "You dodge roll to the right and crash through some undergrowth. You're not out of the woods yet. Literally. You're still in the woods. Run!"
+            jump cryptids_run
+        "\\"This is a game of chicken! And I'm going to win!\\" [Increase you speed and power directly towards the hive]":
+            add data.cryptids.beehive 1
+            play sound punch
+            run transition_instant woodsRunTwo
+            run transition_pain
+            "Your head plants itself inside the hive, rips it from the tree, and brings it along. You are moving so fast that the bees inside don't even have time to sting you. They are disintegrated like a meteor hitting the atmosphere.  Honey runs down your face, and you lick it up. Energy..."
+            clear_dialog
+            talk nasty talk "AWOOOOOO!"
+            clear_dialog
+            if (== $data.cryptids.beehive 1):
+                clear_dialog
+                talk bee talk "Oi! You bleedin' scab! What t' hel do you think you're playing at! Git out yeh bloody bugger!"
+            if (== $data.cryptids.beehive 2):
+                talk bee talk "Bloody Hel, again? Really? We only just finished rebuilding the bloody thing! We'll be drafting a resolution about this at the next union meeting, y'hear me missy?"
+            if (== $data.cryptids.beehive 3):
+                talk bee talk "You bleedin' s-"
+                clear_dialog
+                play sound impact
+                "Robeert Honescrap is obliterated by the force of your impact."
+                "With this character's death, the thread of prophecy is severed. Bereft of their spokesman, the National Honey Union falls apart and is quickly defiled by corporate interests. Honey prices rise across Anglia, leading to any honey exports being cut off. The Neverlands, unable to obtain enough honey to feed their stroopwaffel addiction collapses into anarchy. A rouge group known as the 'Apocalyps Nu Boyz' sabotage dykes across the nation, flooding half of the country. Relief efforts from allied countries pull resources away from The Iron Wall, and after a night out drinking, the Soviet Premier seizes the opportunity. Within a year the red flag flies above Pawris. Within the decade, the world is buried under the radiation from Oceanias 'Ular' thorium based doomsday weapon."
+                clear_dialog
+                unlock_achievement bee
+                choice:
+                    talk nasty talk "Not fucking important! Keep running Ghost! Run you bitch!"
+                    "[Keep running]"
+                        run skip
+            clear_dialog
+            run transition woodsRunOne
+            "The hive breaks apart and departs your sticky head. Your speed is immense, but you're not out of the woods yet. Literally. You're still in the woods. Run!"
+            jump cryptids_run
+        "[Stop and turn around] \\"I give up! My body is yours to consume, oh foul beast!\\"":
+            jump cryptids_run_stop
+
+cryptids_run_end:
+    clear_dialog
+    play sound punch
+    run transition_pain
+    choice:
+        "You sprint face first into a tree. Your beret slides forwards from the force, covering your eyes. Heightening your senses. You can't see shit, but you can feel *everything*. Your hands touch the bark of the tree trunk. This is the way."
+        "[Climb! Upwards and upwards! Jump through the tree tops, branch to branch, with the grace and certainty of a ballerina! When the blood pumps so hard as it does now NOTHING is impossible]":
+            run transition woods_two
+            "You move with such speed that your beret finally slides back atop your head! The glorious bonfire orange of the canopy is a sign that you are truly blessed! You have reached physical perfection! This is it! Stripped of the trappings of civilisation, taxes, laws! One with the trees! One with your body! With the air! The breeze! Until now you merely existed, but to become a scrungler is to *live*!"
+        "[Give up and turn around.\\"I give up! My body is yours to consume, oh foul beast!\\"":
+            jump cryptids_run_stop
+    clear_dialog
+    run transition fields
+    "Ahead, the treeline breaks! You are running out of branches to parkour your way across! You run off of the end of the final branch, hover in the air for a moment still running in place... and then fall. You crash to the ground, almost twisting your ankle. You recognise the surroundings: It's the sheep field aside Daffodil Lane!"
+    clear_dialog
+    talk lovely talk "Civilisation! We're saved!"
+    clear_dialog
+    choice:
+        "You're almost home. It's too late to give up now. One final effort is all that separates you from safety. You just need to get out of this field, and into your home..."
+        "[Slide under the fence and sprint to your cottage]":
+            "You slide under the face. Your dress receives a nasty grass stain, but knowing you probably looked really cool more than makes up for it."
+            "The Weapon watches silently as you emerge from between their legs at four hundred miles an hour, leap to your feet, and sprint home."
+            if (roll cryptids_chase_dinner_lovely lovely 80):
+                talk lovely talk "<span class='writtenText'>'Bread toast for dinner tonight I think.'</span>"
+            else:
+                wait 1000
+            clear_dialog
+            stop ambient 2
+            run transition_study true
+            choice:
+                "You reach the safety of your cottage, bolt the door, and retreat to the bed. The blankets will keep you safe... your eyes peek cartoonishly out from it as you shiver."
+                "Is it gone... are we safe...":
+                    jump cryptids_end
+        "[Use a sheep as a springboard and trampoline yourself towards your cottage]":
+            "The sheep expresses its displeasure at being used for gymnastics with a mildly angry <span class='writtenText'>'baa!'</span>."
+            stop ambient 2
+            clear_dialog
+            if $data.ghost.roofRepaired:
+                play sound punch
+                play sound thud
+                run clear_study
+                set_screen generic_black
+                run transition_pain
+                unlock_achievement death_roof
+                "You smash headfirst into the roof of your house, breaking your neck on your lovely repair work and dying instantly."
+                jump ending_credits
+            else:
+                run transition_study true
+                choice:
+                    "You plummet right through the hole in the roof of your house and land on your bed. The blankets seem to wrap around you, creating a cosy, warm little fort. Your eyes peek cartoonishly out from it as you shiver."
+                    "Is it gone... are we safe...":
+                        jump cryptids_end
+
+cryptids_run_stop:
+    clear_dialog
+    run transition woods_one
+    "There's nothing there."
+    clear_dialog
+    talk lovely talk "..."
+    talk nasty talk "..."
+    clear_dialog
+    choice:
+        talk orb talk "See."
+        "[Rub your eyes] No... I don't see... Oh my golly gosh... it's invisible... [Start running again]":
+            run transition woodsRunOne
+            jump cryptids_run
+        "[Rub your eyes] No... I don't see... there's nothing there... [Stand up straight] Oh. There's nothing there lol. How silly of us. [Brush yourself off]":
+            talk orb talk "*Us*!?"
+            talk lovely talk "Goodness, we all got so worked up for nothing! How silly! Titter titter!"
+            talk orb talk "We *all*!?"
+            talk nasty talk "We pissed ourselves over fuck all. Gods, if the boys could see me now they'd be calling me some real nasty fucking slurs..."
+            choice:
+                talk orb talk "*We* pissed ourselves!?"
+                "[Shake your head] A day that shall go down in infamy... piss day..."
+                    clear_dialog
+                    choice:
+                        talk orb talk "Whatever... whatever... I say we leave this whole debacle behind us and find something better to do with your day, yes?"
+                        "We may have ended our hunt empty handed today, but the truth is still out there... cathedrals exist everywhere if you have the eyes to see... <span class='prompt'>[[CONTINUE]]</span>":
+                            play sound spendAction
+                            complete_objective cryptids cryptids
+                            start_objective cryptids scoops
+                            stop ambient 2
+                            jump goToGameMap
+
+cryptids_end:
+    set data.cryptids.scared true
+    clear_dialog
+    talk orb talk "We were never *not* safe!"
+    choice:
+        talk lovely talk "That was terrifying! What manner of beastie might we have narrowly avoided becoming dinner for!?"
+        "Mr Sproingy!":
+            choice:
+                talk orb talk "No."
+                "I saw him! Did anyone else see him!?":
+                    talk nasty talk "You fucking bet I did! Holy fuck!"
+                    talk lovely talk "Oh he was so... so... so vile!"
+        "The Altered Beast!":
+            talk lovely talk "It was oh so terrible! Even more so than Nasty Girl when she's refused to shower to prevent 'fluoride intefference', which isn't even a word, I think!"
+            choice:
+                talk nasty talk "It was awful! Even worse than Lovely Lady!"
+                "Yes! I saw it too!":
+                    talk lovely talk "Goodness! Indisputable proof of the creatures existence!"
+        "The Woodland Stranglepuss!":
+            if $data.cryptids.stranglepussImaginary:
+                talk orb talk "Didn't we already establish this wasn't a thing? Like, even by cryptid standards?"
+            talk lovely talk "An encounter with the Stranglepuss! And we lived to tell the tale! How scary!"
+            choice:
+                talk nasty talk "I saw it! It was fucking nasty! I cant even describe it!"
+                "I saw it too! I was too scared to even scream!":
+                    talk lovely talk "I wasn't! Squeeeeeal!"
+        "The Bluehills Biter!":
+            choice:
+                talk nasty talk "I'm pretty sure it bit us too! Check your leg."
+                "[Look at the blood on your leg] Holy fuck!":
+                    choice:
+                        talk orb talk "That was a cut from a branch, you did that to yourself when you freaked out and ran away from a branch."
+                        "It was the Biter! I saw it!":
+                            talk lovely talk "Me too! My goodness it was terrifying!"
+        "The Furlock!":
+            talk nasty talk "Holy shit we got chased by the Furlock and lived to tell the tale! That fucking bops!"
+            choice:
+                talk lovely talk "I saw its terrible terrible teeth and its terrible terrible claws! Did you two?"
+                "Yes! I saw its yellow, evil eyes and its toxic drool! It was so close to us!":
+                    run skip
+    run transition_fromStudy generic_sunset
+    clear_dialog
+    choice:
+        talk orb talk "Incredible. You've somehow become even more delusional than you already were. Great. I'm *so* glad to be trapped inside you."
+        "The truth is still out there... cathedrals exist everywhere if you have the eyes to see... <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            complete_objective cryptids cryptids
+            start_objective cryptids scoops
+            jump goToGameMap

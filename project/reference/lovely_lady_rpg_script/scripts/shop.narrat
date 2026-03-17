@@ -1,0 +1,300 @@
+shop:
+    play sound click
+    if $data.global.visitedShop:
+        choice:
+            "'Shop'. Your number one stop for any knick knacks you might need in your day to day life. For some reason. You aren't really sure *why* this is the only shop you ever visit, but it is."
+            "[Poppy to the shoppy] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                if (!= $stats.day.value 4):
+                    run transition_black shop
+                else:
+                    run transition_black shop_hammers
+                clear_dialog
+                play sound bell
+                jump shop_menu
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+    else:
+        choice:
+            "A shop. Shops sell things, and you need things. This seems too good to be true."
+            "[Visit the shop] <span class='prompt'>[[-1 ACTION]]</span>":
+                play sound spendAction
+                set data.game_map.inMap false
+                add_stat actions -1
+                if (!= $stats.day.value 4):
+                    run transition_black shop
+                else:
+                    run transition_black shop_hammers
+                clear_dialog
+                jump shop_intro
+            "<span class='prompt'>[[BACK]]</span>":
+                jump game_map
+
+shop_menu:
+    clear_dialog
+    choice:
+        "A minty whisp of smoke rises from behind a copy of the Anglian times."
+        "\\"Ahem\\" [Clear your throat] \\"Hi, are you interested in getting a drink with me? I've bought a lot of stuff from you so I assume you're into me.\\"" if (quest_started? shopkeeper):
+            "The newspaper tenses. Is this it? Is this the moment when finally the love of your life speaks?"
+            clear_dialog
+            talk shopkeeper talk "..."
+            clear_dialog
+            "The Shopkeeper does not respond."
+            if (roll shop_menu_flirt_lovely lovely 40):
+                talk lovely talk "She heard you, she just didn't feel you deserved a response."
+            talk nasty talk "Drat. Never mind ladies."
+            complete_objective shopkeeper flirt
+            complete_quest shopkeeper shopkeeperFailure
+            jump shop_menu
+        "\\"Hi. I'd like to hand in this crossword please. I'm hoping to win some money! Heloooooooh!\\"" if (has_item? crossword):
+            jump shop_crossword
+        "[BUY - Nails - Five Anglian Pounds]" if (!= (has_item? nails) true):
+            jump shop_nails
+        "[BUY - Plank - Ten Anglian Pounds]" if (!= (has_item? plank) true):
+            jump shop_planks
+        "[BUY - Special L Breakfast Cereal - Three Anglian Pounds]" if (!= (has_item? cereal) true):
+            jump shop_cereal
+        "[BUY - 'Östro' Oestradiol Cigarettes - Two Anglian Pounds]" if (!= (has_item? cig) true):
+            jump shop_cig
+        "[BUY - Gold Star Stickers - Two Anglian Pounds]" if (!= (has_item? stickers) true):
+            jump shop_stickers
+        "[BUY - Warm milk - Two Anglian Pounds]" if (!= (has_item? milk) true):
+            jump shop_milk
+        "[BUY - Kipferl - Three Anglian Pounds]" if (!= (has_item? kipferl) true):
+            jump shop_kipferl
+        "[BUY - Red Herring - Four Anglian Pounds]" if (!= (has_item? herring) true):
+            jump shop_herring
+        "[BUY - Hammer - Two Anglian Pounds]" if (&& (!= (has_item? hammer) true) (== $stats.day.value 4)):
+            jump shop_hammer
+        "[Leave the shop ] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            play sound bell
+            jump goToGameMap
+
+shop_crossword:
+    remove_item crossword 1
+    if $data.newspaper.crosswordCorrect:
+        add_stat money 50
+        play sound coins
+        unlock_achievement crossword
+        choice:
+            "The newspaper rustles, and some pennies are held out to you."
+            "\\"I'm rich! Time to invest in some time shares!\\"":
+                talk lovely talk "Wheeee!"
+    else:
+        "The newspaper rustles. The shopkeeper is examining your crossword. An unbearable wait. The newspaper shakes, signalling you fucked up and got the solution wrong. Better luck next time."
+    jump shop_menu
+
+shop_nails:
+    if (>= $stats.money.value 5):
+        add_item nails 1
+        complete_objective fixHouse nails
+        add_stat money -5
+        play sound till
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs a box of nails from her shelf and passes them to you, and in return you drop five Anglian Pounds into her outstretched hand."
+        clear_dialog
+        talk orb talk "Good good. These will come in handy when we fix your roof."
+        talk nasty talk "Heh, nail. I'll nail you, Lovely Lady."
+        talk lovely talk "Excusez-moi???"
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_planks:
+    if (>= $stats.money.value 10):
+        add_item plank 1
+        add_stat money -10
+        play sound till
+        complete_objective fixHouse plank
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs some planks from the storage room and passes them to you, and in return you drop ten Anglian Pounds into her outstretched hand."
+        clear_dialog
+        talk orb talk "Wonderful. We can use this to repair your roof before it rains tonight, which it will."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_cereal:
+    if (>= $stats.money.value 3):
+        add_stat money -3
+        play sound till
+        add_item cereal 1
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs some Special L cereal off of her shelf and passes it to you, and in return you drop three Anglian Pounds into her outstretched hand."
+        clear_dialog
+        choice:
+            talk lovely talk "Wheee! Cereal! Cereal! Squeak squeak squeak! Wheeee!"
+            "Wheee! Wheee! Squeak squeak squeak! A delicious cereal! A tasty treat!":
+                talk lovely talk "Wheeeeee! Squeak squeak! I'm so excited!"
+                talk nasty talk "Loathe as I am to say this, this is kind of cute, albeit only in a pathetic, weird sort of way."
+            "\\"Wheee! Wheee! Squeak squeak squeak! A delicious cereal! A tasty treat!\\" [Eat the entire box of cereal]":
+                run transition_disease
+                "The shopkeeper ruffles their newspaper as if to remind you that yes, you are still in public, but her ruffling quickly stops when she realises you've begun to shovel dry cereal flakes into your mouth directly from the box. It tastes of sugar and lead and everything nice."
+                clear_dialog
+                talk lovely talk "Wheeeeee! Squeak squeak! I'm so excited!"
+                talk nasty talk "Loathe as I am to say it, this is kind of cute. Albeit only in a pathetic, weird sort of way."
+            "Calm down Lovely Lady, it's only cereal.":
+                talk lovely talk "Cereal! Yim yam! Wheeeee!"
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_cig:
+    if (>= $stats.money.value 2):
+        add_stat money -2
+        play sound till
+        add_item cig 1
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs a carton of 'Östro' Oestradiol Cigarettes from her shelf and passes it to you, and in return you drop three Anglian Pounds into her outstretched hand."
+        clear_dialog
+        if (roll shop_cig_ostro_orb orb 20):
+            talk orb talk "The Östro brand is popular in Anglia at the moment. It's a Brennenburgian cigarette, but so many were looted from corpses and smoked during the war that the average Anglian tommy is now hopelessly addicted to them, and when it comes to cigarettes the troops go and the public follows."
+        talk nasty talk "Ok, good work. That's the easy part done. Now deepthroat one."
+        jump shop_cig_menu
+    else:
+        jump shop_cantAfford
+
+shop_cig_menu:
+    clear_dialog
+    choice:
+        talk orb talk "Did she just ask you to *deepthroat* a cigarette?"
+        "E-excuse me?":
+            talk nasty talk "You heard me."
+            talk lovely talk "Please don't."
+            talk orb talk "I'm literally begging you not to do it."
+            jump shop_cig_menu
+        "Like, eat it? What are you asking from me here? Are you okay Nasty Girl?":
+            choice:
+                talk nasty talk "Oh my gods. Why this why that. JUST DO IT. BRAIN. CUCK."
+                "What the fuck does <span class='writtenText'>'brain cuck'</span> even mean!?":
+                    talk lovely talk "Goodness knows. She must have picked it up from somewhere, I'm so embarrassed to be associated with her."
+                    jump shop_cig_menu
+                "I'll show *you* who the <span class='writtenText'>'brain cuck'</span> is. [Deepthroat a cigarette]":
+                    jump shop_cigDeepthroat
+        "What will it taste like?":
+            talk nasty talk "Only one way to find out!"
+            clear_dialog
+            choice:
+                talk orb talk "Yes, only one way to find out. It's not like you have an omniscient Orb living in your chest."
+                roll shop_cigMenu_taste_orb orb 20 "What will it taste like, Orb?":
+                    success "":
+                        talk orb talk "Mint. Tobacco. Mostly tobacco. Paper. A hint of salt. Oh, and extremely disgusting, highly toxic dye that will make you wish you'd been born without a tongue."
+                        talk nasty talk "Mmmmm mmm yum. There's a reason we eat food instead of listen to it, Ghost. Deepthroat a fucking cigarette."
+                        jump shop_cig_menu
+                    failure "":
+                        talk orb talk "Uuuuuh ummmm uuuuuh. You know what, it doesn't matter."
+                        talk nasty talk "See? Eat it and find out, dipshit."
+                        jump shop_cig_menu
+                "[Nod mournfully] If only.":
+                    jump shop_cig_menu
+        "Who am I to question orders? [Deepthroat a cigarette]":
+            jump shop_cigDeepthroat
+        "I'm... not going to do that. <span class='prompt'>[[MOVE ON]]</span>":
+            talk nasty talk "UGH. Girls wont even eat cigarettes anymore, cus' of wake."
+            jump shop_menu
+
+shop_cigDeepthroat:
+    clear_dialog
+    run transition_disease
+    run diseaseCounter
+    set data.ghost.deepthroatedCig true
+    "The shopkeeper peeps over their newspaper and watches silently as you open the carton of Oestradiol cigarettes, take a single one out, shove it in your mouth, and start choking."
+    "She correctly chooses not to acknowledge it, but your tastebuds are less wise; the cigarette tastes disgusting. It's indescribable."
+    clear_dialog
+    talk nasty talk "YESSSSS THIS IS GOOD RIGHT?"
+    talk orb talk "Congratulations Ghost, you now have cigarette poisoning. Not lung cancer, no. *Cigarette poisoning*."
+    talk orb talk "The secret type of poisoning kind normal people don't get because they don't eat cigarettes."
+    clear_dialog
+    talk nasty talk "That was good. You should *totally* do it again."
+    clear_dialog
+    choice:
+        talk orb talk "*Please* don't do that again."
+        "[Do it again]":
+            run transition_disease
+            set data.ghost.deepthroatedCigTwice true
+            "The shopkeeper continues to ignore you even harder than she already was. She just wants this to be over. This cigarette tastes even worse than the first, perhaps because it's less shocking."
+            clear_dialog
+            "You feel like you might die, that you deserve to die, that you *need* to die, and yet, you have *never* felt so *alive*."
+            clear_dialog
+            choice:
+                talk nasty talk "That bopped, right?"
+                "Oh gods why did I do that.":
+                    talk nasty talk "Because I told you to. I'm a top by the way."
+                    jump shop_menu
+                "That bopped. [Nod, and then immediately descend into a coughing fit]":
+                    jump shop_menu
+                "[Look at the shopkeeper apologetically and leave the store in shame] <span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    jump goToGameMap
+        "[Look at the shopkeeper apologetically and leave the store in shame] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+    jump shop_menu
+
+shop_stickers:
+    if (>= $stats.money.value 2):
+        add_stat money -2
+        play sound till
+        add_item stickers 1
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs some gold star stickers and passes them to you. In return you hand her two Anglian pounds."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_milk:
+    if (>= $stats.money.value 2):
+        add_stat money -2
+        play sound till
+        add_item milk 1
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs a bowl of warm milk off of her shelf and passes it to you, and in return you drop two Anglian Pounds into her outstretched hand."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_kipferl:
+    if (>= $stats.money.value 3):
+        add_stat money -3
+        play sound till
+        add_item kipferl 1
+        add data.shop.boughtItems 1
+        "The shopkeeper grabs some kipferl off of her shelf and passes it to you, and in return you drop three Anglian Pounds into her outstretched hand."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+    
+shop_herring:
+    if (>= $stats.money.value 4):
+        add_stat money -4
+        play sound till
+        add_item herring 1
+        add data.shop.boughtItems 1
+        choice:
+            "The shopkeeper picks up the red herring, recoils momentarily from the slime and the smell, and then sort of chucks it towards you in an 'ew' sort of way. It slaps across your face, and sticks there with some sort of fish slime."
+            "\\"Thanks mam.\\"":
+                "The newspaper rustles as if to say 'no problem'."
+            "\\"😏 Fish time...\\"":
+                "The Shopkeeper has no response to this."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+shop_hammer:
+    if (>= $stats.money.value 2):
+        add_stat money -2
+        play sound till
+        add_item hammer 1
+        complete_objective fixHouse hammer
+        add data.shop.boughtItems 1
+        set data.raven.hammerChatDone true
+        "The shopkeeper takes your money, and passes you a hammer."
+        jump shop_menu
+    else:
+        jump shop_cantAfford
+
+shop_cantAfford:
+    "The Shopkeeper rustles her newspaper, implying you can't afford this purchase, and that you should come back when you have some more money."
+    jump shop_menu

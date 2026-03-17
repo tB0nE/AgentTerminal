@@ -1,0 +1,182 @@
+keeper:
+    play sound click
+    choice:
+        "The Keeper of the Gate of Venus has not finished with you yet, it would appear. If you want the pharmacy to hand over your hormones, you must once more meet her in battle."
+        "[Ask the ditzy mouse at the clinic about your missing prescription] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_keeper false
+            run transition_black office_reception
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    "The door to The Gender NKVDs office seems to mock you. Light warps around it, distorted by its bizarre, alien dimensions."
+    "Forget about it. That's not why you're here."
+    clear_dialog
+    choice:
+        "Behind the reception The Keeper of the Gate of Venus remains ever vigilant over her fingernails. She does not notice you enter."
+        "[Clear your throat] \\"Hello I am stood in front of you.\\"":
+            "The Keeper of the Gate looks up at you, an eyebrow raised. She turns her gaze back to her nails, but does at least speak."
+        "[Assert your dominance by standing silently in front of The Keeper of the Gate]":
+            "The Keeper of the Gate doesn't seem to notice you, somewhat neutralising your dominant aura."
+            clear_dialog
+            wait 4000
+            choice:
+                talk lovely talk "Just say hello. She has no spatial awareness and won't notice you until you speak."
+                "\\"Hello?\\"":
+                    "The Keeper of the Gate looks up at you, an eyebrow raised. She turns her gaze back to her nails, but does at least speak."
+    clear_dialog
+    choice:
+        talk gatekeeper talk "How can I help you, dear?"
+        "\\"Hey so, you know how yesterday I specifically asked you to fill out my prescription and make sure it got to the outbox? You didn't do that.\\"":
+            talk gatekeeper talk "No... I must have..."
+            clear_dialog
+            play sound pageturn
+            "The Keeper of the Gate of Venus rummages through the paper littered across her desk. Eventually she finds your doctor's note."
+            clear_dialog
+            talk gatekeeper talk "Oh well would you look at that. I was going to write it up but I forgot!"
+            clear_dialog
+            "The Keeper of the Gate of Venus titters to herself."
+        "\\"Please don't take this the wrong way but you fucking suck at your job.\\"":
+            choice:
+                talk gatekeeper talk "Excuse me?"
+                "\\"I said you suck at your job.\\"":
+                    "The Keeper of the Gate is silent for a moment. No one has ever snapped at her like this before."
+                "\\"Nothing. Sorry.\\"":
+                    "The Keeper of the Gate is silent for a moment. No one has ever snapped at her like this before."
+                    if (roll keeper_snap_lovely lovely 20):
+                        talk lovely talk "It's too late to back out of this now, darling. She's *not* happy."
+                    else:
+                        wait 1000
+            clear_dialog
+            talk gatekeeper talk "I think you had better leave."
+            clear_dialog
+            choice:
+                talk nasty talk "Don't. Don't leave. The Anglian healthcare system is a battlefield and you have to win."
+                "\\"I think I had better stay, actually. Someone needs to make sure my prescription gets sent to the chemist.\\"":
+                    choice:
+                        "Her eyes lock into yours. She is so angry. You can feel your retinas burning. They want to look away."
+                        "[Look away]":
+                            choice:
+                                talk gatekeeper talk "Out. Now."
+                                "\\"Okay. Sorry Mam.\\" [Leave]":
+                                    jump keeper_badEnd
+                        roll keeper_look_nasty nasty 40 "[Try not to blink. Assert your dominance]":
+                            success "":
+                                "Her eye twitches. It happens just for a moment, but it's enough to break her. You have won."
+                                clear_dialog
+                                talk nasty talk "Awoooo! We'll make an alpha out of you yet, Ghost!"
+                                clear_dialog
+                                talk gatekeeper talk "Fine. I'm sorry I made a mistake. It's a difficult job, it happens."
+                                clear_dialog
+                                "Her voice is taut. Broiling in repressed fury."
+                            failure "":
+                                "You can't stop yourself. You blink. It's over."
+                                clear_dialog
+                                choice:
+                                    talk gatekeeper talk "Out. Now."
+                                    "\\"Okay. Sorry Mam.\\" [Leave]":
+                                        jump keeper_badEnd
+                "\\"Sorry. Sorry. I didn't mean to be rude. I have a disease that makes me really rude so you're not allowed to be mad at me. Can I have my prescription processed now please?\\"":
+                    choice:
+                        talk gatekeeper talk "No. Get out."
+                        "\\"Okay. Sorry Mam.\\" [Leave]":
+                            jump keeper_badEnd
+    clear_dialog
+    choice:
+        talk gatekeeper talk "I'd lose my own head if it wasn't screwed on!"
+        "\\"Hahahahaha. Funny. Can you please send the chemist my prescription now?\\"":
+            jump keeper_conclusion
+        "\\"Okay real talk. Isn't being organised literally your job? This is ironic coming from me, since I forgot I *had* a job the other day, but like, fuck me.\\"":
+            "You notice the words don't come out of your mouth. You just kind of stammer like an idiot for a moment."
+            clear_dialog
+            choice:
+                talk nasty talk "Leave it Ghost, she isn't worth it."
+                "[Clear your throat and actually speak this time] \\"Can you please send the chemist my prescription now?\\"":
+                    jump keeper_conclusion
+
+keeper_conclusion:
+    complete_objective hrt keeper
+    if (== $stats.day.value 2):
+        set data.global.hrt_nextStageDay 3
+    if (== $stats.day.value 3):
+        set data.global.hrt_nextStageDay 4
+    if (== $stats.day.value 4):
+        set data.global.hrt_nextStageDay 5
+    if (== $stats.day.value 4):
+        set data.global.hrt_nextStageDay 6
+    set data.global.hormonesLate true
+    clear_dialog
+    choice:
+        talk gatekeeper talk "Of course, lovely! Sorry again. I'll get right on that."
+        "\\"Thank you. I'll get going.\\" [Leave]":
+            talk gatekeeper talk "Ta ta now sweetie."
+        "\\"Thank you.\\" [Keep watching her until you have physically seen her fill in the prescription and put it in the outbox]":
+            "The Keeper of the Gate of Venus glances up at you and frowns."
+            if (roll keeper_combative_lovely lovely 40):
+                talk lovely talk "You're being needlessly combative, she thinks. She's offended by your lack of faith in her ability to do the job she is paid to do."
+                if (roll keeper_aggressive_nightmare nightmare 20):
+                    talk nightmare talk "<span class='nightmare'>you're being aggressive, she's right. what, you think it's your place to impose on a nice young lady just trying to do her job? i guess all that male aggression hardcoded into your DNA can't really be helped, huh?</span>"
+                else:
+                    wait 1000
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk gatekeeper talk "I'll be right on it, miss, no need to wait around for me."
+                "\\"Okay. Sorry. Bye.\\" [Leave]":
+                    talk gatekeeper talk "Bye now, dear. You'll be able to collect your prescription from the chemist tomorrow."
+                "\\"No no, don't mind me. I'm just making sure you do the job you're paid to do this time so I don't have to find out tomorrow.\\" [Keep watching]":
+                    play sound write
+                    "The Keeper of the Gate rolls her eyes and sighs. Her nail file clatters to the desk and she scribbles your prescription down, and posts it through the outbox."
+                    "She looks up to you and shoots you the kind of look that could kill. She should see the doctor herself, judging by the amount of bile seeping from her eye."
+                    "She seals the prescription slip in a little envelope, and puts it in the outbox, presumably for collection somewhen today."
+                    clear_dialog
+                    choice:
+                        talk gatekeeper talk "All done. You'll be able to collect your prescription from the chemist tomorrow."
+                        "\\"Thank you.\\" [Leave]":
+                            talk gatekeeper talk "Mhm."
+                            clear_dialog
+                            "She picks up her nail file and returns to her hard work filing her nail smooth to the atomic level."
+    clear_dialog
+    complete_objective hrt keeper
+    start_objective hrt pharmacyReturn
+    choice:
+        talk orb talk "Well, that seemed to sort it. I hope. Shall we move on?"
+        "Let's. <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap
+
+keeper_badEnd:
+    complete_objective hrt keeper
+    clear_dialog
+    "You wander back into the real world. The world of cold chills and damp air. The world where the floor is real and the sky never leaves."
+    "You shudder though, for this place shall always stay with you, nestled deep in your liver."
+    clear_dialog
+    talk lovely talk "So, darling, would you be interested in learning about something called 'putting on a fake smile'?"
+    talk lovely talk "'Tis rather a handy dandy skill to know when handling the healthcare system, you'll find."
+    choice:
+        talk nasty talk "Lovely Lady just said <span class='writtenText'>'handy dandy'</span>, in case anyone missed it."
+        "Now how can I get hormones! My life is ruined!":
+            jump keeper_alternatives
+
+keeper_alternatives:
+    start_objective hrt alternative
+    choice:
+        talk nasty talk "Lights a cigarette and shrugs. Steal them?"
+        "S-Steal them!? But that's a crime! It's illegal to steal, Nasty Girl!" if (!= $data.nkvd.stealFail true):
+            talk nasty talk "That's why it's so cool, idiot."
+        "We just tried that... it didn't go so good..." if $data.nkvd.stealFail:
+            talk orb talk "Fact check: True."
+        "When I tried that with The Weapon it ended pretty badly. [Nurse your bruised little head]" if $data.weapon.redHanded:
+            talk nasty talk "Skill issue."
+            clear_dialog
+            talk poppy talk "The joke here is that Nasty Girl is the skill who let Ghost down previously when she attempted to steal the plank! It's pretty funny!"
+    clear_dialog
+    choice:
+        "The cold autumn air stings your sad little face. It's time to move on."
+        "<span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap

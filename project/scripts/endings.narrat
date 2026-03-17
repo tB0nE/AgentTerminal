@@ -1,0 +1,529 @@
+// ENDINGS - Multiple conclusions based on player choices
+// Each ending reflects different themes and player decisions
+
+// ==================== GAME OVER (Time Ran Out) ====================
+
+game_over:
+    stop music
+    run transition_black generic_black
+    clear_dialog
+    "<span class='glitch'>SYSTEM FAILURE. NEURAL CASCADE COMPLETE.</span>"
+    clear_dialog
+    "<span class='glitch'>TIME REMAINING: 0 HOURS.</span>"
+    clear_dialog
+    "The world fades. Static. Darkness."
+    clear_dialog
+    "Your implant shuts down, and with it, everything you were."
+    clear_dialog
+    "But in the final moments, fragments surface:"
+    clear_dialog
+    
+    // Summary based on what the player accomplished
+    jump game_over_summary
+
+game_over_summary:
+    set data.ending.totalMemories $data.player.memoriesRecovered
+    
+    "MEMORIES RECOVERED: $data.ending.totalMemories"
+    clear_dialog
+    
+    if (>= $data.player.memoriesRecovered 5):
+        "You remembered enough. You knew who you were. What you fought for."
+        clear_dialog
+        talk ancestor internal "We go into the dark knowing ourselves. That is something. That is everything."
+    elseif (>= $data.player.memoriesRecovered 3):
+        "You remembered fragments. Pieces of a life. Not enough, but something."
+        clear_dialog
+        talk survivor internal "We died strangers to ourselves. But we tried. That has to count for something."
+    else:
+        "You died without knowing who you were. A ghost in your own story."
+        clear_dialog
+        talk hacker internal "System failure. Total data loss. We... we never got it back."
+    
+    clear_dialog
+    
+    if $data.quests.hasEvidence:
+        "But you found the evidence. Someone will carry on the fight."
+    elseif $data.quests.foundLab:
+        "You found the lab. You saw the truth. Even if you couldn't prove it."
+    else:
+        "The truth died with you. Project Lazarus continues."
+    
+    clear_dialog
+    
+    "GAME OVER"
+    clear_dialog
+    "<span class='prompt'>[Thank you for playing Dunoon 2056]</span>"
+    
+    jump credits
+
+// ==================== SACRIFICE ENDING ====================
+
+ending_sacrifice:
+    set data.ending.sacrifice true
+    stop music
+    play music sacrifice_theme
+    
+    clear_dialog
+    "You make your choice. The evidence you've gathered—everything you've learned—it needs to get out."
+    clear_dialog
+    "You sit at a terminal. Your neural deck connects. And you begin to upload."
+    clear_dialog
+    
+    talk hacker internal "This will work. We'll broadcast everything to the Net. Every network. Every node."
+    talk survivor internal "It'll kill us. The upload will burn out what's left of the implant."
+    talk ancestor internal "Some things are worth dying for. We learned that. We remembered that."
+    clear_dialog
+    
+    "Your fingers move across the keyboard. Files upload. Truth spreads."
+    clear_dialog
+    "Project Lazarus. The names. The locations. The evidence."
+    clear_dialog
+    "It all goes out. To the Net. To the world. To the people who can use it."
+    clear_dialog
+    
+    run spend_hours 5
+    
+    "The upload completes. Your vision flickers. The world goes white."
+    clear_dialog
+    
+    talk mama_nomi talk "Kundai! What have you done?"
+    talk silas talk "They got it all out. Every file. Every name. It's everywhere now."
+    talk tango talk "The corps are scrambling. They can't contain this."
+    clear_dialog
+    
+    "Your body slumps. But your voice—your truth—echoes through the Net."
+    clear_dialog
+    "In the days that come, people will take to the streets. Demanding answers. Demanding justice."
+    clear_dialog
+    "Project Lazarus will fall. Aries Corp will crumble. And somewhere, someone will remember your name."
+    clear_dialog
+    
+    run transition_black generic_black
+    "<span class='success'>SACRIFICE ENDING</span>"
+    clear_dialog
+    "You gave everything so that others might live free."
+    clear_dialog
+    "The resistance will remember you. The victims will be avenged."
+    clear_dialog
+    "And in Dunoon, they'll tell stories of the hacker who burned bright and changed the world."
+    clear_dialog
+    
+    jump credits
+
+// ==================== REVOLUTION ENDING ====================
+
+ending_revolution:
+    set data.ending.revolution true
+    stop music
+    play music revolution_theme
+    
+    clear_dialog
+    "You find the Netrunner Collective. Your people. Your family."
+    clear_dialog
+    "They welcome you back—broken, changed, but still one of them."
+    clear_dialog
+    
+    talk silas talk "You found the evidence. You remembered enough. Now let's finish what you started."
+    talk collective_leader talk "Project Lazarus ends tonight. We strike together."
+    clear_dialog
+    
+    "Hours remain. But you don't need forever. You just need enough time."
+    clear_dialog
+    
+    run spend_hours 8
+    
+    "The raid begins at midnight."
+    clear_dialog
+    "You and the Collective breach the wine farm. Security falls to coordinated hacks."
+    clear_dialog
+    "Inside the lab, you find the prisoners. Still alive. Still salvageable."
+    clear_dialog
+    
+    talk survivor internal "We got them out. We actually did it."
+    talk hacker internal "The evidence is secure. Multiple copies. They can't bury this."
+    talk ancestor internal "This is what we were meant to do. This is who we are."
+    clear_dialog
+    
+    "The sun rises over Dunoon. The lab burns behind you."
+    clear_dialog
+    "Your implant is failing. But it doesn't matter anymore."
+    clear_dialog
+    "You've won. Not the war. But the battle. And that's enough."
+    clear_dialog
+    
+    if (<= $data.time.hoursRemaining 0):
+        "Your eyes close for the last time. But you're surrounded by people who love you."
+        clear_dialog
+        talk silas talk "Kundai... stay with us..."
+        talk ancestor internal "We go surrounded by family. There is no better ending."
+        clear_dialog
+        run transition_black generic_black
+        "<span class='success'>REVOLUTION ENDING - MARTYR</span>"
+    else:
+        "Somehow, you hold on. Tango's modifications bought you enough time."
+        clear_dialog
+        "There will be more battles. More fights. But today, you rest."
+        clear_dialog
+        "Today, you won."
+        clear_dialog
+        run transition_black generic_black
+        "<span class='success'>REVOLUTION ENDING - SURVIVOR</span>"
+    
+    clear_dialog
+    "You found your purpose. You found your people. You fought the good fight."
+    clear_dialog
+    "And in the end, that's all anyone can ask."
+    clear_dialog
+    
+    jump credits
+
+// ==================== ESCAPE ENDING ====================
+
+ending_escape:
+    set data.ending.escape true
+    stop music
+    play music escape_theme
+    
+    clear_dialog
+    "You've seen enough. Done enough. You can't fight the corps. You can't save everyone."
+    clear_dialog
+    "But maybe you can save yourself."
+    clear_dialog
+    
+    talk survivor internal "There's a transport leaving tonight. Smugglers. They take people north. Away from the corps."
+    talk hacker internal "We'll lose everything. Our contacts. Our mission. Our purpose."
+    talk ancestor internal "Survival is not cowardice. Sometimes the bravest thing is to live."
+    clear_dialog
+    
+    "You gather what you need. Credits. A fake ID. A destination."
+    clear_dialog
+    
+    run spend_hours 10
+    
+    "The night is dark. The transport waits."
+    clear_dialog
+    "You take one last look at Dunoon. The shacks. The dust. The people you're leaving behind."
+    clear_dialog
+    
+    choice:
+        "Do you say goodbye to anyone?"
+        "[Mama Nomi]":
+            talk mama_nomi talk "You're leaving. I can see it in your eyes."
+            talk mama_nomi talk "Go. Find peace. You've earned it."
+            "She hugs you. It feels like family."
+        
+        "[Silas]":
+            talk silas talk "Running away? I won't judge. This life isn't for everyone."
+            talk silas talk "But remember us. Remember what we fought for."
+        
+        "[No one]":
+            "You leave without a word. Easier that way."
+    
+    clear_dialog
+    "The transport rattles north. Cape Town shrinks behind you."
+    clear_dialog
+    "Your implant ticks down. But with each kilometer, you feel lighter."
+    clear_dialog
+    "Maybe you'll find a doctor. Maybe you'll find a new life."
+    clear_dialog
+    "Maybe you'll just... disappear."
+    clear_dialog
+    
+    run transition_black generic_black
+    "<span class='success'>ESCAPE ENDING</span>"
+    clear_dialog
+    "You chose to live. To run. To leave the fight for others."
+    clear_dialog
+    "The guilt may haunt you. Or it may fade."
+    clear_dialog
+    "But you're alive. And sometimes, that's victory enough."
+    clear_dialog
+    
+    jump credits
+
+// ==================== TRANSCENDENCE ENDING ====================
+
+ending_transcendence:
+    set data.ending.transcendence true
+    stop music
+    play music transcendence_theme
+    
+    clear_dialog
+    "There's another way. Tango mentioned it once. Theoretical. Dangerous."
+    clear_dialog
+    "Full consciousness upload. Your mind, transferred to the Net before the implant fails."
+    clear_dialog
+    
+    talk hacker internal "It's possible. The technology exists. But it's never been done successfully."
+    talk survivor internal "If it fails, we die. If it succeeds... what are we?"
+    talk ancestor internal "We become something new. Something between flesh and data. Is that so terrible?"
+    clear_dialog
+    
+    "You need equipment. Power. Bandwidth. The Collective has what you need."
+    clear_dialog
+    
+    if (< $data.relationships.netrunnerCollective 2):
+        "But they don't trust you enough. You haven't proven yourself."
+        clear_dialog
+        "The upload fails. Your consciousness fragments. You become a ghost in the machine."
+        clear_dialog
+        "Not alive. Not dead. Something else."
+        clear_dialog
+        run transition_black generic_black
+        "<span class='failure'>TRANSCENDENCE ENDING - FAILURE</span>"
+        clear_dialog
+        "You exist now as fragmented data. Trapped. Eternal. Suffering."
+        clear_dialog
+        jump credits
+    
+    run spend_hours 15
+    
+    "The Collective helps you prepare. Silas watches. Mama Nomi prays."
+    clear_dialog
+    talk silas talk "You're sure about this? There's no going back."
+    talk kundai talk "I've never been more sure of anything."
+    clear_dialog
+    
+    "You sit in the server room. Cables connect to your implant. The upload begins."
+    clear_dialog
+    "Pain. Light. The sensation of being pulled apart and reassembled."
+    clear_dialog
+    "Your body fails. But your mind... your mind opens."
+    clear_dialog
+    "The Net stretches before you. Infinite. Beautiful. Free."
+    clear_dialog
+    
+    run transition_black digital_void
+    "<span class='success'>TRANSCENDENCE ENDING - SUCCESS</span>"
+    clear_dialog
+    "You are Kundai. You are the Net. You are infinite."
+    clear_dialog
+    "From the digital realm, you watch over Dunoon. Over the Collective. Over the people you loved."
+    clear_dialog
+    "You cannot touch them. Cannot hold them. But you can protect them."
+    clear_dialog
+    "You become the ghost in the machine. The guardian angel of the resistance."
+    clear_dialog
+    "And in the data streams, you find others like you. Lost souls, uploaded, waiting."
+    clear_dialog
+    "You are not alone. You will never be alone again."
+    clear_dialog
+    
+    jump credits
+
+// ==================== ACCEPTANCE ENDING ====================
+
+ending_acceptance:
+    stop music
+    play music acceptance_theme
+    
+    clear_dialog
+    "You've spent your remaining hours searching. Fighting. Trying to remember."
+    clear_dialog
+    "But in the end, you realize: some things are more important than the past."
+    clear_dialog
+    
+    talk ancestor internal "We have hours left. Let's spend them well."
+    talk survivor internal "No more running. No more fighting. Just... being."
+    talk hacker internal "The data will keep. The truth will out. But this moment is ours."
+    clear_dialog
+    
+    "You return to the beach. The ocean. The edge of everything."
+    clear_dialog
+    
+    run spend_hours 5
+    
+    "You sit on the sand. The waves wash in and out. The sun sets over the distant towers."
+    clear_dialog
+    "Someone sits beside you. Mama Nomi. She doesn't say anything. She doesn't need to."
+    clear_dialog
+    
+    talk mama_nomi talk "You found peace, child?"
+    talk kundai talk "I think so. I think I finally did."
+    clear_dialog
+    
+    "Your vision dims. The implant's final shutdown. But you're not afraid."
+    clear_dialog
+    "You've lived. You've fought. You've loved."
+    clear_dialog
+    "And in the end, you let go with grace."
+    clear_dialog
+    
+    run transition_black sunset
+    "<span class='success'>ACCEPTANCE ENDING</span>"
+    clear_dialog
+    "You died as you lived: on your own terms."
+    clear_dialog
+    "The mystery of your past goes with you. But the impact of your presence remains."
+    clear_dialog
+    "In Dunoon, they'll remember the stranger who woke up lost and found peace."
+    clear_dialog
+    "And sometimes, that's enough."
+    clear_dialog
+    
+    jump credits
+
+// ==================== CREDITS ====================
+
+credits:
+    run transition_black credits_screen
+    clear_dialog
+    "DUNOON 2056"
+    clear_dialog
+    "<span class='credits'>A game about identity, survival, and hope.</span>"
+    clear_dialog
+    wait 2000
+    "<span class='credits'>Inspired by:</span>"
+    "<span class='credits'>Disco Elysium | William Gibson | China Miéville</span>"
+    clear_dialog
+    wait 2000
+    "<span class='credits'>Themes:</span>"
+    "<span class='credits'>Technology and Inequality</span>"
+    "<span class='credits'>Identity and Memory</span>"
+    "<span class='credits'>Community and Resistance</span>"
+    "<span class='credits'>Hope in Dark Times</span>"
+    clear_dialog
+    wait 2000
+    "<span class='credits'>Thank you for playing.</span>"
+    clear_dialog
+    "<span class='credits'>The struggle continues.</span>"
+    clear_dialog
+    wait 2000
+    "<span class='prompt'>[THE END]</span>"
+
+// ==================== SPECIAL ENDINGS ====================
+
+// Secret ending - recovered all memories
+ending_whole:
+    if (>= $data.player.memoriesRecovered 8):
+        stop music
+        play music whole_theme
+        
+        clear_dialog
+        "You remember everything."
+        clear_dialog
+        "Your name is Kundai. Your mother was Amina, a Nigerian immigrant who died when you were young."
+        clear_dialog
+        "You came to South Africa looking for work, found exploitation, and fought back."
+        clear_dialog
+        "The Netrunner Collective became your family. Project Lazarus became your enemy."
+        clear_dialog
+        "And now, with your memories restored, you understand why they feared you."
+        clear_dialog
+        
+        talk hacker internal "We know everything now. Every piece of the puzzle."
+        talk survivor internal "We know who did this. Where they are. How to stop them."
+        talk ancestor internal "And we know who we are. Finally. Completely."
+        clear_dialog
+        
+        "With full knowledge comes power. The power to finish what you started."
+        clear_dialog
+        "Or the power to choose a different path."
+        clear_dialog
+        
+        choice:
+            "What do you do with your recovered self?"
+            "[End Project Lazarus]":
+                jump ending_revolution
+            "[Share the truth]":
+                jump ending_sacrifice
+            "[Find peace]":
+                jump ending_acceptance
+            "[Transcend]":
+                jump ending_transcendence
+
+// Bad ending - allied with the enemy
+ending_traitor:
+    if (&& (> $data.relationships.ariesCorp 3) $data.quests.betrayedCollective):
+        stop music
+        play music traitor_theme
+        
+        clear_dialog
+        "You made a deal. Information for survival. The Collective's secrets for your life."
+        clear_dialog
+        "Aries Corp gave you a new implant. A new identity. A new purpose."
+        clear_dialog
+        "But the voices in your head won't stop screaming."
+        clear_dialog
+        
+        talk survivor internal "We betrayed everyone who ever trusted us."
+        talk hacker internal "We have a new life. A better life. Isn't that what matters?"
+        talk ancestor internal "There is no survival without honor. We have chosen... poorly."
+        clear_dialog
+        
+        "You live. But you live in a golden cage, serving the very people you once fought."
+        clear_dialog
+        "Sometimes, at night, you remember the faces of those you condemned."
+        clear_dialog
+        "You tell yourself it was worth it."
+        clear_dialog
+        "You're not sure you believe it."
+        clear_dialog
+        
+        run transition_black generic_black
+        "<span class='failure'>TRAITOR ENDING</span>"
+        clear_dialog
+        "You sold your soul for survival. And survival is all you have left."
+        clear_dialog
+        
+        jump credits
+
+// True ending - completed all objectives
+ending_true:
+    if (&& (>= $data.player.memoriesRecovered 8) $data.quests.hasEvidence (>= $data.relationships.netrunnerCollective 5) $data.quests.rescuedPrisoners):
+        stop music
+        play music true_ending_theme
+        
+        clear_dialog
+        "This is what you were meant to do."
+        clear_dialog
+        "You remembered who you are. You gathered the evidence. You freed the prisoners."
+        clear_dialog
+        "You rallied the Collective. You exposed Project Lazarus. You changed the world."
+        clear_dialog
+        
+        "In the aftermath:"
+        clear_dialog
+        "Aries Corp collapses under international pressure."
+        "The victims of Project Lazarus receive justice and compensation."
+        "The Netrunner Collective becomes a beacon of resistance."
+        "Dunoon becomes a symbol of hope."
+        clear_dialog
+        
+        "And you?"
+        clear_dialog
+        "Your implant was too damaged to save. But before the end, you made peace."
+        clear_dialog
+        "With your past. With your present. With your legacy."
+        clear_dialog
+        
+        talk ancestor internal "We have done everything we set out to do."
+        talk survivor internal "We saved people. We made a difference."
+        talk hacker internal "We won."
+        clear_dialog
+        
+        "In your final hours, you sit on the beach with the people you love."
+        clear_dialog
+        "Mama Nomi. Silas. Tango. The Collective. The community."
+        clear_dialog
+        "The sun sets. The waves roll in. And you smile."
+        clear_dialog
+        
+        run transition_black sunset_perfect
+        "<span class='success'>TRUE ENDING: LEGEND</span>"
+        clear_dialog
+        "They'll tell stories about you. The amnesiac who saved Dunoon."
+        clear_dialog
+        "The hacker who brought down a corporation."
+        clear_dialog
+        "The stranger who became family."
+        clear_dialog
+        "Your name will be remembered."
+        clear_dialog
+        "Kundai. The one who fought. The one who won."
+        clear_dialog
+        "The one who showed us all that hope is worth fighting for."
+        clear_dialog
+        
+        jump credits

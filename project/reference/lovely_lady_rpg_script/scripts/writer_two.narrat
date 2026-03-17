@@ -1,0 +1,975 @@
+writer_two:
+    play sound click
+    choice:
+        "Story written, it is time to take it to The Pulp Writer, and receive judgement."
+        "[Show your article to The Pulp Writer] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            play sound spendAction
+            set data.game_map.inMap false
+            add_stat actions -1
+            set_button button_writer_two false
+            run transition_black writer_door
+            clear_dialog
+        "<span class='prompt'>[[BACK]]</span>":
+            jump game_map
+
+    "The Pulp Writer's door. It's still here. Hopefully she is too. Why wouldn't she be?"
+    if (roll writer_two_dead_nightmare nightmare 60):
+        talk nightmare talk "<span class='nightmare'>She's a transvestite, just like you.</span>"
+        clear_dialog
+        talk nightmare talk "<span class='nightmare'>Sometimes you people just stop existing. Gone, like a bubble in the mud. *Pop*.</span>"
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "A chill tickles your cheek. A hair blows into your mouth. Blegh."
+        "[Knock on the door]":
+            play sound doorknock
+            "There's a cough, somewhere inside. It echoes through the apartment and escapes through the letterbox."
+            play sound dooropen
+            run transition_instant writer_door_open
+            play music meloncholy
+            "A moment later the door opens just a touch, still chained to its latch. Inside you can make out a swaying figure, and a dull grey eye."
+    clear_dialog
+    play music writer
+    talk writer talk "Oh. It's you."
+    clear_dialog
+    "She coughs."
+    clear_dialog
+    talk writer talk "Well, salut or whatever, Ghost."
+    clear_dialog
+    "It's The Pulp Writer, but not The Pulp Writer you know."
+    "Normally she smells of tobacco and nicotine. She still does, but there's a whiff of mint within her musk today."
+    clear_dialog
+    talk orb talk "She's chain smoking oestradiol cigarettes in an attempt to reach the fabled 'oestradiol high'."
+    choice:
+        talk orb talk "She has reached it, valiantly gone over the top, and been shredded by the machine guns on the other side, which in this metaphor represent the 'depressant' side effect of oestradiol abuse."
+        "\\"Bon jaw!\\" [Do a gay little wave] \\"I have my work!\\" [Show her your work] \\"I worked really hard on it a-\\" [Get cut off by the Pulp Writer asking you if you want to come in and talk to her while she does drugs]":
+            talk writer talk "Want to come inside and talk to me while I do drugs?"
+            clear_dialog
+            talk nasty talk "AWOOOOOO! FINALLY!"
+            if (roll writer_two_trust_lovely lovely 20):
+                talk lovely talk "She trusts you enough not to bother checking your work. That's your bosses' job."
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk writer talk "Et alors?"    
+                "\\"Y-yes?\\"":
+                    talk writer talk "Ahah. Bon or whatever."
+    complete_objective writer writerTwo
+    clear_dialog
+    choice:
+        "She takes the article out of your hand and wanders into her apartment, swaying clumsily with each step."
+        "[Follow her]":
+            clear_dialog
+            play sound doorclose
+            run transition writer_apartment_both
+            clear_dialog
+    talk orb talk "She is so fucked right now, goodness."
+    talk nasty talk "Why aren't *we* getting that fucked, she's having a great time!"
+    if (roll writer_two_great_lovely lovely 20):
+        talk lovely talk "No she isn't."
+    "The Pulp Writer slumps on her sofa, it's a miserable thing, ragged, worn, old. The sofa has seen better days too."
+    clear_dialog
+    talk writer talk "Come. Sit."
+    play sound clothing
+    run transition writer_sofa
+    clear_dialog
+    "Yesterday she veered erratically from angry to clinically bored. Today is different. There is a sense that her soul has been deflated. Her grey fur is no longer just the colour of her fur, it is her."
+    if (roll writer_two_ennui_lovely lovely 60):
+        talk lovely talk "The Frankish call this <span class='writtenText'>'ennui'</span>."
+        if (roll writer_two_ennui_orb orb 40):
+            talk orb talk "Ennui just means sad and bored, it's not the poetic state of being you Anglian's think it is."
+            if (roll writer_two_ennui_nasty nasty 20):
+                talk nasty talk "Tsk tsk. Orb, have you no soul? Ennui is far more than being <span class='writtenText'>'sad and bored'</span>! 'Tis a state of utter depersonalisation."
+                clear_dialog
+                talk nasty talk "No more do you feel <span class='writtenText'>'sad or bored'</span> you feel naught. There is nothing for you to feel sad and bored about, and there is nothing to make you stop feeling that way."
+                talk nasty talk "To experience ennui is to shatter your being into oblivion and put it back together piece by boring piece as the clock ticks away, until at last, eventually, you are you again."
+                clear_dialog
+                talk lovely talk "Y-yes, what she said."
+                clear_dialog
+                talk orb talk "Ennui means you're sad and bored."
+            else:
+                wait 1000
+        else:
+            wait 1000
+    else:
+        wait 1000
+    clear_dialog
+    "The Pulp Writer takes a big drag of oestrodil, and looks at you. She squints, as if your face is one of those 3D magic eye pictures."
+    if (roll writer_two_face_nightmare nightmare 20):
+        talk nightmare talk "<span class='nightmare'>May as well be.</span>"
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "She keeps squinting. She's forgotten how time works. Her self conscious nature is, for now at least, numbed. She sinks against you, ever so slightly."
+        "[Wave at her] \\"Hello!\\"":
+            talk writer talk "I'm fond of you, Ghost. Something about you make me... how you say? Smile? It's odd. *You're* odd."
+            if (roll writer_two_like_lovely lovely 20):
+                talk lovely talk "She doesn't quite get why she enjoys your company, but it's because you're strange and weirdly peppy in a way she isn't. It's good for her. Adds a bit of a spark to her day. Always she wonders what you'll say next."
+            else:
+                wait 1000
+            if (roll writer_two_like_nasty nasty 20):
+                talk nasty talk "She thinks you look fuckable and she's horny. Tired of jacking herself off until she falls asleep."
+            else:
+                wait 1000
+    clear_dialog
+    "She shakes herself out of her haze and looks around, bleary eyed, as if realising where she is for the first time."
+    "Her head falls into her hands, she sighs."
+    clear_dialog
+    talk writer talk "Sorry for the mess. I absolutely ruined this place when I went rabid, and never really felt it worth fixing up..."
+    clear_dialog
+    choice:
+        "You didn't really take it in the first time you were here, but it's a tip. The curtains are ragged, as if gnawed and gnawed and gnawed. The wallpaper is scratched as if clawed and clawed and clawed. There's a spattering of blood on the skirting board, as if someone gored and gored and gored..."
+        "\\"I think it's nice. Homely. It smells of drugs. Brackets, good, close brackets.\\"":
+            "The Pulp Writer snorts, amused by you."
+        "\\"It's not that bad here, my cottage had a hole in its roof until very recently, and I've only lived there a few days!\\"" if $data.ghost.roofRepaired:
+            "The Pulp Writer snorts, amused by you."
+        "\\"It's not that bad here, my cottage has a hole in its roof, and I've only lived there a few days!\\"" if (!= $data.ghost.roofRepaired true):
+            "The Pulp Writer snorts, amused by you. Then briefly gets very serious."
+            clear_dialog
+            talk writer talk "You should probably fix that before you... how you say? Catching your death of cold, oui? Still, hole or no, my place is... well..."
+        "\\"Damn bitch you live like this?\\"":
+            talk writer talk "<span class='writtenText'>'Live'</span>?"
+            clear_dialog
+            "She looks around vacantly. Shrugs."
+            clear_dialog
+            talk writer talk "Maybe."
+    clear_dialog
+    talk writer talk "It's a tip. My landlord is going to kill me, but fortunately he never visits."
+    clear_dialog
+    choice:
+        talk writer talk "Regardless, I intend to leave to La República before he has a chance to find out."
+        "\\"What's waiting for you in La República?\\"":
+            talk writer talk "Freedom. A new start. Communism."
+            clear_dialog
+            "She coughs into her sleeve."
+            clear_dialog
+            talk writer talk "The Iberian Republic is the birthplace of modern communism, to the governments of the west it is a miasma spewing corpse attached to Frankreich like a lamprey, but to communists it is the spark of life at the end of the thousand miles of barbed wire."
+            clear_dialog
+            "She coughs again, worse this time. Wiped her pretty mouth with her ugly sweater sleeve."
+            "Catches you looking at her lips. She wants to say something. Is too fucked up. She's so disgusting."
+            "Looks away."
+            clear_dialog
+            choice:
+                talk writer talk "That is why I intend to go to La República, Ghost, because I'm a communist. Only now I have been talking to you I feel perhaps I should stay here, just a little longer. Could it be I am lonely more than I am downtrodden?"
+                "\\"I'm a communist too.\\" [Kiss her]":
+                    "You kiss her. It feels both out of nowhere and preordained by heaven, like all good kisses."
+                "\\"I'm a communist too. I would kiss you but you're my boss and I'm not a fan of uneven power dynamics.\\"":
+                    choice:
+                        talk writer talk "Your boss? I'm not your boss. I'm a glorified letterbox with a compromised immune system. You can kiss me if you want, Ghost."
+                        "[Kiss her]":
+                            "You kiss her. It feels both out of nowhere and preordained by heaven, like all good kisses."
+                "\\"I'm a communist too. Can I kiss you? I know you're my boss but as a fan of uneven power dynamics I think it'd be hot.\\"":
+                    choice:
+                        talk writer talk "Your boss? I'm not your boss. I'm a glorified letterbox with a compromised immune system. You can kiss me if you want, Ghost."
+                        "[Kiss her]":
+                            "You kiss her. It feels both out of nowhere and preordained by heaven, like all good kisses."
+                "\\"I'm a communist too. You should rethink some of the aspects of your specific ideology though.\\"":
+                    talk writer talk "And you yours. Always this is the way."
+                    clear_dialog
+                    "She kisses you. It feels both out of nowhere and preordained by heaven, like all good kisses."
+                "\\"I'm not a communist. I got kicked in the head by a sheep when I was a baby by the way.\\"":
+                    choice:
+                        talk writer talk "No. Not a lot of people are in Anglia. Still, you seem okay, for un traître à ta classe."
+                        "\\"On train track to ta class. Yup. That's what they always called me.\\" [Nod your head]":
+                            "The Pulp Writer smiles, ever so softly."
+                            if (roll writer_two_embarrassed_lovely lovely 40):
+                                talk lovely talk "She's a little embarrassed for you, but she finds you sweet, far sweeter than most of les petites femmes she meets."
+                            else:
+                                wait 1000
+                            clear_dialog
+                            "She kisses you. It feels both out of nowhere and preordained by heaven, like all good kisses."
+    clear_dialog
+    talk orb talk "Weird. Gross. I don't get it."
+    talk lovely talk "You wouldn't, you don't have lips."
+    talk nasty talk "Or a tongue."
+    clear_dialog
+    "She tastes of something. You can't work out what, but it's nice."
+    if (roll writer_two_taste_lovely lovely 20):
+        talk lovely talk "Sadness, nicotine and blueberries. She eats an abnormal amount of blueberries. They're good for the immune system. Apparently."
+    else:
+        wait 1000
+    clear_dialog
+    talk writer talk "You're a good kisser, Ghost. You have a... how do you say..."
+    choice:
+        talk writer talk "A bizarre technique?"
+        "[Kiss her again but slightly more self-conscious about your apparent <span class='writtenText'>'bizarre technique'</span> this time]":
+            "She had the same thought. Her hand slides around your neck, her thumb across your cheek."
+        "\\"I have a <span class='writtenText'>'bizarre technique'</span>?\\"":
+            choice:
+                talk writer talk "Eh. It has a certain... <span class='writtenText'>'je ne sais quoi'</span>, is I think what you Anglian's say. It doesn't matter. Kiss me again."
+                "[Kiss her again, trying not to do it in a <span class='writtenText'>'bizarre'</span> way this time]":
+                    "She had the same thought. Her hand slides around your neck, a thumb across your cheek."
+    clear_dialog
+    "The kiss lasts almost a minute. You aren't sure how. It just sort of keeps going, neither one of you bothering to stop. It could last forever."
+    clear_dialog
+    "It doesn't last forever. The Pulp Writer pulls back, and puts her cigarette to her lips."
+    clear_dialog
+    talk writer talk "Sorry. Rude of me I know, but I like to smoke as much as I like to kiss women. It is perhaps my greatest character flaw, aside all of the others."
+    clear_dialog
+    "She blows out some smoke, and glances to the side. Not at anything in particular, she just feels too self-conscious to look into your eyes, even after kissing you."
+    clear_dialog
+    talk nasty talk "Get her to put her cigarette out on you. It'd be hot."
+    talk orb talk "Yes. Cigarette ends *are* hot, which is precisely why we *shouldn't* be trying to get them snuffed out on us."
+    talk nasty talk "I snuffed one out on my wrist once and I lived, pussy."
+    clear_dialog
+    talk orb talk "You *scarred* yourself, Nasty Girl."
+    talk nasty talk "I'm fucking alive aren't I? Huh? Aren't I, dickhead? Huh?"
+    clear_dialog
+    "The Pulp Writer snaps you out of your little moment by running her tongue along the edge of your ear. It feels nice, if a little disconserting."
+    clear_dialog
+    choice:
+        talk writer talk "Mmm, Ghost?"
+        "\\"Could you put your cigarette out on me, please?\\"":
+            "The Pulp Writer blinks."
+            clear_dialog
+            talk writer talk "Put it out on you?"
+            clear_dialog
+            "She looks down at her cigarette, considering this request for a moment."
+            clear_dialog
+            talk writer talk "I think no, désolé. I don't want to set fire to your fur, Ghost."
+        "\\"Please don't put your cigarette out on me.\\"":
+            "She blinks. Three times."
+            clear_dialog
+            talk writer talk "Okay. I wasn't going to, but noted. We don't want you to catch fire, do we?"
+    clear_dialog
+    "She stubs her cigarette out on her ashtray and pulls herself closer to you. A deeply, deeply devious smirk grows on her face. Her eyes darken. Her aura shifts to evil."
+    clear_dialog
+    talk writer talk "Blades don't set girls on fire though, do they? Not if we're very careful. Would you like me to get my knife out, Ghost?"
+    clear_dialog
+    if (roll writer_two_knife_nasty nasty 40):
+        talk nasty talk "She's been wanting to ask someone that for *ages*. This bitch is fucked. Bopper."
+        clear_dialog
+    talk orb talk "Okay. To recap. The incredibly high, clumsy, slightly scary lady you have known for less than a week is asking if you're up for some knife play."
+    talk orb talk "I know what you want to say, but is it *really* a good idea to say yes?"
+    talk nasty talk "Yes, obviously."
+    choice:
+        talk lovely talk "Unequivocally, oui."
+        "Sorry Orb but sometimes a girl's needs outweigh a girl's brains, and my brain is *very* light.":
+            talk orb talk "Bad idea. Have fun."
+    clear_dialog
+    set data.ghost.knifeplay true
+    talk writer talk "Mm? Ghost?"
+    if (roll writer_two_please_lovely lovely 40):
+        set data.writer_two.please true
+        talk lovely talk "<span class='writtenText'>'Sil vous plaît, mademoiselle'</span>...":
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        "She gazes into your eyes. It's piercing. She's enjoying your dumb, horny expression."
+        "\\"Sil vous plaît, mademoiselle.\\"" if $data.writer_two.please:
+            talk writer talk "Such a formal little thing."
+        "\\"Please.\\"":
+            talk writer talk "Perfect."
+    clear_dialog
+    play sound knife
+    run transition writer_knife
+    "She strokes the back of her finger across your cheek, brushing some hair out of your face, and then she pulls a pocket knife out of her pocket."
+    clear_dialog
+    talk lovely talk "Ooh la la! Methinks someone has been planning this the whole time!"
+    talk nasty talk "It's a pocket knife, Lovely Lady. It lives there literally 24/7. It's in the name."
+    if (roll writer_two_carve_orb orb 20):
+        talk orb talk "It has been in there for over a month. Last time she took it out was to carve the word <span class='writtenText'>'Merde'</span> into a tree, for no reason."
+    else:
+        wait 1000
+    clear_dialog
+    "The Pulp Writer looks at her knife dispassionately. It's the same way she looks at you. For some reason the less she looks like she cares about you, the hotter she is."
+    clear_dialog
+    talk writer talk "Mmm."
+    clear_dialog
+    "She flicks the blade out of the pocket knifes hilt. It gleams like a blade, because it is one."
+    "She presses it against your chest, tracing a line across your left collar bone. The most WLW of all bones."
+    clear_dialog
+    "And then she pulls it away."
+    clear_dialog
+    run transition_pain
+    "As the knife leaves your chest, it presses in, ever so slightly before it leaves. It scratches. It pinches. It is a familiar feeling."
+    if (roll writer_two_prick_orb orb 60):
+        talk orb talk "The prick of a needle."
+    else:
+        wait 1000
+    clear_dialog
+    choice:
+        talk writer talk "Did you like that?"
+        "[Carefully nod]":
+            "She smirks. It's a mean little smirk. A dare to strangle her to death. A dare far too sexy for you to actually act on it."
+        "[Nod]":
+            choice:
+                "You nod a little too vigorously and accidentality butt your chest against the tip of her blade."
+                "\\"Ow! Oh me oh my!\\"":
+                    talk writer talk "Careful, Ghost."
+                "\\"Ow! Fuck! I got stabbed!\\"":
+                    talk writer talk "You didn't get stabbed, you got pricked, there's a difference the width of the Seine between those, you silly girl."
+            clear_dialog
+            "She looks down at your pathetic little body."
+            clear_dialog
+            talk writer talk "Still."
+            clear_dialog
+            "She leans down, brushes some of her hair behind her ear, and kisses your chest better."
+            choice:
+                talk writer talk "There. No more whining now, yes?"
+                "[Carefully nod]":
+                    "She smirks. It's a mean little smirk. A dare to strangle her to death. Unfortunately it's also far *far* too sexy for you to actually act on it."
+    clear_dialog
+    if (!= $data.ghost.nightmareSexComment true):
+        if (roll writer_two_sex_nightmare nightmare 40):
+            set data.ghost.nightmareSexComment true
+            choice:
+                talk nightmare talk "<span class='nightmare'>This is disgusting, right?</span>" 
+                "Sex?":
+                    talk nightmare talk "<span class='nightmare'>No not sex. Sex is great. WE like SEX. No, we're talking about sex that involves *you*.</span>"
+        else:
+            wait 1000
+    clear_dialog
+    choice:
+        talk writer talk "Do you know much about rabies, Ghost? About what it's like?"
+        "\\"Bitey.\\"":
+            talk writer talk "Yes, but it's more. Becoming a bitey girl is the more visible symptom, but its true horror lives deeper."
+    talk writer talk "I ripped up the wallpaper and coughed blood up onto the walls. I peered through the thin veneer, and I *hated* what I saw."
+    clear_dialog
+    choice:
+        talk orb talk "This is very weird. Are you in any way into this, Ghost?"
+        "Actually this is hot actually.":
+            talk orb talk "Eesh. Writers are weird."
+            clear_dialog
+            talk writer talk "You see what you are when everything you are has been stripped away. There is no passion, or empathy, or art, or life. There is only fear. Your eyes see the world around you, but it is not a world *for* you. There is only one way to respond to that fear, Ghost. Barbarism. Teeth and claws and teeth and claws and teeth and claws."
+            clear_dialog
+            "She breathes shakily. Her hand presses your head back further. Her mouth is practically against your ear now. Her knife once again meets your flesh, trailing up to your neck..."
+            clear_dialog
+            talk writer talk "And then, when the neighbours finally complained of the snarling, the doctor came with some gunmen. The brutes wrestled me to the ground, one of my teeth was broken on their plate mail, you see?"
+            clear_dialog
+            "She pulls a toothy grin. One of her teeth looks fucked up, like it bit into a plate of metal. Because it did. The blade presses against your throat. She could kill you, if she wanted. Liberation."
+            clear_dialog
+            talk writer talk "And then it ended."
+            clear_dialog
+            "The knife point pricks the side of your neck. She does this so *so* gently, and so *so* carefully. You can't see it or feel it, but you know that a bead of blood now runs down their blade."
+            clear_dialog
+            talk writer talk "A small injection, and the world is back to normal."
+            clear_dialog
+            run transition_pain
+            choice:
+                "The blade retreats from your neck. You feel a small trickle of blood leak into your pale fur."
+                "[Make a homosexuelle little whimper]":
+                    add data.writer.two_hug 1
+                    run skip
+                "[Remain stoically silent]":
+                    run skip
+            clear_dialog
+            "You can feel her gaze. Your eyes are closed tight, concentrating too hard on not whimpering or accidentality icing yourself, but you can feel it. She is so close to you."
+            clear_dialog
+            talk writer talk "It's only weeks later that you realise the world isn't back to normal. It has changed."
+            talk writer talk "You've seen it for its true self. You've cracked open the ribcages of its factories and its apartments and its states. You've felt the fear a trapped creature feels, and you realise that it is the same fear you felt your whole life."
+            talk writer talk "The disease is gone, but the fall is still happening. It's slower, but you still feel it."
+            talk writer talk "The whetstone grinding away at you till all that's left is teeth."
+            clear_dialog
+            "They glance at the back of their hand. It's pressed tightly against your throat, squeezing. The fur there is thin. Almost patchy. The skin beneath it scarred and callused."
+            clear_dialog
+            talk writer talk "Sometimes I miss it. The fear. The hel world of teeth and fear and blood."
+            talk writer talk "It was simple. Far simpler that the world I live in now."
+            clear_dialog
+            "They raise themselves, looking down at you. She strokes your cheek, presses a finger against your lips, playing with them. Her nail scrapes your tooth."
+            clear_dialog
+            choice:
+                talk writer talk "Open your eyes."
+                "[Open your eyes]":
+                    "There she is. Above you."
+                    "Dispassionate. Silent. Looking down on you like you're a thing to examine, not a lady to kiss."
+            clear_dialog
+            choice:
+                talk writer talk "May I bite you, Ghost?"
+                "\\"Please.\\"":
+                    add data.writer.two_hug 2
+                    set data.ghost.neckBitten true
+                    run transition_pain
+                    "Her teeth clamp ever so gently around your neck. You whimper. You can't help it."
+                    "She bites you. It's the same place as she cut you. She's drinking your blood."
+                    clear_dialog
+                    talk orb talk "This *incredibly* unhygienic."
+                    talk nasty talk "That's why it's hot, dipshit."
+                    clear_dialog
+                    "When she does eventually stop biting you, you feel her absence like a missing limb. Your neck feels cold without her, cold and lonely. It hurts though. She left quite the mark. Hopefully no one will judge you for it."
+                    clear_dialog
+                    choice:
+                        talk writer talk "Thank you, Ghost. You look pretty with a bruise, no?"
+                        "\\"Y- yes.\\"":
+                            "She smiles. Not a normal smile, but a 'The Pulp Writer' smile. The corners of her mouth rise by approximately a millimetre. Her eyes sparkle, but only if you look at them out of the corner of your eye, when they think they're safe."
+                        "\\"N- no. As in yes. I find double negatives really complicated when I'm horny, sorry.\\"":
+                            "She smiles. Not a normal smile, but a 'The Pulp Writer' smile. The corners of her mouth rise by approximately a millimetre. Her eyes sparkle, but only if you look at them out of the corner of your eye, when they think they're safe."
+                "\\"No. Sorry.\\"":
+                    talk writer talk "Ah. That's okay."
+                    if (roll writer_two_rabies_lovely lovely 40):
+                        talk lovely talk "She says this, but inside she flinched. She wonders if it's because of the rabies. Whether you think her dirty and diseased."
+                        talk lovely talk "It would not be the first time someone had worried she was contagious. She has internalised this so deeply that she does not hold it against you."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    "She brushes a finger against your lips. You instinctively kiss it. She smirks. You'd let her do anything she wanted to you, wouldn't you?"
+    clear_dialog
+    if $data.ghost.hadBath:
+        talk writer talk "You're pretty, Ghost. A little odd, but pretty. Pretty and..."
+    else:
+        talk writer talk "You're pretty, Ghost. A little odd, a little smelly, but pretty. Pretty and... and..."
+    clear_dialog
+    choice:
+        "She sways slightly."
+        "\\"And?\\"":
+            talk writer talk "And... eauuuuuuuuuugh."
+            clear_dialog
+            play sound clothing
+            run transition_instant writer_sleep
+            choice:
+                "The Pulp Writer slowly sinks into your neck. Her weight falls onto you like a blanket. She's surprisingly light. Perhaps she's part bird. Hollow boned."
+                "\\"Eauuuuuuuuuugh?\\"":
+                    choice:
+                        "She doesn't speak. Her head nestles deeper into your neck."
+                        "\\"Hello? You okay?\\"":
+                            clear_dialog
+                            choice:
+                                "No response."
+                                "\\"Hello?\\" [Gently shake her shoulder]":
+                                    "Still no response."
+                                "\\"WAKE UP SLEEPY PULP WRITER! WAKE UP!\\" [Shake her] \\"WAKE UP SLEEPYHEAD!\\" [Shake her some more]":
+                                    "Still no response. She isn't dead though, you hear a subconscious grumble."
+                                "\\"Holy shit are you dead? Did you just get so horny you died? FUCK!\\"":
+                                    "Still no response. Maybe she *is* dead?"
+                            clear_dialog
+                            choice:
+                                talk orb talk "She's asleep."
+                                "I didn't realise this woman *could* sleep.":
+                                    talk lovely talk "Indeed, she doesn't seem the type."
+                                    talk orb talk "Well she does, a lot. She grows tired quickly."
+                                "Does she too dream of the <span class='gold'>golden light</span>... the white feathers... the flame and the sword...":
+                                    talk orb talk "...uh. I don't know what you're talking about, Ghost."
+    clear_dialog
+    "The Pulp Writer snuffles. You feel her hand grip your shoulder, very gently. She looks so calm. So peaceful. A far cry from the angry door lady you first met."
+    clear_dialog
+    choice:
+        talk orb talk "What are you thinking, Ghost?"
+        "She looks so calm. So peaceful. A far cry from the angry door lady I first met.":
+            talk lovely talk "She looks so calm. So peaceful. A far cry from the angry door lady you first met."
+            talk nasty talk "She looks so calm. So peaceful. A far cry from the angry door lady you first met."
+            talk orb talk "Stop it."
+        "She's so scrungly, but she's so pretty. I want to stroke her little head. [Stroke her little head]":
+            "The Pulp Writer grumbles softly."
+            if (roll writer_two_liked_lovely lovely 20):
+                talk lovely talk "She liked that, subconsciously."
+            else:
+                wait 1000
+        "Girl hot. Me like Girl.":
+            talk nasty talk "Girls good."
+            talk lovely talk "Mhm. They are rather wonderful aren't they? This specimen in particular is quite charming in a rather odd way."
+        "I was just thinking about how it would be really funny if someone's skull like, fell out of their head and it turned around and looked at them and said 'Who you lookin' at, funny face?'":
+            set data.ghost.funnyFace true
+            choice:
+                talk orb talk "... I regret asking."
+                "Because it's looking at its own face. It's funny.":
+                    talk nasty talk "Bahaha!"
+                    talk orb talk "Right, no, I get it Ghost. Good one."
+    clear_dialog
+    talk nasty talk "We should just stay here. Let her use us as a bed."
+    choice:
+        talk lovely talk "Indeed, 'Tis awfully rude to move a sleepy petite dame. Best to leave her where she is and wait for her to wake up."
+        "[Stay and stroke the scrungly womans hair]":
+            "She immediately starts to drool on you. Hot girl shit."
+            clear_dialog
+            if (roll writer_two_drool_orb orb 40):
+                choice:
+                    talk orb talk "She drooled all over your dress too. Sorry. Or not sorry. You probably find that sexy for some fucking reason."
+                    "I do.":
+                        talk nasty talk "Damn right. Good take, Ghost."
+                    "Eh.":
+                        talk nasty talk "*I* find it sexy, and I'm the protagonist, right. This is Nasty Girl RPG, right? Right?"
+                        talk lovely talk "What on Earth are you blathering about, Nasty Girl?"
+                        talk nasty talk "I don't fucking know. Fuck you."
+            else:
+                wait 1000
+    clear_dialog
+    "You don't fall asleep. Instead you relax. It's easier to relax when there's a lady using you as a bed, or from another perspective, with you using a lady as a blanket."
+    clear_dialog
+    wait 4000
+    "It's a while before The Pulp Writer begins to stir. She sniffles. She grumbles. She wiggles about."
+    if (roll writer_two_livid_lovely lovely 20):
+        talk lovely talk "If she realised you were seeing her like this she would be livid."
+        clear_dialog
+    "Her nose scrunches. Her ears twitch. Her eyes widen in terror; she has noticed you, but she doesn't have the energy to peel herself off you just yet."
+    clear_dialog
+    choice:
+        talk writer talk "Wh- what happened?"
+        "\\"You fell asleep on me.\\"":
+            "She squints. She struggles to believe she let her guard down like that."
+            clear_dialog
+            talk writer talk "Hmm."
+        "\\"You fell asleep on me, it was really cute actually.\\""     
+            "Her pale face turns red."
+            if (roll writer_two_bury_lovely lovely 40):
+                set this.data.writer.two_neckSnap true
+                talk lovely talk "She's weighing her options. Ignore her embarrassment, or snap your neck and bury you in the woods."
+            else:
+                wait 1000
+            clear_dialog
+            talk writer talk "I need a smoke."
+            if $data.writer.two_neckSnap:
+                talk lovely talk "You got lucky."
+    clear_dialog
+    play sound clothing
+    "The Pulp Writer reaches behind the back of the sofa cushions and pulls out a cigarette tin."
+    if (roll writer_two_stored_orb orb 20):
+        talk orb talk "She keeps cigarettes stored in strategic locations around her apartment, she is never more than an arms reach from at least three."
+    else:
+        wait 1000
+    clear_dialog
+    talk writer talk "So."
+    clear_dialog
+    choice:
+        "She lights her cigarette, and presses it to her mouth. She does not continue speaking."
+        "\\"That was nice.\\"":
+            talk writer talk "Shut the fuck up."
+            clear_dialog
+            "Her voice snaps like a branch under a serial killers boot."
+            clear_dialog
+            talk writer talk "Ahem. Mm. Sorry..."
+            clear_dialog
+            talk writer talk "...It *was* nice. Thank you, Ghost."
+    clear_dialog
+    "A sniffle, a croak, and then a slight squeeze of her arms around you. She is crying."
+    clear_dialog
+    talk orb talk "Sorry Ghost, you're on your own here. I barely even know what crying is."
+    talk nasty talk "You and me both. What are you supposed to do when pretty girls cry? I am not emotionally equipped to deal with this."
+    talk lovely talk "Tsk. And to think you fancy yourself a séducteur."
+    talk nasty talk "How dare. I would never fancy myself anything I couldn't spell."
+    clear_dialog
+    choice:
+        talk lovely talk "Sigh. Ghost, ask her if she's okay, mmm, darling?"
+        "\\"Um.\\" [Tap The Pulp Writer's shoulder] \\"Are you okay?\\"":
+            talk writer talk "I... Sorry it's just... This... I haven't felt like this in a long time, Ghost... Fuck... Fuck you... Fuck you..."
+            clear_dialog
+            "She sniffles between her words instead of using full stops."
+            clear_dialog
+            choice:
+                talk writer talk "I mean thank you. But fuck you also. Godsdammit..."
+                "\\"What's wrong?\\"":
+                    talk writer talk "Everything. Fuck. I've fucked it. I miss them all. The party..."
+                "[Stroke her hair]":
+                    add data.writer.two_hug 1
+                    "She sobs quietly. She's trying really hard to make it inaudible, but she can't."
+                    clear_dialog
+                    talk writer talk "Everything is fucked. I've fucked it... I miss them all. The party..."
+                    clear_dialog
+                    talk writer talk "After it was published that lady, she came up to me on... on. Fuck. I forget..."
+                    talk writer talk "But she told me <span class='writtenText'>'You're right, you know? What you wrote about.'</span> and I asked what she meant and she..."
+                    clear_dialog
+                    talk writer talk "Ah... it was on rue de l'érable, that's it..."
+                    clear_dialog
+                    talk writer talk "She pointed upwards, to the black crown above, and she says to me <span class='writtenText'>'it was the boches fault, what happened. It was their shelling'</span> and I cried. That wasn't what it was about, my book. It was about the dominance of the bourgeoisie becoming so unfathomable that it blotted out the sun and rained death on the worker..."
+                    talk writer talk "All I had wrote was for nothing..."
+                    clear_dialog
+                    "Her smoking hand flops off of you, landing inches from her face. She does not flinch from the burning tip. She is enthralled by the glow. By the fire hazard."
+                    if (roll writer_two_thorns_ash_lovely lovely 20):
+                        talk lovely talk "She's watching her life burn away ash by ash."
+                    else:
+                        wait 1000
+    set data.writer_two.questions 0
+    set data.global.writerEiffel true
+    jump writer_two_menu
+
+writer_two_menu:
+    clear_dialog
+    choice:
+        "The Pulp Writer is sniffling. Half sad, half sickly."
+        "\\"The Party?\\"":
+            if (!= $data.writer_two.questionParty true):
+                set data.writer_two.questionParty true
+                add data.writer_two.questions 1
+            talk writer talk "My comrades... We met in a local coffee house every week, sometimes more often."
+            clear_dialog
+            "There's a softness in her voice that feels unnatural coming from her, especially while she's tired and oh so floppy."
+            if (roll writer_two_menu_coffee_lovely lovely 20):
+                talk lovely talk "She can still smell the coffee beans they used there. A Đại Việt variety. She enjoyed the smell, more so than the taste."
+                if (roll writer_two_menu_coffee_orb orb 20):
+                    talk orb talk "They don't sell it in Anglia, and even if they did the caffeine would kill her in her current state. Even now she sometimes wonders whether this coffee, plucked unwillingly from Frankish-Indochina, was a hypocrisy of theirs..."
+                else:
+                    wait 1000
+            else:
+                wait 1000
+            clear_dialog
+            talk writer talk "I hated those bastards, but I miss them greatly... All gone now. Disagreements in the minutiae of ideology spiralling into squabbling while the secret service laughed."
+            talk writer talk "We dreamed of a better world. Of standing side by side with our comrades to build it. And the world killed them all."
+            talk writer talk "Perhaps there is no better world? Perhaps there is only the one we have now."
+            jump writer_two_menu
+        "\\"After what was published? What lady? I'm not really following, sorry.\\"":
+            if (!= $data.writer_two.questionLady true):
+                set data.writer_two.questionLady true
+                add data.writer_two.questions 1
+            "The Pulp Writer sighs."
+            if (roll writer_two_menu_into_lovely lovely 40):
+                talk lovely talk "<span class='writtenText'>'Do I really want to get into this...'</span>"
+            else:
+                wait 1000
+            clear_dialog
+            choice:
+                talk writer talk "<span class='writtenText'>'Sous la couronne noire ou : Ciel d'épines'.</span>"
+                "\\"Oh! The book you wrote that you hate!\\"":
+                    set data.writer.backstory true
+                    talk writer talk "Yes... the book I wrote that I hate..."
+                    talk writer talk "I did not always hate it. I loved it, once."
+                    clear_dialog
+                    "Her breathing is shaky."
+                    clear_dialog
+                    choice:
+                        talk writer talk "You have never been to Pawris, non?"
+                        roll writer_two_menu_pawris_orb orb 60 "Have I been to Pawris, Orb?":
+                            success "":
+                                talk orb talk "No. You once bought a ferry ticket to visit when you were much younger, but were turned away. Chewed on tickets were not considered valid."
+                            failure "":
+                                talk orb talk "Unsure. Maybe? Let's just say no to be safe."
+                    clear_dialog
+                    "The question was either rhetorical, or The Pulp Writer's patience short. She does not wait for your response."
+                    clear_dialog
+                    talk writer talk "The Eiffel Table, some salaud sought to build a new world atop the old. A shining city in the clouds. The city was rotten, corrupted, diseased. The Eiffel Table was to be an escape."
+                    clear_dialog
+                    "She spits, realises her face is buried in you, and apologetically laps the spit back up, hoping you don't notice. You do."
+                    clear_dialog
+                    talk writer talk "A wrought iron construct, looming over the centre of Pawris, condemning the undercity to shadow. Atop it, buildings, entire streets even. Cafes, book shops, homes, museums..."
+                    if (roll writer_two_menu_eiffel_orb orb 40):
+                        talk orb talk "The construction of such a monstrosity is as impressive as it was deranged."
+                        talk orb talk "The structure is colossal. It looms over a square mile of the city. Four-hundred foot tall. Most Serpent pyramids would quake beneath it in fear. It's only rival on this planet was the city in Siberia, before it was destroyed. A horrendous expense, paid for by increased colonial taxation, increased domestic taxation, and the spoils of the Franko-Qing war."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk writer talk "Of course, it was built by capitalists, and so it was built cheaply by people too overworked and underpayed to care."
+                    talk writer talk "A few decades of mismanagement, a brief shelling during The War, and that was it. The entire structure is falling apart. Shedding nuts, bolts, beams, entire buildings like dead skin."
+                    talk writer talk "They cannot deconstruct it safely, the entire thing is a single load bearing structure."
+                    clear_dialog  
+                    talk writer talk "This is the topic of <span class='writtenText'>'La couronne noire'</span>. The sky blocked out by the bourgeoisie's bloodthirsty distaste for the under classes. The workers literally dammed to a lower role in society. A class divide wrought in metal and blood. A tangible reminder of the class struggle suffocating the masses until it crumbles under the weight of its own insanity, kills us all, and kills them with it."
+                    if (roll writer_two_thorns_eiffel_orb orb 60):
+                        talk orb talk "She watched someone die when a beam fell from the Eiffel Table. It was Chloé. She didn't even like Chloé as a comrade, nor as a friend, still, she was Chloé. Her book was written in this grief."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk writer talk "The Lady I mentioned, she had read the book, but she did not understand this. It was the Koalition's fault, she said. They shelled it, they killed my friend, that was all."
+                    talk writer talk "I asked her why she blamed not those who built it in the first place, and she shrugged."
+                    clear_dialog
+                    "She sighs."
+                    clear_dialog
+                    choice:
+                        talk writer talk "Why did I bother writing it? People do not care to have the veil lifted. What was the point."
+                        "\\"You really took this one review to heart, huh?\\"":
+                            talk writer talk "Perhaps I overreact. Perhaps not. It does not change how I feel."
+                        "\\I think I'd understand the message of the book if I read it.\\"":
+                            talk writer talk "Maybe you would. Tell me though, would it change you? Would you fight back? Live the revolution? I wrote it, and I did not."
+                    clear_dialog
+                    talk writer talk "The workers... we can't arm them, Ghost, their minds have been invaded by propagande bourgeoise... lungs filled with chlore gazeux... they would turn the guns to us, Ghost, to people like us."
+                    talk writer talk "To foreigners and refugees and to the people fighting for them... the revolution is betrayed and... oh gods, I feel so sick I might throw up..."
+                    clear_dialog
+                    talk nasty talk "I stand corrected. Maybe you *can* be a little too high."
+            jump writer_two_menu
+        "\\"Tell me about the coffee house. I like hearing about things.\\"" if $data.writer_two.questionParty true:
+            if (!= $data.writer_two.questionCoffee true):
+                set data.writer_two.questionCoffee true
+                add data.writer_two.questions 1
+            talk writer talk "Ahh... La Haus du Café. That was its name. It was so warm. I think the basement was rented out to a clay worker. Their kiln kept the whole building warm."
+            clear_dialog
+            "A frown."
+            clear_dialog
+            talk writer talk "The ventilation down there was not so good. The clay worker often was coughing. Oh well."
+            clear_dialog
+            talk writer talk "We would sit every time in the same private room. It was slightly too small for us, so we used to take turns having Chloé sit on each of our laps. She was the smallest, yes?"
+            talk writer talk "A social democrat... the traitorous bitch..."
+            talk writer talk "Anyway... we would sit and talk, argue, till the shop closed. Sometimes till later, if we hid really well."
+            if (roll writer_two_menu_hid_orb orb 60):
+                talk orb talk "The owner knew they hid, they appreciated the free burglar alarm, and found it funnier not to tell them they could just stay."
+            else:
+                wait 1000
+            jump writer_two_menu
+        "\\"If they ever build a big iron structure over Bluehills I'll get you an umbrella so you can stay safe if anything falls :)\\" [Say this completely sincerely]" if $data.writer_two.questionLady:
+            "The Pulp Writer seems a little confused."
+            if (roll writer_two_menu_umbrella_lovely lovely 40):
+                talk lovely talk "She's pretty sure she appreciates it, even if it is a bit of an odd thing to say that doesn't really acknowledge what's upsetting her."
+            else:
+                wait 1000
+            clear_dialog
+            talk writer talk "T- thank you, Ghost."
+            jump writer_two_menu
+        "\\"I'm sorry you're sad. Here, have a present. It might cheer you up.\\" [Put the Frankish pennies on her head]" if (has_item? pennies):
+            remove_item pennies 1
+            talk writer talk "Uh... thank you, Ghost."
+            if (roll writer_two_menu_pennies_lovely lovely 40):
+                talk lovely talk "It didn't cheer her up. The confusion did briefly distract her from her sadness, though."
+            else:
+                wait 1000
+            clear_dialog
+            talk writer talk "I'll make sure not to spend them all at once..."
+            if (roll writer_two_menu_pig_lovely lovely 40):
+                talk lovely talk "She briefly imagined herself as a lemon sheep. She didn't dislike it."
+            else:
+                wait 1000
+            jump writer_two_menu
+        "[Attempt to cheer her up with a song] \\"~Petite souris petite souris tu as un joli visage, petite souris petite souris tu as un nez~\\"":
+            talk writer talk "J'ai un nez? Whatever next..."
+            if (roll writer_two_menu_song_lovely lovely 40):
+                talk lovely talk "She enjoyed your song! She thinks you're simple though, I'm sorry to say."
+            jump writer_two_menu
+        "\\"Sorry I'm asking so many questions when you're sad. I can stop if you like.\\"" if (>= $data.writer_two.questions 3):
+            choice:
+                talk writer talk "No... no... it's okay. I don't exactly have anyone else to talk to about this... thank you for feigning interest, Ghost."
+                "\\"I'm not feigning interest! I'm actually interested!\\"":
+                    "She <span class='goldItalic'>smiles</span>."
+                    clear_dialog
+                    talk writer talk "Okay."
+                "[Do a gay ass little salute] \\"That's what Weird Tails best interviewer was hired for.\\"":
+                    "She fits a small chuckle in between her sniffles."
+            jump writer_two_menu
+        "<span class='prompt'>[[MOVE ON]]</span>" if (>= $data.writer_two.questions 3):
+            jump writer_two_thorns
+
+writer_two_thorns:
+    clear_dialog
+    "A grim silence lingers. The Pulp Writer seems finally about to speak, but is interrupted by her hacking cough. It's bad. It's over a minute before she is breathing properly again, and even then her voice sounds like it is passing through a cheese grater."
+    clear_dialog
+    talk writer talk "Merde... je vais mourir... fuck me..."
+    clear_dialog
+    "She wipes a tear from her eye and sighs. It's a deep sigh, a tired one."
+    clear_dialog
+    talk writer talk "Sometimes I wish they'd never inoculated me. That I'd turned completely. That I'd ceased to be, and was reborn free from all the barbed wire tying me to this pitiful little body and this pitiful little life."
+    clear_dialog
+    "She peers up into your eyes. They hold contact for far *far* longer than they ever have before. They sparkle, but only with tears. A pair of grey, icy puddles on a winter's morning."
+    clear_dialog
+    choice:
+        talk writer talk "Don't you ever wish that, Ghost? To go sickos? To bite and claw and scuffle and screech in the woods?"
+        "\\"All the time. All the time I am wanting to go sickos. I want to grab the world by its fingers and gnaw and gnaw and gnaw till my fur is soaked with blood and they can wriggle no more.\\"":
+            add data.writer.two_hug 1
+            talk writer talk "And gnaw and gnaw and gnaw... blood... fuck."
+            clear_dialog
+            "She's become breathy. She liked your answer."
+            clear_dialog
+            run transition scrungler
+            choice:
+                talk writer talk "Yes? You want to become scrunkly, Ghost? Become a little scrungler? That is what we call it in Frankish..."
+                "\\"We call it that here too. It is a feeling that exists beyond language.\\"":
+                    run transition writer_apartment
+        "\\"I'm not 100% sure what that means, so I shall be giving a non-committal response. That's wild.\\""
+            run skip
+        "\\"Nope, not me. I love being a little lady.\\"":
+            talk writer talk "I'm glad for you, Ghost."
+    clear_dialog
+    "She sniffs, a little too late to stop some snot getting acquainted with your dress."  
+    clear_dialog
+    talk writer talk "It's cliche, but to endure sentience is to endure suffering, isn't it?"
+    clear_dialog
+    "She taps some ash away from her smoke. It disappears between a crack in the floorboards. Gone forever."
+    clear_dialog
+    choice:
+        talk writer talk "What about you, Ghost? I have meandered down l'avenue de whining for long enough alone. What troubles plague *you*?"
+        "\\"So um. I don't have any money, and I have to pay rent or I'll like, die, I guess?\\"" if (!= (quest_succeeded? landlady) true):
+            talk writer talk "You are asking me to lend you money."
+            clear_dialog
+            choice:
+                talk lovely talk "A statement, not a question."
+                "\\"Yes.\\"":
+                    "The Pulp Writer exhales some smoke into your face."
+                    clear_dialog
+                    choice:
+                        talk writer talk "Whatever, I have a little to spare."
+                        "\\"Thank you.\\"":
+                            talk writer talk "Mhm. Whatever."
+                        "\\"Girls rock\\".":
+                            "The Pulp Writer's expression does not change. It does not even flinch."
+                            clear_dialog
+                            talk writer talk "Sure. Girls rock."
+                    clear_dialog
+                    play sound footstepsinside
+                    "She walks over to her desk and scuffles around in the drawer, returning with a wad of money."
+                    clear_dialog
+                    talk writer talk "I know it is not much, but maybe it helps, yes?"
+                    add_stat money 5
+                    play sound coins
+                    if (roll writer_two_thorns_corpse_orb orb 60):
+                        talk orb talk "She doesn't like having money lying around. It makes her stressed. It feels like having a corpse sat in her apartment."
+                        talk orb talk "She's glad it's going to a good home (you), but a little miffed that it will then shortly after go to a bad home (Your Landlady's)."
+                    else:
+                        wait 1000
+                "\\"No.\\"":
+                    "The Pulp Writer exhales some smoke into your face."
+                    clear_dialog
+                    talk writer talk "Yes you are, but fine, I shan't embarrass you further."
+        "\\"I need oestrogen, but I don't know where it comes from. You can see how this is a problem.\\"" if (&& (!= (objective_started? hrt dealer) true) (!= (has_item? hrt) true)):
+            talk writer talk "You don't know where it comes from? A lot of it is distilled from oestradiol plants, yes? In Oceania mostly, but sometimes not."
+            clear_dialog
+            "She clears her throat. It's not a nice sound."
+            clear_dialog
+            choice:
+                talk writer talk "As for where to get it? I have a lady."
+                "\\"You have a lady.\\"":
+                    talk writer talk "Mhm. A dealer. I get my hormones from her."
+                    jump writer_two_dealer_menu
+        "\\"Nothing. I am completely content with my life.\\"":
+            talk writer talk "I'm quite sure you're not, but I shall not delve."
+    jump writer_two_leave
+
+writer_two_dealer_menu:
+    clear_dialog
+    choice:
+        "The Pulp Writer looks out the window. She's looking through the amber glow of the city, and into the stars. She cannot see them. Not tonight, but she knows they are there, looking down on her."
+        "\\"Tell me about your <span class='writtenText'>'dealer'</span>.\\"":
+            talk writer talk "Not much to tell. We aren't friends. She seems nice though. Funny accent, not one you get around here. I don't know Anglia well enough to place it. Northern maybe..."
+            jump writer_two_dealer_menu
+        "\\"Are moonshine hormones safe?\\"":
+            choice:
+                talk writer talk "I don't know. Is trusting in a healthcare system that wants you dead to one day help you safe?"
+                "\\"I'm not sure. Is it?\\"":
+                    talk writer talk "No."
+                "\\"Was that a yes?\\"":
+                    talk writer talk "Well. I'm not dead yet."
+                    clear_dialog
+                    "She coughs into her elbow."
+                    clear_dialog
+                    talk writer talk "Not quite..."
+            jump writer_two_dealer_menu
+        "\\"How much does she charge?\\"":
+            talk writer talk "Mmmmm... my memory... it is not so good for numbers..."
+            clear_dialog
+            "She thinks."
+            clear_dialog
+            set data.dealer.priceGuessed true
+            choice:
+                talk writer talk "Thirty or so pounds? I forget exactly."
+                "\\"That's expensive.\\"":
+                    talk writer talk "For something that should be free with the national healthcare system? Yes."
+                    talk writer talk "For something a woman went to the time to gather ingredients for, brew in her bathtub, bottle into vials and then stand out in the cold selling to other transexuals?"
+                    clear_dialog
+                    "She blows some smoke in your face, for no particular reason."
+                    clear_dialog
+                    talk writer talk "It's a fucking steal."
+                "\\"A very fair price for the labour I assume goes into brewing moonshine oestradiol. Now *that's* communism.\\"":
+                    talk writer talk "Mhm. Dios's bendiga la revolución, baby."
+                    if (roll writer_two_dealer_menu_communism_lovely lovely 20):
+                        talk lovely talk "She's being glib. She's not entirely convinced you know what communism means, but she appreciates your enthusiasm."
+                    else:
+                        wait 1000
+            if (roll writer_two_dealer_menu_price_orb orb 40):
+                set data.dealer.priceKnown true
+                talk orb talk "She charges thirty-five pounds exactly."
+                if $data.global.visitedShop:
+                    if (roll writer_two_dealer_menu_stickers_orb orb 80):
+                        set data.dealer.stickers true
+                        talk orb talk "Though she may also be willing to trade for some of those gold star stickers the shop sells..."
+                    else:
+                        wait 1000
+            else:
+                wait 1000
+            jump writer_two_dealer_menu
+        "\\"Could you not simply just give me some of your hormones?\\"":
+            choice:
+                talk writer talk "Like a vampire? What?"
+                "\\"Well, if you *want*?\\"":
+                    talk writer talk "Mmm. Maybe. I do not think it works like this though."
+                "\\"No no! I mean just, give me them with your hands!\\"":
+                    talk writer talk "Oh. I see."
+                    if (roll writer_two_dealer_menu_high_nasty nasty 20):
+                        talk nasty talk "She's still a bit high."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    talk writer talk "No. Sorry. I need to get some of my own. We pay you enough to afford your own, yes?"
+                    if (roll writer_two_dealer_menu_funnel_orb orb 40):
+                        talk orb talk "Mostly she just doesn't want to admit the first thing she did when she got high was funnel half of her cash to Die Rote Garde in Brenneburg. They need to buy nails and trinitroxypropane so they can get one up on the fascists."
+                    else:
+                        wait 1000
+            jump writer_two_dealer_menu
+        "\\"Where can I find this 'dealer'?\\" <span class='prompt'>[[MOVE ON]]</span>":
+            start_objective hrt dealer
+            talk writer talk "She lurks somewhere along lunden road most evenings. I think probably she likes how serene it is out there at night. You can see the city lights in the distance."
+            clear_dialog
+            "The Pulp Writer speaks slowly. She is recalling something she had almost forgotten."
+            clear_dialog
+            talk writer talk "I sat with her once and watched the streets go dark as the moon rose..."
+            clear_dialog
+            "She returns to normal."
+            clear_dialog
+            talk writer talk "Give her my regards if you see her, mhm?"
+            set data.writer.dealerWriterHi true
+            clear_dialog
+            talk orb talk "This is great intel. We should definitely investigate Lunden Road once it gets dark."
+            jump writer_two_leave
+
+writer_two_leave:
+    clear_dialog
+    talk writer talk "Anyhow. I have work to do, and so you had better be off, yes?"
+    clear_dialog
+    play sound footstepsinside
+    run transition writer_apartment
+    choice:
+        "She starts walking to the door, with the implication that you should follow her. She grabs an envelope, your payment from Weird Tails, on the way."
+        "[Follow her]":
+            play sound dooropen
+            "The Pulp Writer opens the door and motions for you to step outside, which you do."
+            play sound coins
+            add_stat money 30
+            "She passes you the envelope as you cross the threshold. It's cold outside. It's much nicer in her apartment, with her." 
+    clear_dialog   
+    choice:
+        talk writer talk "I'll let soon you know when our dickhead boss has read your work. I'm sure it'll be fine though. Fuck him."
+        "\\"Okay.\\" [Nod] \\"Sounds bopper.\\"":
+            talk writer talk "Mhm. Right. Bopper. I'm young enough to know what that means."
+        "\\"Is he actually called 'Our Dickhead boss'?\\"":
+            choice:
+                talk writer talk "Yes. That's his name."
+                "[Shake your head] \\"Holy smokes! Cruel parents!\\"":
+                    talk writer talk "Mmm."
+                    if (roll writer_two_leave_sarcastic_lovely lovely 20):
+                        talk lovely talk "She was being sarcastic."
+                    else:
+                        wait 1000
+                "\\"That's fair. I mean, I'm called Ghost, so I can't really judge him on that.\\"":
+                    choice:
+                        talk writer talk "Mmm. I like your name. Ghost. It's nice."
+                        "[Blush like a little queer]":
+                            "She notices your cheeks redden. She <span class='goldItalic'>smiles</span>. Internally."
+    clear_dialog
+    choice:
+        talk writer talk "Well, à bientôt, Ghost."
+        "\\"Be an tot to you too.\\" [Walk away]":
+            if (> $data.writer.two_hug 3):
+                talk writer talk "Ghost."
+                clear_dialog
+                choice:
+                    "You turn around. The Pulp Writer takes a timid step out of her doorway, and embraces you. It's a tight hug, a comfortable one. Her gangly arms wrap around you with surprising strength. She <span class='goldItalic'>smiles</span> against you."
+                    "[Hug her back]":
+                        talk writer talk "Thank you. For earlier."
+                        clear_dialog
+                        "She lets go of you. Her hair rustles in the breeze. She looks down at her cigarette, no more eye contact for today, she's had a week's worth. She sniffs. She's still full of snot, but then, who isn't?"
+                        clear_dialog
+                        choice:
+                            talk writer talk "Maybe we can go for a walk soon. The day after tomorrow maybe? I can walk to your cottage and we can abscond into the woods, yes? No?"
+                            "\\"Yes. That sounds nice. I like walking. I do a lot of it actually. I've basically just been walking back and forth across town via increasingly inefficient routes all week.\\"":
+                                set data.ending.presentWriter true
+                                add data.dream.womenOptions 1
+                                talk writer talk "Bon. À plus tard, Fantôme."
+            else:
+                choice:
+                    "The Pulp Writer hovers at her door for a moment. She's about to close it. This is your chance. Deploy 'Walkies Protocol'."
+                    "\\"Um. Um. Before I go, would you like to come for a little walk with me the day after tomorrow?\\"":
+                        "The Pulp Writer thinks for a moment. Ponders the thought of a walk."
+                        clear_dialog
+                        talk writer talk "Very well. Let's. At your cottage, yes? À plus tard, Fantôme."
+                        set data.ending.presentWriter true
+                        add data.dream.womenOptions 1
+            clear_dialog
+            play sound doorclose
+            if $data.ghost.neckBitten:
+                choice:
+                    "She shuts the door. The wind is making your ears cold. Your neck still hurts a little. Her bitemark, and her cut, will not disappear for a while."
+                    "[Do a gay little smile] <span class='prompt'>[[CONTINUE]]</span>":
+                        play sound spendAction
+                        start_objective writer pride
+                        jump goToGameMap
+            else:
+                choice:
+                    "She shuts the door. The wind is making your ears cold."
+                    "[Shiver] <span class='prompt'>[[CONTINUE]]</span>":
+                        play sound spendAction
+                        start_objective writer pride
+                        jump goToGameMap

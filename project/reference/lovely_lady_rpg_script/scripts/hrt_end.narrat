@@ -1,0 +1,83 @@
+hrt_end:
+    play sound click
+    choice:
+        "It has been a long road, but the feminising power of oestradiol is finally within your grasp. You need only perform the final ritual: injecting the girl goo into your tummy."
+        "[Force fem yourself] <span class='prompt'>[[-1 ACTION]]</span>" if (>= $stats.actions.value 1):
+            choice:
+                "Are you *sure* you're ready?"
+                "I'm ready as I'll ever be.":
+                    play sound spendAction
+                    set data.game_map.inHouse false
+                    add_stat actions -1
+                    set data.ghost.used_hrt true
+                    set_button button_hrt_end false
+                    run transition_black generic_sunset
+                    clear_dialog
+                "[Journalist voice] I'm not ready. What if I experience some irreversible effects I come to regret? [Make a wanking motion with your hand] <span class='prompt'>[[BACK]]</span>":
+                    jump home
+        "<span class='prompt'>[[BACK]]</span>":
+            jump home
+
+    wait 2000
+    run transition_study true
+    choice:
+        "A vial of clear liquid sits in your palm. A sharp needle. There's nothing much else to say about it."
+        "[Squeeze the skin next to your belly button to make a little injection target zone]":
+            choice:
+                "You're pretty skinny, but there's enough fat there to grab and pull away from your muscle."
+                "[Inject yourself with the oestrogen, you earned it]":
+                    clear_dialog
+                    wait 6000
+                    set_level nightmare 5
+                    "A brief pricking sensation. A small rush of adrenaline. The oestradiol empties into your little body, and when you pull the needle back out you're left feeling dozy. Warm. Like an evening in an oestradiol den."
+                    clear_dialog
+                    choice:
+                        "Your body does not noticeably change. It hurts, a bit. Your tummy *and* the anti-climax."
+                        "That barely hurt at all.":
+                            talk lovely talk "You were very brave, Ghost!"
+                            talk nasty talk "Have a fucking sticker."
+                        "I wish it was a little syrup that tasted oh so delicious, not this horrible boring liquid...":
+                            talk orb talk "They aren't sweeties, Ghost, they're prescription medication."
+                            clear_dialog
+                            talk lovely talk "Sometimes, for a treat, dearest Papi gets me strawberry flavoured medication to snack on and it's really quite marvelous! Wheeeee! Let's go buy some strawberry flavoured cough medication!"
+                            talk nasty talk "Hahahaha. This bitch eats children's medication recreationally. Eat opioids like the rest of us ass the hole."
+                            talk lovely talk "It is *not* for children! It's for adults! The <span class='writtenText'>'For your little tykes'</span> on the box is purely a suggestion!"
+                            talk orb talk "It's medicine, Lovely Lady. You're not meant to eat it for fun regardless of which age group it is for."
+                            talk nasty talk "Ahahahahaha."
+                            clear_dialog
+                            choice:
+                                talk lovely talk "Stop laughing at me!"
+                                "Hahaha. Lovely Lady eats children's cough medicine!":
+                                    talk lovely talk "Alright! Fine! I eat medication meant for children because it tastes nice! Now s- stop bullying me you awful women!"
+                                    talk nasty talk "Why? It making you too horny?"
+                                    talk lovely talk "Gah!"
+                                "I wish my medicine tasted of strawberries... I deserve to taste only fine things in this little life...":
+                                    if (objective_completed? sinner woods):
+                                        talk orb talk "I have watched you eat out a girls armpit."
+                                        talk nasty talk "Like she said, <span class='writtenText'>'fine things'</span>."
+                                    else:
+                                        if $data.ghost.ateMoss:
+                                            talk orb talk "I have watched you eat moss."
+                                        else:
+                                            talk orb talk "Is the taste of victory over a hostile health system not enough for you, Ghost? Can your peculiar little palate never be satisfied?"
+                                "I agree Lovely Lady, we *should* find some strawberry flavoured cough medication to eat. Wheeeee!":
+                                    talk lovely talk "Wheeeee!"
+                        "Whelp, back to Sissy FM for me. I think I was getting much faster results with that." if (== $data.ghost.sissyFM true):
+                            talk lovely talk "Up to ninety percent of cases, Ghost!"
+    complete_quest hrt hrtSuccess
+    unlock_achievement hrt
+    run transition_fromStudy dream
+    clear_dialog
+    choice:
+        "Now fully oestrogenised, you smile. This bops. You feel better already."
+        "What do you say about *that*, Nightmare, you CUNT?":
+            if (roll hrt_end_nightmare_nightmare nightmare 60):
+                talk nightmare talk "<span class='nightmare'>you're not getting rid of me that easily, hon. we're in this together. in it till the end. hide from me all your like. im always here, just below the skin, and *everyone* knows it...</span>"
+            else:
+                "The Nightmare does not respond."
+    clear_dialog
+    choice:
+        talk lovely talk "What now, mon amie?"
+        "[Shrug] Wander about some more I guess, but with oestrogen in me this time. [Pat your tummy] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            jump goToGameMap

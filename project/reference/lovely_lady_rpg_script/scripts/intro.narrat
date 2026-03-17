@@ -1,0 +1,431 @@
+main:
+    run initVariables
+    run transition_instant intro_colours
+    jump pre_intro_start_save
+
+pre_intro_start_save:
+    play sound riser
+    "Colours."
+    clear_dialog
+    "So many of them. Colours you recognise, colours entirely new."
+    clear_dialog
+    jump intro_start
+
+intro_start:
+    "A life of grey and black and brown burnt away. Tumbling through the palette of an insane artist like a sheep falling through a bramble bush, glimpsing shades you can never, and *should* never see again."
+    "There is nothing. No thought. No want."
+    "It's beautiful, majestic, unforgettable."
+    clear_dialog
+    choice:
+        "It's painful. A gallery of tears you have never before had to shed. Thoughts best left buried. Heartbreaks and betrayals that you, hopefully, do not deserve. A smell. Every smell, but one smell more than any."
+        "[It's perfume]":
+            set data.ghost.chosePath "lovely"
+        "[It's cigarette smoke]":
+            set data.ghost.chosePath "nasty"
+        "[It's a distant nebula]":
+            set data.ghost.chosePath "orb"
+    "The cacophony swells, never reaching its climax, never relenting. It goes on forever. Louder. Louder. LOUDER."
+    "It never ends."
+    clear_dialog
+    "And then it does."
+    clear_dialog 
+    set_screen title
+    play sound sting_day
+    wait 3000
+    set_screen day_one
+    wait 5000
+    set_screen intro_wings
+    play sound warm
+    "The colours shift. Shimmer. Bright. A <span class='goldItalic'>golden light</span>."
+    "White feathers unfurled atop broken wood form a cushion."
+    "No, not a cushion... wings..."
+    "You lay on them, soft, warm, safe..."
+    clear_dialog
+    run transition_instant generic_black
+    "It is over."
+    clear_dialog
+    "Not that you really understand what 'it' is."
+    "'It', is the sound of splintering wood and exploding roof tiles."
+    "'It', is a ringing so deep in your ears that the sound waves pass themselves in your skull, are inversed, and become mute."
+    "'It', is the eventual death of colour and light into a deep, cloying blackness."
+    "'It', is the occasional flash of a dying neuron, the occasional glimpse of a rotting memory, the endless feeling of time burnt into brickwork by radiation."
+    "'It', as with everything, eventually begins to fade."
+    clear_dialog
+    choice:
+        "'It', is your past shed like dead skin, and your soul being reborn."
+        "[Wake up]":
+            clear_dialog
+            play music intro
+            run transition_black intro_wake
+            play ambient amb_rain 1
+            "'It', has also destroyed your bedroom, apparently."
+            jump intro_room
+
+intro_room:
+    clear_dialog
+    "The stars, fading into morning light, peer down through a hole in your ceiling."
+    "Raindrops land on the tip of your nose and run down your face, into your mouth. The water is clean."
+    clear_dialog
+    play sound rooftile
+    run transition_instant intro_hole_debris
+    animate #narrat-app narrat-screenshake
+    "A melted rooftile falls through the gap and clatters against the floor a few feet away from your dizzy little head."
+    clear_dialog
+    run transition_instant intro_wake
+    "The floorboards around you are scorched. They groan under your weight. It is only through dumb luck that they have not collapsed and plunged you to the lower floor of the cottage."
+    clear_dialog
+    choice:
+        "Whatever happened here was not survivable, surely?"
+        "\\"I'm dead. Aren't I? I'm a g- ghost!\\"":
+            clear_dialog
+            run transition intro_orb
+            if (== $data.ghost.chosePath "orb"):
+                add_level orb 10
+            else:
+                add_level orb 5
+            talk orb talk "You're not dead, you're just not quite who you used to be."
+            clear_dialog
+            choice:
+                "The voice floats through your mind, as though whispered directly into your brain."
+                "So I'm *not* a ghost?":
+                    choice:
+                        talk orb talk "Debatable."
+                        "What happened to me? Who are you? Why can you hear my thoughts?":
+                            talk orb talk "Exactly an hour and fifty-seven minutes ago I crashed through your ceiling and embedded myself directly into your chest like a cannonball."
+                            talk orb talk "By all rights you should be dead, but you aren't."
+                            clear_dialog
+                            talk orb talk "Fortunately your memories absorbed the impact and kept you alive. Unfortunately they took the impact about as well as a priceless oil painting takes the impact of being bashed over someone's head."
+                            clear_dialog
+                            choice:
+                                talk orb talk "I'm really not sure how much of *you* is left in *you*. I can hear your thoughts because our brains have basically been mashed into one."
+                                "I'm really confused, sorry.":
+                                    talk orb talk "Okay. I'll try to phrase this as nicely as I can."
+                                    clear_dialog
+                                    choice:
+                                        talk orb talk "Whoever it is you used to be is gone. You, Ghost, are just the dregs left at the bottom of the teacup. Have you ever seen a dead insect twitch its legs? That's you. A dead insect's leg twitch."
+                                        "That actually wasn't phrased very nicely at all.":
+                                            talk orb talk "I've only had sentience for an hour and fifty-eight minutes, I'm sorry if I'm not exactly dripping in charisma."
+                                        "I feel that's a fair description of me.":
+                                            talk orb talk "Some consider modesty a virtue, so if I've knocked the self-esteem out of you alongside your memories I suppose you can thank me."
+    clear_dialog
+    choice:
+        talk orb talk "Anyway. I think we've gotten a bit ahead of ourselves. Are you okay, Ghost?"
+        "Not really, no.":
+            choice:
+                talk orb talk "Oh. Well, it's nice to meet you regardless. I'm Orb."
+                "You're Orb.":
+                    run transition intro_orb_two
+                    talk orb talk "Yes, I'm Orb."
+                    run transition intro_orb_three
+                    clear_dialog
+                    talk orb talk "If you're curious about the specifics, I have spent the last fifteen millennia hurtling through the cosmos as a complete story of creation, past, present and future. "
+                    choice:
+                        talk orb talk "Why? I don't know. I just was. Unfortunately, the one day I skipped class seems to be whenever I was taught steering."
+                        "What? Could you simplify that for me?":
+                            choice:
+                                talk orb talk "I'm like a library from space, but the books are from the future."
+                                "Huh?":
+                                    talk orb talk "I'm a little space guy who is *very* clever."
+                                "Okay, got it. Sounds normal.":
+                                    talk orb talk "It's not, but I appreciate you not making a big deal out of it."
+    if (== $data.ghost.chosePath "orb"):
+        clear_dialog
+        "There it is again, the smell of the cosmos. You feel a distant affinity to Orb."
+    run transition intro_orb
+    clear_dialog
+    "Your chest twinges with pain. The impact still stings throughout your body. Your head feels like it was dunked in a big vat of gunk scientifically formulated to make women dizzy. Your muscles feel like they've had to do a small to medium amount of physical labour for a day. A fate worse than death for a lady like you."
+    clear_dialog
+    talk orb talk "If it makes you feel any better, colliding with you did *something* to me too."
+    talk orb talk "I never used to have an internal monologue, and I never used to speak. Now it won't shut up, and now *I* won't shut up."
+    talk orb talk "I used to know everything, now I can't even remember the exact date The Howling Child is going to be born. Not anywhen soon, I hope."
+    clear_dialog
+    choice:
+        talk orb talk "Also, I keep wanting to... what's that thing called when the water comes out?"
+        "You want to cry?":
+            talk orb talk "Cry! Yes! Maybe? You cry when you're sad right?"
+        "You want to pee?":
+            choice:
+                talk orb talk "Pee! Yes! Maybe? You pee when you're sad right?"
+                "Actually, I think I'm thinking of crying.":
+                    talk orb talk "Cry... yes, that's right."
+                "I pee when I'm sad yes.":
+                    set data.intro.orbCryWordCapitalised "Pee"
+                    set data.intro.orbCryWord "pee"
+                    talk orb talk "Pee... yes, that's right."
+    clear_dialog
+    choice:
+        talk orb talk "Gods, it hurts so much! How do you deal with it?"
+        "I don't generally, I think.":
+            talk orb talk "This is awful. I want to go back to not having feelings, ugh."
+        "You get used to it.":
+            talk orb talk "Yeesh, I hope so."
+        "Why are you asking me? I don't remember anything!":
+            talk orb talk "Come now, you must remember the vibes at least? A vague outline?"
+    clear_dialog
+    choice:
+        talk orb talk "Blegh, whatever. Let us not dwell. It's time for a damage assessment. Ghost, do you remember *anything* about your life?"
+        "[Try really hard to remember literally anything about your life]":
+            run transition intro_window
+            "There's nothing tangible, your past is buried somewhere in your mind fuzz. Glimpses of someone else through a fogged-up window. Not quite you, so much as a you that you only ever watched from afar."
+            clear_dialog
+            "An outside observer."
+            choice:
+                "A spectral force."
+                "Oh me oh my... I don't remember much...":
+                    talk orb talk "<span class='writtenText'>'Not much'</span> is considerably more than I expected, if that makes you feel any better."
+                "I remember looking at myself through a fogged-up window.":
+                    set data.intro.metaphors true
+                    choice:
+                        talk orb talk "Are you sure you aren't confusing a metaphor in your internal monologue for a memory?"
+                        "Oh. Maybe.":
+                            talk orb talk "Still, you remembered what a window is. That's something."
+    choice:
+        talk orb talk "Take a deep breath. Try again. Remember something, *anything*."
+        "[Take a deep breath and try *really* hard to remember literally anything about your life]":
+            run transition intro_ghost
+            choice:
+                "It's pointless. There's no way to pierce its barrier. It's as though it is wrapped in cobwebs."
+                "I'm trying to remember, but my mind is awfully frayed...":
+                    "It's more than frayed. It's completely weathered away."
+                "I think my brain might be wrapped in cobwebs. [Shake your head about to try and dislodge the spider]":
+                    if $data.intro.metaphors:
+                        talk orb talk "It isn't. You're doing it again, the metaphor thing I mean. You need to stop this before you confuse yourself even more."
+                    else:
+                        choice:
+                            talk orb talk "Are you sure you aren't confusing a metaphor in your internal monologue for a memory?"
+                            "Oh.":
+                                talk orb talk "Still, you remembered what a cobweb is. That's something."
+    clear_dialog
+    "Remembering is foolhardy. All there is is now."
+    clear_dialog
+    "Now, and the faintest feeling of <span class='goldItalic'>golden light</span>."
+    clear_dialog
+    "<span class='goldItalic'>Golden light</span> and white feathers."
+    clear_dialog
+    "The flame."
+    "The sword."
+    clear_dialog
+    choice:
+        talk orb talk "It's understandable that you're having trouble thinking, it's rather noisy in here, and we've *both* been through quite a shock."
+        "It doesn't seem *that* noisy. You're rather quiet actually, like a bowling ball talking to me from the bottom of a well.":
+            talk orb talk "Right, so, there's something we haven't discussed yet..."
+            clear_dialog
+            "In some other part of your mind, a perfumed corner stained with tea and oestradiol vapour, another voice begins to whine."
+            if (== $data.ghost.chosePath "lovely"):
+                "The perfume is familiar, you feel a connection to it..."
+                add_level lovely 10
+            else:
+                add_level lovely 5
+            clear_dialog
+            talk lovely talk "Oh, she's awake? Bienvenue, Ms Ghost."
+            clear_dialog
+            "This voice too, floats through your brain like a particularly shrill intrusive thought."
+            clear_dialog
+            if (== $data.ghost.chosePath "nasty"):
+                add_level nasty 10
+            else:
+                add_level nasty 5
+            talk nasty talk "bIeNVeNuE!!! Do you realise how poncy you sound, Lovely Lady?"
+            clear_dialog
+            "This voice three, floats through your brain like mingling cigarette smoke and sweat musk."
+            if (== $data.ghost.chosePath "nasty"):
+                "The cigarette smoke is familiar. It's your favourite, maybe?"
+            clear_dialog
+            choice:
+                talk orb talk "These two have barely stopped bickering for two hours. Welcome to Hel."
+                "Who are they!?":
+                    talk lovely talk "Who am I? Moi? You haven't heard of me? Tsk."
+                    clear_dialog
+                    talk orb talk "The circumstances of my arrival were somewhat convoluted. It may be wise to take a look around, it'd be better for you to piece it together for yourself so we can see if your brain actually works."
+                    talk orb talk "Also, I need to know if you physically *can* look around, because certainly I can't."
+            clear_dialog
+            run transition intro_hole
+            jump intro_getUp_menu
+        
+intro_getUp_menu:
+    clear_dialog
+    choice:
+        "A shaft of sunlight pierces the ceiling. The stars have said goodbye. The new day looks down at your ruined bedroom. At your ruined you."
+        "[Look around the bedroom]" if (!= $data.intro.lookedAround true):
+            set data.intro.lookedAround true
+            "The bedroom is sparse. A typewriter that is more wear and tear than machine sits askew atop a wooden desk."
+            "In the corner there is a bed, unmade, faintly smelly. Probably very smelly, actually, given you can smell it from the other side of the room."
+            clear_dialog
+            "This is not a room someone has lived in for a long time. It feels... empty. Out of practise at being a room."
+            jump intro_getUp_menu
+        "[Look at the slightly singed bookcase]" if (!= $data.intro.lookedAtBookcase true):
+            set data.intro.lookedAtBookcase true
+            "A precarious, slightly singed  bookcase. On the floor in front of it you can see the charred remains of 'The Lovely Lady Handbook'."
+            clear_dialog
+            "A memory stirs. The book details the traits of 'Lovely Ladies' and 'Nasty Girls', and helps one decipher which archetype most fits themselves. It is short, little more than a pamphlet, for it has very little substance."
+            "A hole has been punched right through it, leaving only the crisp burnt smell of paper and the two little ladies torn from their pages and branded in your psyche by a clumsy space orb."
+            clear_dialog
+            if (roll intro_getUp_menu_organise_orb orb 20):
+                talk orb talk "You were halfway through organising the bookcase when I arrived. This book - a present from a distant relative - was going on the 'do not read' shelf. Somehow I must have passed through it and brought some passengers along for the ride."
+                clear_dialog
+                talk nasty talk "Riding? That's a Lovely lady trait isn't it, Lovely Lady?"
+                talk lovely talk "If one is referring to riding sheep, yes. Papi had me learn vaulting when I was a little girl, it was quite exciting!"
+            else:
+                wait 1000
+            jump intro_getUp_menu
+        "[Feel your chest]" if (!= $data.intro.feelPain true):
+            set data.intro.feelPain true
+            "There's no heartbeat, only a faint throbbing where your heart used to be. Your fur is faintly crispy, and your skin burnt, but somehow you appear to be unharmed. Like a pebble thrown into a lake. The ripples remain, but the splash has gone."
+            clear_dialog
+            choice:
+                talk orb talk "I live here now. Resting snugly in a nest of pulverised muscle and splintered rib. It's comfy."
+                "That doesn't sound very comfy.":
+                    talk orb talk "Well it is."
+                "[Tap your chest]":
+                    talk orb talk "Please don't do that, it echoes."
+            clear_dialog
+            choice:
+                talk nasty talk "Not claiming to be a sawbones or anything, but shouldn't Ghost be uhhhhm, like fucken dead or something? Not having a heart is meant to kill you, ain't it?"
+                "See Orb! I told you I was a ghost!":
+                    talk orb talk "Well you aren't, so stop going on about it."
+                    jump intro_getUp_menu
+        "[Feel your face]" if (!= $data.intro.feelFace true):
+            set data.intro.feelFace true
+            choice:
+                "It's all wrong. Is this really your face? It feels... evil?"
+                "Are you sure you didn't hit my face... my face feels like it's made of <span class='nightmare'>nightmares</span>...":
+                    talk orb talk "It's a normal face. You look... normal?"
+                    talk lovely talk "You look fine, if a little... common?"
+                    talk nasty talk "You're a looker Ghost, you have the kind of eyes some dykes would kill to see cry. Sort of... pathetic like, yeah?"
+                    jump intro_getUp_menu
+        "[Stand up] Is this my cottage?" if (&& $data.intro.lookedAround $data.intro.lookedAtBookcase $data.intro.feelPain $data.intro.feelFace):
+            play sound clothing
+            "You stand up, and almost fall down again, before eventually relegating yourself to just leaning against the wall and feeling slightly scrungly."
+            jump intro_existence
+
+intro_existence:
+    clear_dialog
+    talk orb talk "It is."
+    clear_dialog
+    talk lovely talk "Honestly this place is a tip, you expect me to live here? I ask again, do you people not know who I am?"
+    talk orb talk "Who you are? You're a dumb archetype from a dumb book written by a fraud. You're just classism with extra steps."
+    talk nasty talk "Haha. Get her ass."
+    clear_dialog
+    talk orb talk "My comment applied equally to you, Nasty Girl."
+    talk nasty talk "What the fuck!? Fuck you! I thought we were bonding over our mutual love of bullying Lovely Lady! Prick!"
+    clear_dialog
+    talk lovely talk "We might have been written about in a book, but it hardly makes us fictional. We were all birthed from the Divine equal. Equal in spirit, if not in hygiene, at least."
+    talk orb talk "*You* were birthed by Penny Hazel Lovelace, failed fiction writer and known hack. I was birthed in a black hole left behind by a dying star. We are not the same."
+    talk lovely talk "Imply that I'm shallow all you want, Orb. At the end of the day only one of our swimming pools have a deep end. Mine. I have a swimming pool by the way."
+    talk orb talk "Oh she has a swimming pool everyone. I withdraw all my remarks."
+    clear_dialog
+    choice:
+        talk lovely talk "Tsk! Ghost, darling, ask me about my life and I'll show this villain that I'm more than just a pretty face."
+        "Okay. Tell me about yourself, Lovely Lady.":
+            talk lovely talk "Tell you about myself? Oh my! How kind of you to ask!"
+            clear_dialog
+            talk lovely talk "Goodness, well where to start!?"
+            talk lovely talk "I was born in North Taxhavenshire to my loving Papi and, and of course my dear sweet Mami."
+            talk lovely talk "I grew up riding my sheep around the estate and being tutored by Anglia's finest academics."
+            clear_dialog
+            talk lovely talk "Oh! And we had a stable girl called... I forget, but she was a rugged little thing, not at all dissimilar to our very own Nasty Girl, if a *little* less scabby."
+            talk lovely talk "Anyhow, I'm well versed in many *many* skills, including fencing, tea tasting and Frankish."
+            clear_dialog
+            talk lovely talk "Alors, ma chérie, as you now see, I am in reality *very* well rounded."
+            clear_dialog
+            talk nasty talk "Albeit not in the chest department. Wahey!"
+            talk lovely talk "Gasp!"
+            clear_dialog
+            choice:
+                talk nasty talk "My turn, ask me about me."
+                "Tell me about yourself Nasty Girl":
+                    talk nasty talk "Me? I'm just a girl who was born on the wrong side of the Thames."
+                "I think it's best we moved on.":
+                    choice:
+                        talk nasty talk "Fuck you, Lovely Lady got to tell you about her backstory, so I get to tell you my backstory too. Ask me about my backstory, bitch."
+                        "[Sigh] What's your backstory, Nasty Girl."
+                            talk nasty talk "Me? I'm just a girl who was born on the wrong side of the Thames."
+    talk lovely talk "About as wrong as one can get, it appears."
+    jump intro_ladies_menu
+
+intro_ladies_menu:
+    clear_dialog
+    choice:
+        "You feel dizzy. These ladies are making your head spin."
+        "What's your Papi like, Lovely Lady?":
+            talk lovely talk "Oh he's a wonderful man! I owe my pristine upbringing to him and his glue manufacturing empire."
+            jump intro_ladies_menu
+        "What's a <span class='writtenText'>'The Thames'</span>?":
+            talk nasty talk "It's the artery that feeds the nation. Brown, for sure. Smelly too. But it has a regal aura to it. A story."
+            talk nasty talk "How many millions have looked upon those waters before you? How many fuel their lives with its commerce, its majesty? For yes, even in those grim waters there lay diamonds."
+            talk nasty talk "Indeed, sit ye for one day with the fishermen and the mudlarks and see what wonders they draw from the depths."
+            talk nasty talk "Worn Italian coins, the faces of their emperors erased now by time. Forgotten war relics, their duty never rewarded with a proper burial. Bridge crabs, their flesh sustaining us now as they have since time began."
+            talk nasty talk "Pieces of lives long gone. Lives that once sat where you sit now."
+            clear_dialog
+            talk orb talk "Nasty Girl can be surprisingly eloquent when she wants to be, apparently."
+            talk nasty talk "I've been writing a fucking poetry book about it haven't I?"
+            talk orb talk "Have you?"
+            talk nasty talk "Yeah."
+            talk nasty talk "Well."
+            clear_dialog
+            talk nasty talk "Not quite nah, it's all stored in my brain till I learn how to spell ain't it?"
+            clear_dialog
+            talk nasty talk "Thames can be a good spot for a sneaky shag too, if you know where to go, ain't that right, Lovely Lady?"
+            talk lovely talk "W- why would *I* know that!?"
+            jump intro_ladies_menu
+        "So uh, are you two, you know? [Make a hand gesture that implies these bitches are fucking]":
+            talk lovely talk "Gasp! Certainly *not*! I have a thing called 'standards', Ghost! I'd not sully myself laying with this beastly woman!"
+            talk nasty talk "Haven't yet, but anything's possible innit."
+            talk lovely talk "Anything certainly is *not* possible!"
+            clear_dialog
+            talk lovely talk "Besides, I'm saving myself for the stable girl."
+            clear_dialog
+            talk lovely talk "I mean, uh! I didn't say that!"
+            clear_dialog
+            talk nasty talk "Lovely Lady is *so* into problematic class gaps. Figures. They all are, these hoity toity rich types. And they call scallywags like *me* the perverts."
+            talk lovely talk "N- no!"
+            talk nasty talk "<span class='writtenText'>'N- no!'</span>"
+            jump intro_ladies_menu
+        "Question: Is it theoretically possible to be a Lovely Girl or a Nasty Lady?":
+            talk lovely talk "???"
+            talk nasty talk "No? What the fuck are you on about? Fucking shit for brains..."
+            talk lovely talk "I shall hold my temper. She hit her head very hard when she was knocked out..."
+            jump intro_ladies_menu
+        "<span class='prompt'>[[MOVE ON]]</span>":
+            jump intro_end
+    
+intro_end:
+    talk orb talk "As imaginative as those backstories are, they aren't really true."
+    clear_dialog
+    talk orb talk "Lovely Lady and Nasty Girl are just a pair of two-dimensional, irritating character archetypes that have somehow wormed their way into your brain through the magic of... whatever the fuck happened when I embedded myself and half of a 'self-help' book into your heart."
+    talk lovely talk "While I shan't argue that a slim figure is fashionable as of late, I must continue to contest your accusation that I am <span class='writtenText'>'two-dimensional'</span>, Orb."
+    talk nasty talk "Yeah fuck you Orb. Insult me again and I'll fuck your dad."
+    clear_dialog
+    if (roll intro_dad_orb orb 60):
+        talk orb talk "I don't *have* a 'dad' to fuck, Nasty Girl."
+        choice:
+            talk nasty talk "Then I'll fuck..."
+            "You can do it Nasty Girl. You can think of a witty retort, I believe in you.":
+                talk nasty talk "I can't think of a retort, sorry."
+                talk orb talk "Damn. You got me good. I'm shaken to my very core."
+            "Let's stop threatening to fuck each other's parents.":
+                talk lovely talk "Mhm. Yes please, it's rather crass."
+        clear_dialog
+    talk orb talk "Fine. If you're not two-dimensional, Lovely Lady, can you name one trait you have that isn't listed in the Lovely Lady handbook?"
+    talk lovely talk "Tsk! The nerve of you, Orb! My loveliness is immutable! Within me there is not a drop of nasty! But that in no way makes me <span class='writtenText'>'two dimensional'</span>!"
+    choice:
+        talk nasty talk "Yeah! And my nastiness is in mute able too, you dumb bitch, Ghost!"
+        "I didn't say anything!":
+            talk nasty talk "Shit sorry, I'm getting a bit mixed up here."
+    clear_dialog
+    play sound rooftile
+    run transition_instant intro_hole_debris
+    animate #narrat-app narrat-screenshake
+    choice:
+        "A section of roof tile peels from the cottage and falls through the damaged ceiling, breaking on the floor with a smash."
+        "\\"Ugh.\\" [Look around the cottage] <span class='prompt'>[[CONTINUE]]</span> <span class='prompt'>[[-2 ACTIONS]]</span>":
+            play sound spendAction
+            start_quest fixHouse
+            run transition_instant intro_wake
+            talk orb talk "Yes. Quite."
+        "\\"Ughhhhhh.\\" [Look around the cottage] <span class='prompt'>[[CONTINUE]]</span> <span class='prompt'>[[-2 ACTIONS]]</span>"
+            play sound spendAction
+            start_quest fixHouse
+            run transition_instant intro_wake
+            talk orb talk "Yes. Quite."
+    jump intro_tutorial

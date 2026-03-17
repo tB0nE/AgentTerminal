@@ -1,0 +1,457 @@
+boardgame:
+    add_stat actions -1
+    run transition weapon_home
+    clear_dialog
+    "The Weapon leads you to their cottage. It's only a short distance from yours. Somewhere between shouting distance and sniffing distance."
+    "After fumbling about in the kitchen for a few minutes, the Weapon hands you a small china cup full of bitter black tea. It burns your little hands, and so you put it down on the tea table. That's what the tea table is for, so this is normal."
+    clear_dialog
+    choice:
+        talk weapon talk "Would um. Would you like to play a boardgame?"
+        "\\"A boardgame!?\\"":
+            run skip
+        "\\"A boardgame. I know those. You board the game.\\"":
+            run skip
+    choice:
+        talk weapon talk "Mmm. A game. 'Arbeiter und Wirtschaft: Zweite Auflage'. Got hold of it during the war. Dug it out of the rubble. It's quite good. No one makes boardgames quite like the Brennenburgers do, curse them..."
+        "\\"Curse them?\\"":
+            talk weapon talk "Mhm. I am begrudgingly willing to admit that they make superior board games to the drivel we get here, but that hardly forgives them for their past sins."
+        "\\"Oh! I know that one! I read about it in the newspaper! I'll probably win due to my superior male cranial circumference!\\" [Tap your skull] \\"Donk donk donk. Smart girl.\\"" if $data.global.knowsBoardgame:
+            talk weapon talk "Mhm."
+        "\\"Oh! I know that one! I read about it in the newspaper! If I win it's *not* due to my superior male cranial circumference. It's all down to my high natural ineltigemps.\\"" if $data.global.knowsBoardgame:
+            talk weapon talk "Mhm."
+    clear_dialog
+    choice:
+        talk weapon talk "Anyway. I can get it out. If you want."
+        "\\"Let's play! Wheeeee! I love games! Squeak squeak!\\"":
+            talk weapon talk "Mmm..."
+    clear_dialog
+    "The Weapon disappears into another room."
+    jump boardgame_livingRoom_menu
+
+boardgame_livingRoom_menu:
+    clear_dialog
+    choice:
+        "The sound of shuffling from the other room. A creaky pipe below. Outside, sheep bleat and bleat and bleat."
+        "[Look around The Weapon's living room]":
+            "It's a minimalist place. Not in the modern stylish sense, but in the 'The Weapon basically doesn't own anything' sense."
+            "An old photograph album and a crossword book sit on the coffee table. The Weapon got 6 down <span class='writtenText'>'liquidation'</span>, but somehow not 2 across <span class='writtenText'>'ice cream'</span>."
+            "More attention has been paid to a worn atlas, which has been annotated. The Weapon has crossed out half of The kingdom of Scandinavia and replaced it with something called <span class='writtenText'>'The Free State of Svenland'</span>."
+            clear_dialog
+            "There's a pill on the floor. It must have been dropped at some point."
+            if (roll boardgame_livingRoom_menu_pill_orb orb 40):
+                choice:
+                    talk orb talk "Testostrodil."
+                    "[Pick it up and eat it]":
+                        run transition_disease
+                        talk orb talk "I- Ghost have you not been paying attention to which direction your transition is going?"
+                        if (roll boardgame_livingRoom_menu_pill_nightmare nightmare 20):
+                            talk nightmare talk "<span class='nightmare'>epic. why not go get top surgery next, dude?</span>"
+                            clear_dialog
+                    "[Ignore it]":
+                        run skip
+                talk nasty talk "I used to powder these on my knob to make sure it stayed big."
+                talk lovely talk "I got surgery to make mine smaller."
+            else:
+                wait 1000
+            jump boardgame_livingRoom_menu
+        "[Look at the photograph album]":
+            play sound pageturn
+            "The album is sparse. A few pre war photograph of a farm, a shorter, softer Weapon and a blur that you assume is their father. It's a little hard to tell. The figure seems to have moved while the photograph was taken, every single time a photograph was taken."
+            if (roll boardgame_livingRoom_menu_father_orb orb 20):
+                talk orb talk "The Weapon's father did not really understand how cameras worked. He lived on his farm outside the city for his entire life. He was born before the Maxim gun, the automobile, the radio."
+                talk orb talk "The camera might not have been new for him, but he had little patience for technology, and littler still for standing to attention for it."
+                talk orb talk "To him the metal box was as alien as dreadnought would be to the Italian Empire, or a bluetooth remote control vibrator would be to you now."
+                clear_dialog
+            "Some photographs of The Weapon in the trenches, and various Frankish towns. In all but one photograph a tall, cheeky looking rabbit is using their fingers to give The Weapon rabbit ears. In one photo The Weapon is giving the rabbit ears instead, her own ears having been swapped out for bandaged stumps and a scowl."
+            clear_dialog
+            "The following seventy-four photographs are of sheep. You assume different ones. Each is labelled with a name."
+            play sound baa
+            "Look, there's Parsnip!"
+            play sound bookdown
+            jump boardgame_livingRoom_menu
+        "[Sniff]":
+            "Smells of sheep. Sheep and yeast."
+            if (roll boardgame_livingRoom_menu_bread_orb orb 20):
+                talk orb talk "The Weapon bakes their own bread. They do not have many interests, but baking is one of them. They were inspired by a baker who brought the most wonderful bread they had ever tasted to the front. Five years in the mud eating biscuits and processed tuna was worth it, for those occasional loafs."
+                if (roll boardgame_livingRoom_menu_iosefka_orb orb 60):
+                    talk orb talk "The Weapon still remembers the baker, Iosefka. They wish they had spoken to her. Told her how they felt. Iosefka doesn't remember The Weapon at all."
+                else:
+                    wait 1000
+            else:
+                wait 1000
+            jump boardgame_livingRoom_menu
+        "[Shout to The Weapon] \\"Are you okay in there?\\"":
+            talk weapon talk "I am. I'm just uh, looking for th- the boardgame is all."
+            clear_dialog
+            play sound clothing
+            "Their voice sounds a little shaky. The sound of shuffling intensifies."
+            if (roll boardgame_ending_study_orb orb 60):
+                talk orb talk "The sound of a fake search. They're trying to pretend this boardgame isn't the only thing in their 'study' besides military history and politics books."
+                talk orb talk "It's on their desk in plain sight. They're literally just stood in the other room counting to two-hundred."
+            else:
+                wait 1000
+            jump boardgame_livingRoom_menu
+        "[Sit and wait patiently] <span class='prompt'>[[MOVE ON]]</span>":
+            clear_dialog
+            wait 4000
+            play sound thud
+            "The Weapon returns, boardgame in tow. They drop the box on the table with a heavy thump, spitting up a plume of dust."
+            clear_dialog
+            talk weapon talk "Sorry. Took me a while to find amongst all my possessions."
+            clear_dialog
+            "They open it up and begin unpacking various small wooden pieces and a large, rather tatty board. They set the game up in silence, and then they speak."
+            run transition boardgame
+            jump boardgame_menu
+
+boardgame_menu:
+    clear_dialog
+    choice:
+        talk weapon talk "Any questions?"
+        "\\"Yes. How do we play?\\"":
+            jump boardgame_instructions
+        "\\"Yes. Do you have a will? Because I'm going to obliterate your ass at Art biter and Wood shaft: Zwhite Atishoo.\\" <span class='prompt'>[[MOVE ON]]</span>":
+            choice:
+                talk weapon talk "Eh?"
+                "\\"No questions, let's play.\\"":
+                    talk weapon talk "Mhm."
+                    set data.boardgame.bevolk 2
+                    set data.boardgame.korn 2
+                    jump boardgame_actions_menu
+
+boardgame_instructions:
+    clear_dialog
+    talk weapon talk "Mmm. Okay."
+    clear_dialog
+    choice:
+        talk weapon talk "'Arbeiter und Wirtschaft: Zweite Auflage' is a game split into turns, that is to say we take turns. On our turn we can gain resources for every 'Bevölkerungsmarker' we own in our 'Volkszählung'. We each start with two 'Bevölkerungsmarkers' and two 'Korn'. The resources are as follows: 'Korn', 'Holz', 'Eisen', and 'Gelt'. For example, if I had three 'Bevölkerungsmarkers' I would, on my turn, gain three 'Korn' and three 'Holz' and three 'Eisen' and three 'Gelt' and add them to my 'nationaler Vorrat'. You may also choose to gain one additional resource of your choice per turn. On your turn you may also choose to permanently spend two 'Korn' to generate an additional 'Bevölkerungsmarker' for your 'Volkszählung'. If at any time you have less 'Gelt' or less 'Korn' than you have 'Bevölkerungsmarkers' you must roll the dice. If the dice lands on an odd number you are experiencing 'kommunistische Unruhen'. If you draw a RED 'Bevölkerungsmarker' out of the 'Bevölkerung' bag you have allowed a 'ausländischer kommunist' into your 'Volkszählung', and immediately enter 'kommunistische Unruhen'. During 'kommunistische Unruhen' you lose one 'Bevölkerung' per turn until you correct your ratio of 'Bevölkerung' to 'Gelt' and 'Korn'. You cannot win the game while experiencing the effects of 'kommunistische Unruhen'. 'Holz' serves no particular gameplay purpose, but should not be neglected. Finally, on your turn, you can permanently remove two 'Bevölkerungsmarkers' from your 'Volkszählung' in exchange for three 'Eisen' or 'Holz' using the 'Zwangsarbeit' rule. Let's start. You can go first."
+        "\\"Ok. That was crystal clear. What's the goal of the game?\\"":
+            choice:
+                talk weapon talk "Huh?"
+                "\\"The goal of the game; what is it? How do I win?\\"":
+                    talk weapon talk "Uuuh."
+                    clear_dialog
+                    play sound pageturn
+                    "They flip through the rulebook, eventually stopping on a page and reading it for several minutes."
+    clear_dialog
+    choice:
+        talk weapon talk "The first player to stabilise their inflation wins. You do this by collecting resources matching the 'wirtschaftliches Verhältnis', which is to say one 'Korn' per 'Bevölkerungsmarker' plus three additional, one 'Eisen' for every three 'Korn', one 'Holz' per 'Bevölkerungsmarker', and one 'Gelt' per our collective 'Bevölkerungsmarkers'."
+        "\\"Do we ever interact during the game?\\"":
+            talk weapon talk "No. Why would we?"
+            if (roll boardgame_instructions_question_lovely lovely 40):
+                talk lovely talk "<span class='writtenText'>'What a stupid question'</span>, they're thinking. <span class='writtenText'>'Has this woman not played a continental game before?'</span>"
+            else:
+                wait 1000
+    clear_dialog
+    choice:
+        talk orb talk "Okay so, you're going to need my help with this, obviously."
+        "Please help me Orb, I'm too stupid for this.":
+            talk orb talk "Wait, shit, I didn't think you'd actually take me up on that. I don't understand the rules. You're on your own, Ghost."
+        "Fuck you orb! I'll play this without your help and then we'll see who can build the superior 'Volkszählung' and 'nationaler Vorrat'!":
+            talk orb talk "What! No! I want to play!"
+    jump boardgame_menu
+
+boardgame_actions_menu:
+    clear_dialog
+    if (&& $data.shrine.boardgame (== $data.boardgame.turn 6)):
+        "Here it is. The opening you need."
+        clear_dialog
+        "<span class='boardgame'>Gehen Sie Getreide oder gehen Sie nach Hause</span>."
+        clear_dialog
+    choice:
+        "It is your turn. The action you take may win the game... or lose it."
+        "[<span class='boardgame'>Gehen Sie Getreide oder gehen Sie nach Hause</span>]" if (&& $data.shrine.boardgame (== $data.boardgame.turn 6)):
+            talk weapon talk "Huh."
+            clear_dialog
+            wait 4000
+            "There is a long, drawn out silence."
+            clear_dialog
+            talk weapon talk "Well. You stabilised your inflation. You win."
+            clear_dialog
+            unlock_achievement boardgameWin
+            "They begin packing the game back up."
+            if $data.newspaper.readOpinionPiece:
+                if (roll boardgame_menu_afab_nightmare nightmare 20):
+                    talk nightmare talk "<span class='nightmare'>you took that newspaper article as advice rather than critique, huh?</span>"
+                    talk nightmare talk "<span class='nightmare'>using your hard wired DNA to beat this poor... what are they called again?</span> <span class='nightmareQuote'>'AFAB'</span><span class='nightmare'> at a boardgame? pathetic</span>"
+                else:
+                    wait 1000
+            jump boardgame_ending
+        "[<span class='boardgame'>Buy resources</span>]":
+            choice:
+                "<span class='boardgame'>Select resources to buy."
+                "[<span class='boardgame'>Buy one 'Korn' and end your turn</span>]":
+                    add data.boardgame.korn 1
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Buy one 'Holz' and end your turn</span>]":
+                    add data.boardgame.holz 1
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Buy one 'Eisen' and end your turn</span>]":
+                    add data.boardgame.eisen 1
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Buy one 'Gelt' and end your turn</span>]":
+                    add data.boardgame.gelt 1
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Go back</span>]":
+                    jump boardgame_actions_menu
+        "[<span class='boardgame'>Spend two 'Korn' and recieve one 'Bevölkerungsmarker'</span>]" if (>= $data.boardgame.korn 2):
+            add data.boardgame.korn -2
+            add data.boardgame.bevolk 1
+            jump boardgame_actions_menu
+        "[<span class='boardgame'>Sneakily eat one of the pieces while The Weapon is pondering their next turn</span>]":
+            add data.boardgame.piecesEaten 1
+            "Tastes of wood and lead paint."
+            if (!= $data.boardgame.leadPoisoningComment true):
+                set data.boardgame.leadPoisoningComment true
+                if (roll boardgame_actions_menu_lead_orb orb 20):
+                    talk orb talk "Congratulations. You now have lead poisoning."
+                talk nasty talk "That's going to be a tricky shit. Bloody hel."
+            clear_dialog
+            if (== $data.boardgame.piecesEaten 5):
+                "The Weapon frowns, they've noticed something."
+                clear_dialog
+                talk weapon talk "W- where are all your pieces?"
+                clear_dialog
+                "They look horrified. They can hear you chewing."
+                clear_dialog
+                talk weapon talk "D- did you? I..."
+                clear_dialog
+                if (roll boardgame_actions_menu_ate_lovely lovely 20):
+                    talk lovely talk "They're too astounded to be angry at you."
+                    clear_dialog
+                talk weapon talk "I'll get some Genuine Fiber Powder..."
+                clear_dialog
+                "The Weapon starts to stand up. Their body creaks."
+                jump boardgame_knock
+            else:
+                jump boardgame_actions_menu
+        "[<span class='boardgame'>ZWANGSARBEIT!]" if (>= $data.boardgame.bevolk 2):
+            choice:
+                "Zwangsarbeit?"
+                "[<span class='boardgame'>Permanently remove two 'Bevölkerungsmarkers' from your 'Volkszählung' in exchange for three 'Holz' and then end your turn</span>]":
+                    add data.boardgame.bevolk -2
+                    add data.boardgame.holz 3
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Permanently remove two 'Bevölkerungsmarkers' from your 'Volkszählung' in exchange for three 'Eisen' and then end your turn</span>]":
+                    add data.boardgame.bevolk -2
+                    add data.boardgame.eisen 3
+                    jump boardgame_resolve
+                "[<span class='boardgame'>Go back</span>]":
+                    jump boardgame_actions_menu
+        "[<span class='boardgame'>Skip your turn</span>]":
+            jump boardgame_resolve
+        "[Flip the board] \\"FUCK! THIS IS TOO HARD! I HATE ARBEITER UND WIRTSCHAFT: ZWEITE AUFLAGE! I'M GOING TO FIND OUT WHO DESIGNED IT AND STAB THEM AND STAB THEM!\\" [Kick a wall] \\"FUCK FUCK FUCK!\\" [Start hyperventilating] \\"F-fuck, I can't breathe! I- I'm having an asthma attack!\\" [Swoon and fall over dramatically]":
+            set data.boardgame.flippedBoard true
+            play sound punch
+            run transition_pain
+            "You crash to the floor and whack your head on the side of the coffee table. Yowch."
+            clear_dialog
+            choice:
+                talk weapon talk "Mmm. You done?"
+                "\\"Yes.\\" [Stand up and dust yourself off] \\"Good game.\\"":
+                    run skip
+                "\\"No.\\" [Stay on the floor for a bit]":
+                    "The Weapon looks down at you. This must be what old people feel like on their death bed, staring up into the eyes of the gaunt, gangly reaper."
+                    clear_dialog
+                    choice:
+                        talk weapon talk "<span class='prompt'>up.</span>"
+                        "[Immediately snap to your default standing position]\\"Sorry.\\" [Dust yourself off] \\"Good game.\\"":
+                            talk weapon talk "Mmm."
+            clear_dialog
+            choice:
+                talk weapon talk "Pick the pieces off of the floor. My back is not so good, and it's your mess."
+                "[Pick up all the pieces, destroying your back both from bad posture and the weight of your shame]":
+                    jump boardgame_ending
+
+boardgame_resolve:
+    clear_dialog
+    add data.boardgame.turn 1
+    "The Weapon silently plays their turn, their moves hidden from view."
+    clear_dialog
+    wait 1000
+    if (> $data.boardgame.turn 8):
+        talk weapon talk "Mm. I win."
+        clear_dialog
+        choice:
+            "They begin packing the game back up."
+            "\\"Oh.\\"":
+                talk weapon talk "Mhm."
+                jump boardgame_ending
+    else:
+        talk weapon talk "Your turn."
+        add data.boardgame.korn $data.boardgame.bevolk
+        jump boardgame_actions_menu
+    
+boardgame_ending:
+    run transition weapon_home
+    clear_dialog
+    choice:
+        talk lovely talk "Ask them if they enjoyed the game."
+        "\\"Did you enjoy the game?\\"":
+            if $data.boardgame.flippedBoard:
+                talk weapon talk "What game? You threw a tantrum and flipped the board. That's not a game. Where's the strategy?" 
+            else:
+                talk weapon talk "Immensely, yes."
+                clear_dialog
+                "Their excitement sounds how beige wallpaper looks."
+                if (roll boardgame_ending_wallpaper_lovely lovely 20):
+                    talk lovely talk "They meant that completely genuinely."
+                else:
+                    wait 1000
+        "[Remain silent]":
+            talk lovely talk "Or don't. That's fine too, darling."
+    clear_dialog
+    "A silence lingers like the radiation dribbling from a chunk of decaying plutonium. The Weapon coughs into their elbow."
+    clear_dialog
+    jump boardgame_knock
+
+boardgame_knock:
+    play sound doorknock
+    "There is a knock at the door. Your 'it must be morning' panic response is briefly activated, but you quickly realise that it is not morning, and this is not a guest intended for you."
+    clear_dialog
+    talk weapon talk "Mm. Wonder who that is..."
+    if (roll boardgame_ending_guests_orb orb 20):
+        talk orb talk "They don't get many guests. Any knock at the door is tainted with a slight fear. <span class='writtenText'>'Is this the military police?'</span>."
+        if (== $data.boardgame.piecesEaten 5):
+            talk orb talk "Your future troubled digestion is forgotten. You're on your own, Ghost."
+    else:
+        wait 1000
+    clear_dialog
+    play sound footstepsinside
+    choice:
+        "The Weapon stands up and heads to the front door."
+        "[Follow them to the door]":
+            play sound dooropen
+            if (|| $data.global.cryptoSheepDone $data.global.cryptoBridgeDone $data.global.cryptoEiffelDone):
+                "The Weapon opens the door, and who should be outside but..."
+            else:
+                "The Weapon opens the door... it's... a guy?"
+    clear_dialog
+    play music bigmoney
+    run transition powder
+    talk powder talk "Hello hello hello!"
+    talk powder talk "You know, I was in the neighbourhood, and I thought 'why don't I pay a visit to my good friend!? Perhaps they're in the market for more <span class='writtenText'>'Genuine Survival Rations: Nutrient Powder. Nutrient content: 100%'</span>!."
+    talk powder talk "You weren't by your field, and so I thought I'd find you here! Oh yes oh yes oh yes!"
+    clear_dialog
+    talk weapon talk "Mmm. I am actually. In the market for a lot of it, in fact. Bloody sheep ate all my supplies. I'll be needing to accrue my stockpile all over again..."
+    if (== $data.ghost.investor true):
+        unlock_achievement invest_weapon
+    clear_dialog
+    choice:
+        talk powder talk "Of course! Anything for a proud member of the Silly Sheep club!"
+        "[Look at The Weapon] \\"Ooh la la! Another high flyer! I own a Silly Sheep too!\\" [Look at The Genuine Survival Rations Salesman] \\"Am I rich yet?\\"" if (has_item? sillySheep):
+            talk powder talk "Oh yes oh yes oh yes! I remember! Owner of Silly Sheep... uh..."
+            clear_dialog
+            "His eyes flick between you and The Weapon. Sweat begins to form on their forehead at a rate never before seen on a mammal."
+            clear_dialog
+            choice:
+                talk powder talk "Silly Sheep s-s-sixty... sixty eight!"
+                "\\"It's sixty nine, actually. I remember because it's the sex number.\\"":
+                    "The Weapon frowns."
+                    clear_dialog
+                    talk weapon talk "No. I own Silly Sheep sixty nine. I remember because it's the number of Soviet military divisions currently stationed on the border to Manchuria and the Azure Republic."
+                    talk weapon talk "The number known to western intelligence, at least. In reality there are many many more, possibly some low yield experimental atom bombs too." 
+                    if (roll boardgame_ending_sillySheep_orb orb 60):
+                        talk orb talk "Literally none of that is true."
+                    else:
+                        wait 1000
+                    clear_dialog
+                    "The Weapon shakes it off."
+                    clear_dialog
+                    choice:
+                        talk weapon talk "Regardless of *how* I remember it, I remember it. I own Silly Sheep sixty nine."
+                        "\\"No. *I* own Silly Sheep sixty nine!\\"":
+                            talk powder talk "Um!"
+        "[Look at The Weapon] \\"Ooh la la! Good for you!\\"":
+            talk weapon talk "Mm. Right. I'm assured they're the only investment guaranteed to retain value in the event The Greater War breaks out."
+            clear_dialog
+            "The Weapon looks back to The Genuine Survival Rations Salesman, who has produced a big bag of genuine survival rations from a wheelbarrow he's keeping out of frame so the artist doesn't have to draw it."
+            clear_dialog
+            talk powder talk "The same good stuff you always buy! And still as genuine as ever, oh yes oh yes oh yes!"
+            clear_dialog
+            animate #narrat-app narrat-screenshake
+            "The bag splits from its own weight. A plume of flour, crab chitin, sawdust and asbestos engulfs The Genuine Survival Rations Salesman."
+            clear_dialog
+            talk powder talk "Shit."
+            clear_dialog
+            "The Weapon licks their lips."
+            clear_dialog
+            choice:
+                talk weapon talk "That... that's the taste of crab... crab and sawdust... you've been selling me sawdust. There's *nothing* genuine about these genuine survival rations..."
+                "\\"Did you never actually open any of them before?\\"":
+                    talk weapon talk "I..."
+                    if (roll boardgame_ending_rations_orb orb 60):
+                        talk orb talk "<span class='writtenText'>'...didn't want to waste any. The Greater War could break out at any moment.'</span>"
+                    else:
+                        wait 1000
+    clear_dialog
+    "The Weapon's one remaining eye squints, slowly turning its glare to The Genuine Survival Rations Salesman. His fur is now drenched in sweat. It's puddling on the floor below him."
+    if (roll boardgame_ending_reaper_nasty nasty 20):
+        talk nasty talk "He is literally terrified of The Weapon. They are a tall, gangly reaper gripping a long, gangly scythe."
+    else:
+        wait 1000
+    clear_dialog
+    talk powder talk "Aha! Oh no no no! There must have been a mistake! I, uh..."
+    clear_dialog
+    play sound whoosh
+    run transition_instant powderRan
+    animate #narrat-app narrat-screenshake
+    "The Genuine Survival Rations Salesman bursts a sack of non-genuine asbestos poisoning rations, disappearing inside the cloud of inedible dust. When it clears he is gone."
+    clear_dialog
+    play music intro
+    "Not literally, you can see him sprinting down the lane that once glowed brilliant yellow from the daffodils his great grandfather once peddled."
+    clear_dialog
+    talk weapon talk "Gods, to think I'd fall for this... this braindead shit. Idiot idiot fucking idiot..."
+    clear_dialog
+    play sound doorclose
+    run transition weapon_home
+    "They slam the door shut, stumble to their living room and slump into their seat."
+    clear_dialog
+    play music ourlovelyladyverse
+    choice:
+        talk weapon talk "Why am I like this. Fucking. Idiot. Obsessed. As pliable now to this charlatan as I was to high command... Insane. I've made myself insane."
+        "\\"You do seem to spend most of your leisure time catastrophising. That's probably not very good for your brain.\\" [Tap your head] \\"Trust me, I know a lot about things that are bad for you brain.\\"":
+            talk weapon talk "Can you blame me? We stand on the brink. Would things be different if we could see it? I wonder?"
+            talk weapon talk "Would people like you understand if, over Bluehills the bomb hovered, frozen in the air, never more than a few moments from killing us all?"
+            talk weapon talk "If we were sane, sane and unbroken, we would ransack the places making them, we would burn them to the ground. We should imprison, shoot even, the people responsible."
+            talk weapon talk "But we do not. We are powerless, and so instead we picnic in the bomb's shade..."
+    clear_dialog
+    "Their head slumps into their hands."
+    clear_dialog
+    choice:
+        talk weapon talk "What will we do, I wonder, when it finally bursts. When our new sun burns bright. Will we scream? Pray? Listen to the singing on the radio evaporate into static? Or will we look to it, and as our eyes turn to steam, whisper 'thank you'?"
+        "\\"That sounds scary.\\"":
+            talk weapon talk "It is, and it is our future. All of our futures, for the rest of time, once the bomb is built. It's no way to live... but do we really deserve better?"
+        "\\"Isn't that kind of an exhausting way to live?\\"":
+            talk weapon talk "It is. But I've seen it, little rat. I've seen behind the nation's mask. I know that it would sooner see us all turn to vapour than let the free market fall to the reds. When the Greater War breaks out, our lives are forfeit."
+        "\\"I would just assume it's fine and ignore it, personally.\\"":
+            talk weapon talk "Then do. Go about your day. Buy your clothes, eat your... your breads. But do so in the knowledge that at any second, you could be wiped off of the face of the Earth, and everyone else with you."
+        "\\"I think you'd get on really well with my friend. She's always talking like this. Weird tall gangly woman who's super into divination cards and sin. I bet you'd hit it off.\\"" if (objective_started? sinner archive):
+            talk weapon talk "I... hmm..."
+            if (roll boardgame_ending_sinner_lovely lovely 60):
+                talk lovely talk "They're interested."
+            else:
+                wait 1000
+    clear_dialog
+    choice:
+        "The Weapon seems to have calmed themselves down. They sigh."
+        "\\"What if we went for a walk in the woods. It's good for you, actually. When I was looking for Parsnip the woods filled me with an indescribable feeling of bliss and contentment, despite the curse of sentience.\\"":
+            talk weapon talk "I... I'm not entirely sure I understood all of that, but you're right. The woods are..."
+            if (roll boardgame_ending_nice_lovely lovely 20):
+                talk lovely talk "They're almost incapable of using the word 'nice'."
+            talk weapon talk "...okay. Part of me wonders if the bunker was just an excuse to trapse back and forth in them..."
+            set data.ending.presentWeapon true
+            clear_dialog
+            choice:
+                talk weapon talk "Fine. Tomorrow morning. Don't make me regret it."
+                "\\"I won't!\\" <span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    jump goToGameMap
+                "\\"I don't know if I can promise that.\\" <span class='prompt'>[[CONTINUE]]</span>":
+                    play sound spendAction
+                    jump goToGameMap
+        "\\"Well. This got really depressing. Bye!\\" [Do a gay little wave and leave] <span class='prompt'>[[CONTINUE]]</span>":
+            play sound spendAction
+            talk weapon talk "Mmm..."
+            clear_dialog
+            "They barely seem to notice you've gone."
+            jump goToGameMap
