@@ -16,26 +16,29 @@ from prompt_toolkit.mouse_events import MouseEventType
 import questionary
 from tools.file_io import TOOL_DISPATCH as file_tools
 from tools.research import TOOL_DISPATCH as research_tools
+from tools.system import TOOL_DISPATCH as system_tools
+from tools.comfy_api import TOOL_DISPATCH as comfy_tools
 
 console = Console()
+STATE_FILE = "config/state.json"
 
 class UIApp:
     """
     The Terminal User Interface (TUI) layer.
-    Manages a split-screen dashboard and keyboard/mouse navigation.
+    Optimized for screen space: Top agent bar, Bottom command/input area.
     """
     def __init__(self, orchestrator):
         self.orchestrator = orchestrator
-        self.active_agent = "writer" 
+        self.active_agent = self.load_active_agent() # Load from persistence
         self.running = True
         self.input_buffer = "" 
+        self.cursor_pos = 0   
         self.last_update = 0
         
-        # Navigation State
-        self.focus = "input" 
-        self.agent_idx = 0   
+        # UI State
+        self.mode = "input" 
         self.menu_idx = 0    
-        self.menu_options = ["Create Agent", "Edit Agent", "Exit"]
+        self.menu_options = ["Create Agent", "Edit Agent", "Back", "Exit"]
         
         # Scrolling State
         self.scroll_offsets = {name: 0 for name in orchestrator.agents.keys()}
@@ -44,41 +47,66 @@ class UIApp:
         self.cursor_visible = True
         self.last_blink = time.time()
 
+    def load_active_agent(self) -> str:
+        """Loads the last used agent from state.json."""
+        if os.path.exists(STATE_FILE):
+            try:
+                with open(STATE_FILE, 'r') as f:
+                    state = json.load(f)
+                    name = state.get("active_agent")
+                    if name in self.orchestrator.agents:
+                        return name
+            except: pass
+        return "writer" # default fallback
+
+    def save_active_agent(self):
+        """Saves the current active agent to state.json."""
+        os.makedirs("config", exist_ok=True)
+        try:
+            with open(STATE_FILE, 'w') as f:
+                json.dump({"active_agent": self.active_agent}, f)
+        except: pass
+
+    def set_active_agent(self, name: str):
+        """Updates the active agent and persists the state."""
+        self.active_agent = name
+        self.scroll_offsets[name] = 0
+        self.save_active_agent()
+
     def make_layout(self) -> Layout:
-        """Defines the new layout: Large Left Panel, 3-Stack Right Panel."""
+        """Defines the optimized layout."""
         layout = Layout(name="root")
-        layout.split_row(
-            Layout(name="left", ratio=7),
-            Layout(name="right", ratio=3)
-        )
-        layout["right"].split_column(
-            Layout(name="agents_list", ratio=4),
-            Layout(name="menu_panel", ratio=3),
-            Layout(name="input_panel", ratio=3)
+        layout.split(
+            Layout(name="header", size=3),
+            Layout(name="main", ratio=1),
+            Layout(name="bottom", size=6)
         )
         return layout
 
-    def render_agents_list(self) -> Panel:
-        """Renders the top-right list of agents."""
-        table = Table(show_header=True, header_style="bold magenta", expand=True, box=None)
-        table.add_column("Agent")
-        table.add_column("Status")
-        
+    def render_header(self) -> Panel:
+        """Renders the top agent bar with correctly processed markup."""
         agent_names = list(self.orchestrator.agents.keys())
+        header_text = Text()
+        
         for i, name in enumerate(agent_names):
             agent = self.orchestrator.agents[name]
-            status = "[bold green]Working[/bold green]" if agent.is_working else "[dim]Idle[/dim]"
-            prefix = ">>" if name == self.active_agent else "  "
-            display_name = f"{prefix} {name}"
-            if self.focus == "agents" and i == self.agent_idx:
-                display_name = f"[bold black on yellow] {display_name} [/bold black on yellow]"
-            table.add_row(display_name, status)
+            num_prefix = f"{i+1}-" if i < 9 else ""
+            label = f"{num_prefix}{name}"
             
-        border_style = "bold green" if self.focus == "agents" else "magenta"
-        return Panel(table, title="Agents (TAB)", border_style=border_style)
+            if name == self.active_agent:
+                header_text.append(f" {label} ", style="bold black on magenta")
+            else:
+                header_text.append(f" {label} ", style="bold white")
+            
+            if agent.is_working:
+                header_text.append("(Working)", style="italic green")
+            
+            header_text.append("  ")
+            
+        return Panel(header_text, title="Agents (TAB / Ctrl+Num)", border_style="magenta")
 
     def render_chat_log(self) -> Panel:
-        """Renders the main left-hand panel with character-line scrolling."""
+        """Renders the main center panel."""
         agent = self.orchestrator.get_agent(self.active_agent)
         if not agent:
             return Panel("Agent not found.", title=f"Chat: {self.active_agent}")
@@ -86,7 +114,7 @@ class UIApp:
         logs = agent.get_logs()
         full_text = Text()
         
-        for log in logs[-100:]:
+        for log in logs[-150:]:
             t, c = log['type'], log['content']
             if t == "user": full_text.append(f"Task: {c}\n", style="bold yellow")
             elif t == "thought": full_text.append(f"Thought: {c}\n", style="magenta")
@@ -98,7 +126,7 @@ class UIApp:
 
         lines = full_text.split('\n')
         total_lines = len(lines)
-        available_height = console.height - 2 
+        available_height = console.height - 3 - 6 - 2
         if available_height < 1: available_height = 10
         
         offset = self.scroll_offsets.get(self.active_agent, 0)
@@ -117,56 +145,64 @@ class UIApp:
         display_text = Text("\n").join(display_lines)
         return Panel(display_text, title=f"Agent: {self.active_agent}{scroll_indicator}", border_style="blue")
 
-    def render_menu(self) -> Panel:
-        """Renders the middle-right list of system actions."""
-        lines = []
-        for i, opt in enumerate(self.menu_options):
-            if self.focus == "menu" and i == self.menu_idx:
-                lines.append(f"> [bold black on yellow] {opt} [/bold black on yellow]")
-            else:
-                lines.append(f"  {opt}")
-        border_style = "bold green" if self.focus == "menu" else "green"
-        return Panel("\n".join(lines), title="Menu (TAB)", border_style=border_style)
-
-    def render_input(self) -> Panel:
-        """Renders the bottom-right input panel with a blinking cursor."""
-        input_style = "bold green" if self.focus == "input" else "cyan"
-        input_display = f"> {self.input_buffer}"
-        
-        # Blink logic
-        if self.focus == "input":
-            if self.cursor_visible:
-                input_display += "█"
-            else:
-                input_display += " "
+    def render_bottom(self) -> Panel:
+        """Renders the bottom interactive area."""
+        if self.mode == "menu":
+            menu_text = Text()
+            for i, opt in enumerate(self.menu_options):
+                if i == self.menu_idx:
+                    menu_text.append(f" > {opt} ", style="bold black on yellow")
+                else:
+                    menu_text.append(f"   {opt} ", style="white")
+                menu_text.append("  ")
+            return Panel(menu_text, title="System Menu", border_style="green")
+        else:
+            input_display = Text("> ")
+            before = self.input_buffer[:self.cursor_pos]
+            after = self.input_buffer[self.cursor_pos:]
             
-        return Panel(
-            input_display, 
-            title=f"Input: {self.active_agent} (TAB)", 
-            subtitle="/stop | /quit",
-            border_style=input_style
-        )
+            input_display.append(before)
+            if self.cursor_visible:
+                char_at_cursor = after[0] if after else " "
+                input_display.append(char_at_cursor, style="bold black on white")
+                input_display.append(after[1:])
+            else:
+                input_display.append(after)
+                
+            return Panel(
+                input_display, 
+                title=f"Input: {self.active_agent}", 
+                subtitle="/menu: Options | /stop: Kill | /quit: Exit",
+                border_style="cyan"
+            )
 
     def get_renderable(self):
-        """Assembles all panels into the final Layout object."""
         layout = self.make_layout()
-        layout["agents_list"].update(self.render_agents_list())
-        layout["left"].update(self.render_chat_log())
-        layout["menu_panel"].update(self.render_menu())
-        layout["input_panel"].update(self.render_input())
+        layout["header"].update(self.render_header())
+        layout["main"].update(self.render_chat_log())
+        layout["bottom"].update(self.render_bottom())
         return layout
 
     async def handle_menu_action(self, live):
-        """Performs operations asynchronously."""
+        """Performs operations asynchronously to avoid event loop conflicts."""
         opt = self.menu_options[self.menu_idx]
         if opt == "Exit":
             self.running = False
+        elif opt == "Back":
+            self.mode = "input"
         elif opt == "Create Agent" or opt == "Edit Agent":
             sys.stdout.write("\x1b[?1000l\x1b[?1006l")
             sys.stdout.flush()
             live.stop()
             
-            available_tools = sorted(list(set(list(file_tools.keys()) + list(research_tools.keys()) + ["delegate_task", "update_scratchpad"])))
+            # COMBINE ALL TOOLS for discovery
+            available_tools = sorted(list(set(
+                list(file_tools.keys()) + 
+                list(research_tools.keys()) + 
+                list(system_tools.keys()) + 
+                list(comfy_tools.keys()) + 
+                ["delegate_task", "update_scratchpad"]
+            )))
 
             if opt == "Create Agent":
                 name = await questionary.text("Agent Name:").ask_async()
@@ -200,84 +236,67 @@ class UIApp:
             live.start()
             sys.stdout.write("\x1b[?1000h\x1b[?1006h")
             sys.stdout.flush()
+            self.mode = "input"
 
     async def run_async(self):
         input_obj = create_input()
-        
         try:
             with Live(self.get_renderable(), screen=True, auto_refresh=False) as live:
-                sys.stdout.write("\x1b[?1000h\x1b[?1006h")
-                sys.stdout.flush()
-                
+                sys.stdout.write("\x1b[?1000h\x1b[?1006h"); sys.stdout.flush()
                 with input_obj.raw_mode():
                     while self.running:
-                        # Update Blink
                         if time.time() - self.last_blink > 0.5:
-                            self.cursor_visible = not self.cursor_visible
-                            self.last_blink = time.time()
-                            live.update(self.get_renderable()); live.refresh()
-
+                            self.cursor_visible = not self.cursor_visible; self.last_blink = time.time(); live.update(self.get_renderable()); live.refresh()
                         if time.time() - self.last_update > 0.1:
-                            live.update(self.get_renderable()); live.refresh()
-                            self.last_update = time.time()
-
+                            live.update(self.get_renderable()); live.refresh(); self.last_update = time.time()
                         keys = input_obj.read_keys()
-                        if not keys:
-                            await asyncio.sleep(0.02); continue
-                        
+                        if not keys: await asyncio.sleep(0.02); continue
                         for key in keys:
                             if hasattr(key, 'mouse_event'):
                                 me = key.mouse_event
-                                if me.event_type == MouseEventType.SCROLL_UP:
-                                    self.scroll_offsets[self.active_agent] += 2
-                                elif me.event_type == MouseEventType.SCROLL_DOWN:
-                                    self.scroll_offsets[self.active_agent] = max(0, self.scroll_offsets[self.active_agent] - 2)
+                                if me.event_type == MouseEventType.SCROLL_UP: self.scroll_offsets[self.active_agent] += 2
+                                elif me.event_type == MouseEventType.SCROLL_DOWN: self.scroll_offsets[self.active_agent] = max(0, self.scroll_offsets[self.active_agent] - 2)
                                 continue
-
+                            if key.key in [Keys.Backspace, Keys.ControlH, "\x7f", "\x08"]:
+                                if self.mode == "input" and self.cursor_pos > 0:
+                                    self.input_buffer = self.input_buffer[:self.cursor_pos-1] + self.input_buffer[self.cursor_pos:]
+                                    self.cursor_pos -= 1
+                                continue
                             if key.key == Keys.Tab:
-                                if self.focus == "input": self.focus = "agents"
-                                elif self.focus == "agents": self.focus = "menu"
-                                else: self.focus = "input"
-                            
-                            elif key.key == Keys.Up:
-                                if self.focus == "agents":
-                                    self.agent_idx = (self.agent_idx - 1) % len(self.orchestrator.agents)
-                                    self.active_agent = list(self.orchestrator.agents.keys())[self.agent_idx]
-                                elif self.focus == "menu":
-                                    self.menu_idx = (self.menu_idx - 1) % len(self.menu_options)
-                                else:
-                                    self.scroll_offsets[self.active_agent] += 2
-
-                            elif key.key == Keys.Down:
-                                if self.focus == "agents":
-                                    self.agent_idx = (self.agent_idx + 1) % len(self.orchestrator.agents)
-                                    self.active_agent = list(self.orchestrator.agents.keys())[self.agent_idx]
-                                elif self.focus == "menu":
-                                    self.menu_idx = (self.menu_idx + 1) % len(self.menu_options)
-                                else:
-                                    self.scroll_offsets[self.active_agent] = max(0, self.scroll_offsets[self.active_agent] - 2)
-                            
+                                agents = list(self.orchestrator.agents.keys()); curr_idx = agents.index(self.active_agent)
+                                self.set_active_agent(agents[(curr_idx + 1) % len(agents)]); continue
+                            elif key.key == Keys.BackTab:
+                                agents = list(self.orchestrator.agents.keys()); curr_idx = agents.index(self.active_agent)
+                                self.set_active_agent(agents[(curr_idx - 1) % len(agents)]); continue
+                            ctrl_nums = {Keys.ControlA: 0, Keys.ControlB: 1, Keys.ControlC: 2, Keys.ControlD: 3, Keys.ControlE: 4, Keys.ControlF: 5, Keys.ControlG: 6, Keys.ControlH: 7, Keys.ControlI: 8}
+                            if key.key in ctrl_nums:
+                                idx = ctrl_nums[key.key]; agents = list(self.orchestrator.agents.keys())
+                                if idx < len(agents): self.set_active_agent(agents[idx])
+                                continue
+                            if key.key == Keys.Left:
+                                if self.mode == "menu": self.menu_idx = (self.menu_idx - 1) % len(self.menu_options)
+                                else: self.cursor_pos = max(0, self.cursor_pos - 1)
+                            elif key.key == Keys.Right:
+                                if self.mode == "menu": self.menu_idx = (self.menu_idx + 1) % len(self.menu_options)
+                                else: self.cursor_pos = min(len(self.input_buffer), self.cursor_pos + 1)
+                            elif key.key == Keys.Up: self.scroll_offsets[self.active_agent] += 2
+                            elif key.key == Keys.Down: self.scroll_offsets[self.active_agent] = max(0, self.scroll_offsets[self.active_agent] - 2)
                             elif key.key == Keys.Enter or key.key == Keys.ControlM:
-                                if self.focus == "input":
-                                    cmd = self.input_buffer.strip()
-                                    self.input_buffer = ""
+                                if self.mode == "input":
+                                    cmd = self.input_buffer.strip(); self.input_buffer = ""; self.cursor_pos = 0
                                     if cmd == "/quit": self.running = False
                                     elif cmd == "/stop": self.orchestrator.stop_agent(self.active_agent)
-                                    elif cmd: 
-                                        self.orchestrator.send_message("User", self.active_agent, cmd)
-                                        self.scroll_offsets[self.active_agent] = 0
-                                elif self.focus == "menu":
-                                    await self.handle_menu_action(live)
-                            
-                            elif self.focus == "input":
-                                if key.key == Keys.Backspace: self.input_buffer = self.input_buffer[:-1]
-                                elif isinstance(key.key, str) and len(key.key) == 1: self.input_buffer += key.key
-                                elif key.key == Keys.Space: self.input_buffer += " "
-                            
-                            elif key.key == Keys.ControlC:
-                                self.running = False; break
-                        
+                                    elif cmd == "/menu": self.mode = "menu"; self.menu_idx = 0
+                                    elif cmd: self.orchestrator.send_message("User", self.active_agent, cmd); self.scroll_offsets[self.active_agent] = 0
+                                else: await self.handle_menu_action(live)
+                            elif self.mode == "input":
+                                if isinstance(key.key, str) and len(key.key) == 1:
+                                    self.input_buffer = self.input_buffer[:self.cursor_pos] + key.key + self.input_buffer[self.cursor_pos:]
+                                    self.cursor_pos += 1
+                                elif key.key == " ": 
+                                    self.input_buffer = self.input_buffer[:self.cursor_pos] + " " + self.input_buffer[self.cursor_pos:]
+                                    self.cursor_pos += 1
+                            if key.key == Keys.ControlC: self.running = False; break
                         live.update(self.get_renderable()); live.refresh()
         finally:
-            sys.stdout.write("\x1b[?1000l\x1b[?1006l")
-            sys.stdout.flush()
+            sys.stdout.write("\x1b[?1000l\x1b[?1006l"); sys.stdout.flush()

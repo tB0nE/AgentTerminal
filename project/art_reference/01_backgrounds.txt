@@ -1,0 +1,378 @@
+================================================================================
+ART REFERENCE: BACKGROUNDS - DUNOON 2056
+================================================================================
+
+This document contains all required background images for the game.
+Each background should be 1920x1080 pixels minimum, PNG format with possible
+parallax layers where noted.
+
+================================================================================
+MENU & TRANSITION SCREENS
+================================================================================
+
+1. TITLE_SCREEN
+   - Location: Game opening title screen
+   - Mood: Cyberpunk noir, dystopian atmosphere
+   - Lighting: Dark with neon accents, low ambient light
+   - Details: 
+     * View of Dunoon township at night from elevated position
+     * Distant Cape Town skyscrapers glowing on horizon
+     * Neon signs in foreground with broken/flickering effect
+     * Power lines cutting across frame
+     * Stars partly obscured by smog/pollution
+   - Text overlay area: Center-bottom for game title "DUNOON 2056"
+
+2. GENERIC_BLACK
+   - Location: Transition screen, game over
+   - Mood: Void, emptiness, digital darkness
+   - Lighting: Pure black with subtle digital noise/static
+   - Details:
+     * Near-total blackness
+     * Optional: Very faint grid pattern suggesting digital void
+     * Occasional glitch artifacts at edges
+   - Text overlay area: Full screen for text display
+
+3. TRANSITION
+   - Location: Scene transition overlay
+   - Mood: Glitchy, digital interference
+   - Details:
+     * Static noise pattern
+     * Scan lines
+     * Corrupted data visualization
+   - Format: Overlay image for transition.png
+
+4. CREDITS_SCREEN
+   - Location: End game credits
+   - Mood: Melancholic, reflective
+   - Lighting: Dark with soft ambient glow
+   - Details:
+     * Abstract digital patterns
+     * Faint silhouette of Dunoon skyline
+     * Stars or data streams in background
+
+================================================================================
+DUNOON TOWNSHIP - EXTERIOR LOCATIONS
+================================================================================
+
+5. SHACK_EXTERIOR
+   - Location: Player's home shack exterior view
+   - Time: Morning (can have variants for afternoon/evening)
+   - Mood: Gritty realism, poverty, but with signs of life
+   - Lighting: Warm morning sunlight filtering through dust
+   - Weather: Clear with dust particles in air
+   - Details:
+     * Small corrugated iron shack (3m x 4m)
+     * Makeshift construction: wood scraps, plastic sheeting
+     * Cracked window with dirty glass
+     * Hand-painted sign nearby: "MAMA NOMI'S PLACE"
+     * Power cables running along posts
+     * Dusty ground with scattered debris
+     * Other shacks visible in background
+     * Distant skyscrapers on horizon
+   - Parallax layers: Foreground debris, mid shack, background township
+
+6. SHACK_INTERIOR
+   - Location: Player's home interior
+   - Time: Variable (morning/afternoon/evening/night variants needed)
+   - Mood: Cramped, impoverished, but lived-in and personal
+   - Lighting: 
+     * Morning: Thin beams through cracks in walls
+     * Afternoon: Harsh, stifling heat visible in air
+     * Evening: Golden light, long shadows
+     * Night: Dark, lit only by faint implant glow
+   - Details:
+     * Corrugated iron ceiling, rust-stained
+     * Walls of iron, wood scraps, plastic sheeting
+     * Thin mattress on floor
+     * Camp stove in corner
+     * Bucket of water
+     * Canned food on shelf
+     * Battered neural deck under tarp
+     * Faded photograph of woman on wall
+     * Single cracked, dirty window
+     * View of maze of shacks through window
+     * Hidden compartment under floorboard
+   - Key interaction points: Photo, mattress, floorboard, deck location
+
+7. GAME_MAP_SCREEN
+   - Location: Overview map of Dunoon township
+   - Time: Variable based on game time
+   - Mood: Functional, navigational, atmospheric
+   - Lighting: Top-down view with ambient township lighting
+   - Details:
+     * Isometric or stylized top-down view of township
+     * Key locations marked:
+       - Home Shack
+       - Mama Nomi's Place
+       - Tango's Repair Shop
+       - Net Cafe
+       - Market
+       - Clinic
+       - Abandoned Lot
+       - Wine Farm (distant)
+       - Beach (edge of map)
+     * Roads and pathways between locations
+     * Distant Cape Town skyline on one edge
+     * Ocean on another edge
+   - Interactive: Button locations for each destination
+
+================================================================================
+DUNOON TOWNSHIP - BUSINESS LOCATIONS
+================================================================================
+
+8. MAMA_NOMI_EXTERIOR
+   - Location: Mama Nomi's restaurant/place exterior
+   - Time: Day
+   - Mood: Welcoming despite poverty, community hub
+   - Lighting: Warm, inviting light from windows
+   - Details:
+     * Hand-painted sign: "MAMA NOMI'S PLACE - HOT FOOD - COLD DRINKS - NETWORK ACCESS"
+     * Slightly larger structure than typical shack
+     * Plastic tables visible outside
+     * Cables running to satellite dish on roof
+     * Cooking smoke from vent
+     * People coming and going
+     * Mosaic of repaired sections showing resilience
+
+9. MAMA_NOMI_INTERIOR (implied from script)
+   - Location: Inside Mama Nomi's place
+   - Time: Day
+   - Mood: Warm, communal, safe haven
+   - Lighting: Dim but warm, string lights overhead
+   - Details:
+     * Long counter with kitchen behind
+     * Plastic tables and chairs
+     * Bank of old computer terminals in corner
+     * Cables running along ceiling
+     * Photos and newspaper clippings on walls
+     * Cooking equipment, pots, dishes
+     * African textiles and decorations
+     * Smell of food (visual steam/aroma)
+
+10. TANGO_EXTERIOR
+    - Location: Tango's Repair Shop exterior
+    - Time: Day
+    - Mood: Technical, cluttered, mysterious
+    - Lighting: Harsh sunlight on metallic debris
+    - Details:
+      * Larger shack with extended workshop area
+      * Electronic debris piled outside
+      * Old servers, broken screens visible
+      * Cables snaking everywhere
+      * Solar panels on roof
+      * Flickering neon sign (repair symbol)
+      * Security camera above door
+      * Graffiti: Circuit patterns
+
+11. TANGO_INTERIOR (implied)
+    - Location: Inside Tango's workshop
+    - Time: Day
+    - Mood: High-tech chaos, focused work environment
+    - Lighting: Multiple screen glows, work light
+    - Details:
+      * Workbench with tools
+      * Disassembled electronics everywhere
+      * Multiple screens showing diagnostics
+      * Neural implant components
+      * Soldering equipment
+      * Spare parts organized chaotically
+      * Augmented reality work surface
+
+12. NET_CAFE
+    - Location: Net cafe interior
+    - Time: Day/Night variant
+    - Mood: Cramped, desperate, digital refuge
+    - Lighting: Screen glow in dim room
+    - Details:
+      * Rows of old terminals
+      * People hunched over screens
+      * Cables running everywhere
+      * Burnt circuit smell (visual ozone)
+      * Beverage vending machine
+      * Posters of hackers/net culture
+      * Dim overhead lighting
+      * Window showing township outside
+
+================================================================================
+MARKET AND COMMERCE
+================================================================================
+
+13. MARKET_DAY
+    - Location: Dunoon market
+    - Time: Day
+    - Mood: Chaotic, vibrant, survival economy
+    - Lighting: Bright sunlight, colorful tarps creating dappled shade
+    - Details:
+      * Sprawling maze of stalls and blankets
+      * Vendor stalls with tarps/umbrellas
+      * Piles of second-hand goods
+      * Food stalls with steam rising
+      * Tech dealer table with electronics
+      * Clothes vendor with hanging garments
+      * Herbalist table with jars and pouches
+      * Street kids moving through crowd
+      * Dust and activity
+      * Hand-painted signs
+      * Bartering people
+
+================================================================================
+HEALTH AND COMMUNITY
+================================================================================
+
+14. CLINIC
+    - Location: Dunoon Community Clinic
+    - Time: Day
+    - Mood: Underfunded, overcrowded, essential
+    - Lighting: Harsh fluorescent flickering
+    - Details:
+      * Waiting room with benches
+      * People waiting, looking unwell
+      * Faded health posters on walls
+      * Triage desk
+      * Hallway to examination rooms
+      * Medical supplies running low
+      * Overworked staff visible
+      * Antiseptic visual (clean but worn)
+      * Malfunctioning cybernetic patient visible
+
+================================================================================
+MYSTERY LOCATIONS
+================================================================================
+
+15. ABANDONED_LOT
+    - Location: Edge of township, Silas's location
+    - Time: Day/Dusk variant
+    - Mood: Desolate, cautious, resistance meeting point
+    - Lighting: Harsh afternoon sun or golden dusk
+    - Details:
+      * Empty lot with scattered debris
+      * Partially built shacks (unfinished construction)
+      * Trash and rubble
+      * Graffiti on walls
+      * Single crate where Silas sits
+      * View of township behind
+      * Escape routes visible
+      * Hidden meeting area
+
+16. WINE_FARM_EXTERIOR
+    - Location: Corporate wine farm/main entrance
+    - Time: Day
+    - Mood: Beautiful but sinister, corporate control
+    - Lighting: Bright, almost too perfect sunlight
+    - Details:
+      * Endless rows of grape vines
+      * Main building in distance (glass and steel)
+      * Security cameras visible
+      * Guard posts at entrance
+      * Corporate logo (Aries Corp)
+      * Workers in fields
+      * Security patrol visible
+      * Stark contrast to township aesthetic
+      * Pristine landscaping
+
+17. WINE_FARM_LAB (implied from script)
+    - Location: Secret laboratory inside wine farm
+    - Time: N/A (interior)
+    - Mood: Clinical, sinister, experimental
+    - Lighting: Sterile white fluorescent
+    - Details:
+      * Laboratory equipment
+      * People in white coats
+      * Unconscious figures on tables
+      * Neural implant equipment
+      * Monitors showing brain scans
+      * Surgical equipment
+      * Corporate branding
+      * One-way mirrors
+      * Restraining equipment
+
+================================================================================
+ENDGAME LOCATIONS
+================================================================================
+
+18. BEACH_SUNSET
+    - Location: Township beach, ocean view
+    - Time: Sunset
+    - Mood: Melancholic, peaceful, final
+    - Lighting: Golden hour, dramatic sunset colors
+    - Details:
+      * Gray sand (polluted)
+      * Waves lapping at shore
+      * Distant wealthy suburbs across water
+      * Setting sun on horizon
+      * Debris/wreckage on beach
+      * Township visible behind
+      * Power lines crossing view
+      * Despite pollution, somehow beautiful
+
+19. DIGITAL_VOID
+    - Location: Transcendence ending consciousness upload
+    - Time: N/A (digital realm)
+    - Mood: Infinite, transcendent, otherworldly
+    - Lighting: Pure light, data streams
+    - Details:
+      * Abstract digital landscape
+      * Flowing data streams
+      * Faint human silhouettes (uploaded minds)
+      * Infinite depth
+      * Network architecture visualization
+      * Ethereal, beautiful, unsettling
+
+20. SUNSET_PERFECT
+    - Location: True ending beach scene
+    - Time: Perfect sunset
+    - Mood: Triumphant, peaceful, complete
+    - Lighting: Perfect golden hour, warm and healing
+    - Details:
+      * Same as BEACH_SUNSET but more idealized
+      * Community visible (silhouettes of friends)
+      * Sense of peace and completion
+      * Hope visualized
+
+================================================================================
+UI OVERLAYS
+================================================================================
+
+21. IMPLANT_VISION (for memory/dream sequences)
+    - Style: Glitchy, corrupted data visualization
+    - Colors: Cyan, magenta, static
+    - Details:
+      * Corrupted memory fragments
+      * Static and noise
+      * Flickering images
+      * Data readouts
+
+================================================================================
+VARIANT REQUIREMENTS
+================================================================================
+
+The following backgrounds need time-of-day variants:
+
+SHACK_INTERIOR:
+  - Morning (beams of light through cracks)
+  - Afternoon (harsh, stifling heat)
+  - Evening (golden light, shadows)
+  - Night (dark, implant glow only)
+
+BEACH:
+  - Day
+  - Sunset
+  - Perfect sunset (true ending)
+
+GAME_MAP:
+  - Day lighting
+  - Night lighting (optional)
+
+================================================================================
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Resolution: 1920x1080 minimum (higher for parallax layers)
+Format: PNG with alpha channel where needed
+Color Space: sRGB
+Style: Realistic cyberpunk with African township authenticity
+Key Reference: Bladerunner meets African informal settlements
+
+================================================================================
+END OF BACKGROUNDS DOCUMENT
+================================================================================

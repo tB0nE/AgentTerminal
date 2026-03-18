@@ -1,0 +1,540 @@
+================================================================================
+ART REFERENCE: AUDIO & SOUNDS - DUNOON 2056
+================================================================================
+
+This document contains all required audio assets for the game.
+Categories: Music, Ambient Soundscapes, Sound Effects, Voice Types
+
+================================================================================
+MUSIC TRACKS
+================================================================================
+
+1. TITLE_THEME
+   - Usage: Title screen, main menu
+   - Duration: 2-3 minutes (looping)
+   - Mood: Atmospheric, cyberpunk noir, African township influence
+   - Style: Electronic ambient with traditional African undertones
+   - Tempo: Slow to medium
+   - Key Elements:
+     * Deep bass synths
+     * Subtle township sounds integrated
+     * Melancholic melody
+     * Building tension
+     * Sense of place and struggle
+
+2. AMBIENT_DUNOON
+   - Usage: Main game ambient theme, exploration
+   - Duration: 4-5 minutes (looping)
+   - Mood: Atmospheric, immersive, township life
+   - Style: Ambient soundscape with musical elements
+   - Key Elements:
+     * Township ambient sounds
+     * Distant music from shacks
+     * Wind, dust
+     * Subtle electronic undertones
+     * Life happening around player
+
+3. DUNOON_AMBIENT
+   - Usage: Map screen ambient
+   - Duration: 3-4 minutes (looping)
+   - Mood: Navigational, contemplative
+   - Style: Minimal ambient
+   - Key Elements:
+     * Lighter version of township ambience
+     * Map/travel feel
+     * Decision-making atmosphere
+
+4. SACRIFICE_THEME
+   - Usage: Sacrifice ending sequence
+   - Duration: 3-4 minutes
+   - Mood: Triumphant, emotional, bittersweet
+   - Style: Orchestral electronic hybrid
+   - Key Elements:
+     * Building emotional intensity
+     * Sense of purpose
+     * Release and resolution
+     * Hope through sacrifice
+
+5. REVOLUTION_THEME
+   - Usage: Revolution ending sequence
+   - Duration: 3-4 minutes
+   - Mood: Action, resistance, hopeful
+   - Style: Driving electronic with African percussion
+   - Key Elements:
+     * Rhythmic, marching beat
+     * Rising intensity
+     * Collective power feeling
+     * Triumphant conclusion
+
+6. ESCAPE_THEME
+   - Usage: Escape ending sequence
+   - Duration: 3-4 minutes
+   - Mood: Melancholic, uncertain, relieved
+   - Style: Ambient electronic
+   - Key Elements:
+     * Leaving behind feeling
+     * Journey motif
+     * Mix of relief and guilt
+     * Open road quality
+
+7. TRANSCENDENCE_THEME
+   - Usage: Transcendence ending sequence
+   - Duration: 3-4 minutes
+   - Mood: Ethereal, otherworldly, transcendent
+   - Style: Abstract electronic, digital ambient
+   - Key Elements:
+     * Digital/synthetic quality
+     * Infinite feeling
+     * Loss of physical form
+     * Becoming something new
+
+8. ACCEPTANCE_THEME
+   - Usage: Acceptance ending sequence
+   - Duration: 3-4 minutes
+   - Mood: Peaceful, resigned, beautiful
+   - Style: Minimal piano or acoustic with ambient
+   - Key Elements:
+     * Simple, clean melody
+     * Sense of completion
+     * Peace with fate
+     * Ocean/waves quality
+
+9. WHOLE_THEME
+   - Usage: Secret ending (recovered all memories)
+   - Duration: 2-3 minutes
+   - Mood: Complete, powerful, self-actualized
+   - Style: Full orchestration of themes
+   - Key Elements:
+     * Integration of other musical motifs
+     * Sense of wholeness
+     * Power and clarity
+
+10. TRAITOR_THEME
+    - Usage: Traitor ending (bad ending)
+    - Duration: 2-3 minutes
+    - Mood: Dark, corrupted, hollow
+    - Style: Distorted electronic
+    - Key Elements:
+      * Corrupted version of main themes
+      * Discordant elements
+      * Sense of wrongness
+      * Guilt and shame
+
+11. TRUE_ENDING_THEME
+    - Usage: True ending (all objectives complete)
+    - Duration: 4-5 minutes
+    - Mood: Triumphant, complete, legendary
+    - Style: Full orchestral arrangement
+    - Key Elements:
+      * Culmination of all themes
+      * Maximum emotional impact
+      * Sense of legacy
+      * Perfect resolution
+
+================================================================================
+AMBIENT SOUNDSCAPES
+================================================================================
+
+1. AMB_TOWNSHIP
+   - Usage: General township ambience
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: Background (1)
+   - Elements:
+     * Distant conversations (unintelligible)
+     * Children playing far away
+     * Dogs barking occasionally
+     * Cooking sounds
+     * Traffic distant
+     * Generators humming
+     * Wind through corrugated iron
+     * Music from radios
+
+2. AMB_TOWNSHIP_DAY
+   - Usage: Township during daylight
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * All township elements
+     * Day-specific activity
+     * More voices, movement
+     * Sun/heat feeling (dust particles in air)
+     * Vendors calling
+
+3. AMB_SHACK_INTERIOR
+   - Usage: Inside shack ambient
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Quiet, cramped space
+     * Wind outside through cracks
+     * Creaking metal roof
+     * Distant township sounds muffled
+     * Occasional dripping if leaking
+     * Electrical hum from implant (subtle)
+
+4. AMB_MARKET
+   - Usage: Market location
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Crowd murmur
+     * Vendors calling prices
+     * Bargaining conversations
+     * Music from different stalls
+     * Cooking sounds
+     * Animal sounds
+     * Traffic edge
+
+5. AMB_NET_CAFE
+   - Usage: Net cafe interior
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Multiple computer fans
+     * Keyboard typing
+     * Screen hum
+     * Muffled conversations
+     * Occasional beeps
+     * Electrical ambient
+
+6. AMB_CLINIC
+   - Usage: Clinic interior
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Fluorescent light hum
+     * Distant medical equipment beeps
+     * Coughing, quiet suffering
+     * Footsteps
+     * Whispers
+     * Medical equipment hum
+
+7. AMB_WINE_FARM
+   - Usage: Wine farm exterior
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Wind through vines
+     * Distant machinery
+     * Quiet, too quiet
+     * Birds (nervous)
+     * Security system hum
+
+8. AMB_BEACH
+   - Usage: Beach location
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Ocean waves (rhythmic)
+     * Wind across water
+     * Distant township behind
+     * Seagulls
+     * Peaceful, eternal
+
+9. AMB_DIGITAL_VOID
+   - Usage: Transcendence digital realm
+   - Duration: 2-3 minutes (looping)
+   - Volume Layer: 1
+   - Elements:
+     * Digital ambient
+     * Data flow sounds
+     * Electronic ether
+     * Infinite space feeling
+
+================================================================================
+SOUND EFFECTS - INTERFACE
+================================================================================
+
+1. STATIC_BURST
+   - Usage: Screen transitions
+   - Duration: 0.5-1 second
+   - Description: Brief static/electronic burst
+   - Style: Glitchy, digital
+   - Similar to: Radio static, CRT turning on
+
+2. GLITCH_HEAVY
+   - Usage: Major glitch transitions
+   - Duration: 1-2 seconds
+   - Description: Heavy digital corruption sound
+   - Style: Corrupted data, severe glitch
+   - Similar to: Digital distortion, data corruption
+
+3. DOOR_CREAK
+   - Usage: Opening shack door
+   - Duration: 1-2 seconds
+   - Description: Metal shack door opening
+   - Style: Rusty hinge, corrugated iron
+   - Context: Stepping outside for first time
+
+================================================================================
+SOUND EFFECTS - PLAYER ACTIONS
+================================================================================
+
+1. SLEEP
+   - Usage: Rest action
+   - Duration: 2-3 seconds
+   - Description: Settling into sleep
+   - Style: Breathing slowing, mattress creaking
+   - Mood: Exhausted rest
+
+2. CLOTHING
+   - Usage: Movement, standing up
+   - Duration: 0.5-1 second
+   - Description: Clothes rustling
+   - Style: Fabric movement
+   - Context: Getting dressed, moving
+
+================================================================================
+SOUND EFFECTS - HACKING/TECH
+================================================================================
+
+1. HACK_SUCCESS
+   - Usage: Successful hack attempt
+   - Duration: 1-2 seconds
+   - Description: Access granted sound
+   - Style: Digital success, pleasant electronic
+   - Mood: Triumphant, clean
+   - Elements:
+     * Connection established
+     * Data flowing
+     * Clean resolution
+
+2. HACK_FAIL
+   - Usage: Failed hack attempt
+   - Duration: 1-2 seconds
+   - Description: Access denied sound
+   - Style: Digital failure, error
+   - Mood: Frustrating, blocked
+   - Elements:
+     * Connection rejected
+     * Error tone
+     * Static burst
+
+3. DEEP_DIVE
+   - Usage: Deep Net diving
+   - Duration: 2-3 seconds
+   - Description: Entering deep Net
+   - Style: Digital immersion
+   - Mood: Risky, intense
+   - Elements:
+     * Consciousness transfer
+     * Reality dissolving
+     * Data enveloping
+
+================================================================================
+SOUND EFFECTS - IMPLANT
+================================================================================
+
+1. IMPLANT_GLITCH
+   - Usage: Implant malfunction
+   - Duration: 0.5-1 second
+   - Description: Neural implant error
+   - Style: Internal, in-head sound
+   - Mood: Unsettling, wrong
+   - Elements:
+     * Neural static
+     * Electrical misfire
+     * Internal buzzing
+
+2. IMPLANT_CRITICAL
+   - Usage: Implant at critical levels
+   - Duration: 1-2 seconds (periodic)
+   - Description: Warning alarm in head
+   - Style: Internal warning
+   - Mood: Urgent, frightening
+   - Elements:
+     * Heartbeat-like warning
+     * Digital alarm
+     * Distorted perception
+
+3. IMPLANT_DEATH
+   - Usage: Final implant shutdown
+   - Duration: 3-5 seconds
+   - Description: Consciousness fading
+   - Style: Powering down, fading
+   - Mood: Sad, final
+   - Elements:
+     * Systems failing
+     * Static increasing
+     * Silence approaching
+
+================================================================================
+SOUND EFFECTS - ENVIRONMENT
+================================================================================
+
+1. WIND_DUST
+   - Usage: Township wind
+   - Duration: Looping ambient
+   - Description: Wind through shacks
+   - Style: Gritty, dusty
+   - Elements:
+     * Wind through metal
+     * Dust particles
+     * Loose objects rattling
+
+2. CROWD_MURMUR
+   - Usage: Market, busy areas
+   - Duration: Looping ambient
+   - Description: Indistinct crowd
+   - Style: Township crowd
+   - Elements:
+     * Many voices (unintelligible)
+     * Various activities
+     * Life happening
+
+3. COOKING
+   - Usage: Food preparation areas
+   - Duration: Variable
+   - Description: Food cooking sounds
+   - Style: Open fire, camp stove
+   - Elements:
+     * Sizzling
+     * Pot bubbling
+     * Fire crackling
+
+4. GENERATOR
+   - Usage: Power generation
+   - Duration: Looping ambient
+   - Description: Generator running
+   - Style: Mechanical, constant
+   - Elements:
+     * Engine hum
+     * Occasional sputter
+     * Electrical buzz
+
+================================================================================
+SOUND EFFECTS - ITEMS
+================================================================================
+
+1. CREDCHIP_INSERT
+   - Usage: Using credchip
+   - Duration: 0.5 second
+   - Description: Card insertion sound
+   - Style: Electronic click
+
+2. CREDCHIP_TRANSACTION
+   - Usage: Credits transferred
+   - Duration: 0.5-1 second
+   - Description: Digital transaction
+   - Style: Digital chime
+
+3. ITEM_PICKUP
+   - Usage: Picking up items
+   - Duration: 0.5 second
+   - Description: Generic pickup sound
+   - Style: Satisfying click or whoosh
+
+4. NEURAL_CONNECT
+   - Usage: Jacking into deck
+   - Duration: 1 second
+   - Description: Neural interface connection
+   - Style: Digital/synaptic connection
+   - Elements:
+     * Physical click
+     * Neural hum
+     * Connection established
+
+================================================================================
+SOUND EFFECTS - MEMORIES/DREAMS
+================================================================================
+
+1. MEMORY_SURFACE
+   - Usage: Memory fragment appearing
+   - Duration: 1-2 seconds
+   - Description: Memory emerging
+   - Style: Ethereal, internal
+   - Mood: Haunting, meaningful
+   - Elements:
+     * Reality shifting
+     * Past bleeding through
+     * Emotional resonance
+
+2. DREAM_SEQUENCE
+   - Usage: Entering dream
+   - Duration: 2-3 seconds
+   - Description: Transition to dream
+   - Style: Surreal, slow
+   - Mood: Otherworldly
+
+3. DREAM_END
+   - Usage: Waking from dream
+   - Duration: 1-2 seconds
+   - Description: Dream fading
+   - Style: Reality returning
+   - Mood: Disorienting
+
+================================================================================
+VOICE AUDIO NOTES
+================================================================================
+
+The game uses text-based dialogue with internal voices. If voice acting is added:
+
+VOICE DIRECTION - THE HACKER
+----------------------------
+Tone: Analytical, curious, sometimes cold
+Pace: Quick, precise
+Quality: Slightly processed/digital edge
+Emotional range: Controlled, intellectual excitement
+
+VOICE DIRECTION - THE SURVIVOR
+------------------------------
+Tone: Wary, practical, sometimes paranoid
+Pace: Guarded, cautious
+Quality: Grittier, street-hardened
+Emotional range: Suspicious to protective
+
+VOICE DIRECTION - THE ANCESTOR
+------------------------------
+Tone: Patient, wise, poetic
+Pace: Slow, measured
+Quality: Warm, resonant, slightly reverbed
+Emotional range: Compassionate to stern
+
+VOICE DIRECTION - NPCS
+----------------------
+General direction: South African accents appropriate to characters
+- Mama Nomi: Warm, matronly, Xhosa-influenced
+- Tango: Technical, younger, urban
+- Silas: Hardened, guarded, resistance fighter
+- Street kids: Quick, youthful, street-wise
+
+================================================================================
+AUDIO IMPLEMENTATION NOTES
+================================================================================
+
+LAYERING SYSTEM:
+- Layer 1: Ambient sounds (continuous)
+- Layer 2: Music (situational)
+- Layer 3: Sound effects (event-triggered)
+
+TRANSITION RULES:
+- Music should fade between tracks (2 second crossfade)
+- Ambient sounds should persist across location changes when appropriate
+- Sound effects should always play immediately
+
+VOLUME LEVELS (relative):
+- Music: 60-80%
+- Ambient: 40-60%
+- Sound Effects: 100%
+- Voice (if added): 100%
+
+IMPLANT EFFECTS:
+- When implant is glitching, add subtle distortion to all audio
+- Critical implant state: periodic warning sound layered
+- Implant death: audio fade to static then silence
+
+================================================================================
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Format: OGG Vorbis or MP3
+Quality: 192kbps minimum for music, 128kbps for effects
+Sample Rate: 44.1kHz
+Channels: Stereo for music, mono acceptable for effects
+
+Loop Points: All ambient and music tracks should have clean loop points
+File Naming: lowercase_with_underscores
+
+================================================================================
+END OF AUDIO & SOUNDS DOCUMENT
+================================================================================

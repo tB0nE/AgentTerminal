@@ -1,0 +1,232 @@
+// INTRO SEQUENCE - Dunoon 2056
+// The player wakes up with amnesia and discovers their condition
+
+intro_start:
+    play music ambient_dunoon
+    play ambient amb_township 1
+    clear_dialog
+    "<span class='glitch'>SYSTEM ERROR. NEURAL ARCHIVE CORRUPTED. MEMORY SECTORS: OFFLINE.</span>"
+    clear_dialog
+    "<span class='glitch'>TIME TO TOTAL CASCADE FAILURE: 100 HOURS.</span>"
+    clear_dialog
+    "<span class='glitch'>RECOMMENDATION: SEEK IMMEDIATE MEDICAL ATTENTION.</span>"
+    clear_dialog
+    "<span class='glitch'>RECOMMENDATION: FIND OUT WHO YOU ARE BEFORE YOU DIE.</span>"
+    clear_dialog
+    run transition_instant shack_interior
+    "Pain. White hot. Blinding."
+    clear_dialog
+    "Your eyes snap open to a ceiling of corrugated iron, rust-stained and leaking thin beams of dusty light."
+    clear_dialog
+    "Someone is screaming. It takes you a moment to realize it's coming from inside your head."
+    clear_dialog
+    set data.intro.wokeUp true
+    jump intro_wake_choices
+
+intro_wake_choices:
+    clear_dialog
+    choice:
+        "Your skull feels like it's been cracked open and stitched back together with copper wire. Every thought sends lightning bolts through your synapses."
+        "[Try to remember something, anything]" if (!= $data.intro.triedRemember true):
+            set data.intro.triedRemember true
+            jump intro_try_remember
+        "[Check your body]" if (!= $data.intro.checkedBody true):
+            set data.intro.checkedBody true
+            jump intro_check_body
+        "[Listen to the screaming in your head]" if (!= $data.intro.metVoices true):
+            set data.intro.metVoices true
+            jump intro_meet_voices
+        "[Look around the shack]" if (!= $data.intro.lookedAround true):
+            set data.intro.lookedAround true
+            jump intro_look_around
+        "[Try to stand]" if (&& $data.intro.checkedBody $data.intro.metVoices $data.intro.lookedAround):
+            jump intro_stand_up
+
+intro_try_remember:
+    "You close your eyes and reach for something—a name, a face, a place that means something."
+    clear_dialog
+    "Nothing. Static. A corrupted data stream where your life should be."
+    clear_dialog
+    "Fragments flicker at the edges:"
+    clear_dialog
+    "The smell of roasting corn. Hands moving across a keyboard. A woman's laughter. Gunfire. The taste of dust."
+    clear_dialog
+    "But they're just fragments. Sensory ghosts. They slip away like water through your fingers."
+    clear_dialog
+    talk hacker internal "Memory's gone. wiped. But the skills are still here. Muscle memory doesn't need a name."
+    clear_dialog
+    jump intro_wake_choices
+
+intro_check_body:
+    "You take stock of yourself."
+    clear_dialog
+    "You're lying on a thin mattress on the floor. Your clothes are simple, worn—a t-shirt, cargo pants, boots that have seen better days."
+    clear_dialog
+    "Your hands... they're dark-skinned, calloused. The fingers are long, precise. Worker's hands. Or..."
+    clear_dialog
+    talk hacker internal "Hacker's hands. Look at those fine motor skills. You've spent years at a deck."
+    clear_dialog
+    "There's a scar running up your left forearm, old and healed. A tattoo on your right bicep—numbers, a date maybe, partially obscured by burn marks."
+    clear_dialog
+    "At the base of your skull, beneath your hairline, you feel a slight raised area. A neural implant port."
+    clear_dialog
+    "And it's hot. Too hot. Something's wrong with it."
+    clear_dialog
+    talk survivor internal "That implant is killing you. Slowly. You've got time, but not forever. That much is clear."
+    clear_dialog
+    jump intro_wake_choices
+
+intro_meet_voices:
+    "The screaming resolves into voices. Three of them, distinct, arguing inside your skull."
+    clear_dialog
+    talk survivor internal "—telling you, we need to move. Assess. Survive. We don't have time for—"
+    clear_dialog
+    talk hacker internal "—need to check the implant first! That's our only way out of this, our only way to understand what happened—"
+    clear_dialog
+    talk ancestor internal "Peace. Peace, both of you. The body is confused. The spirit is fragmented. We must be gentle."
+    clear_dialog
+    "They fall silent as you acknowledge them. You can feel them now—three presences coiled in different parts of your mind."
+    clear_dialog
+    "One is sharp, electric, constantly calculating. It sees patterns in everything."
+    clear_dialog
+    "One is wary, watchful, always scanning for threats and exits. It remembers pain and how to avoid it."
+    clear_dialog
+    "One is old, patient, carrying the weight of generations. It speaks in proverbs and intuition."
+    clear_dialog
+    choice:
+        "These are your voices. Your skills. Your fragmented self."
+        "[Acknowledge the Hacker]":
+            talk hacker internal "I'm your edge. Your technical knowledge. I know code, systems, the architecture of the Net. Whatever happened to us, the answers are in that implant."
+            add_level hacker 1
+        "[Acknowledge the Survivor]":
+            talk survivor internal "I'm your instincts. Your street smarts. I know how to read people, how to find food and shelter, how to stay alive when everything wants you dead."
+            add_level survivor 1
+        "[Acknowledge the Ancestor]":
+            talk ancestor internal "I am your memory of memory. The wisdom of those who came before. I carry what your people have always known—that survival is collective, that we are more than our suffering."
+            add_level ancestor 1
+    clear_dialog
+    jump intro_wake_choices
+
+intro_look_around:
+    "You force yourself to sit up, head spinning, and take in your surroundings."
+    clear_dialog
+    "You're in a shack. Maybe three meters by four. Walls of corrugated iron, wood scraps, and plastic sheeting. A roof that leaks."
+    clear_dialog
+    "This is someone's home. Maybe yours? There are signs of habitation—a camp stove, a bucket of water, a few cans of food, a sleeping roll."
+    clear_dialog
+    "In one corner, half-hidden under a tarp: a battered neural deck. Old model, but functional. A lifeline for someone who hacks for a living."
+    clear_dialog
+    "On the wall, a faded photograph of a woman. Middle-aged, kind-faced, wearing the bright patterns of West African cloth. Someone's mother, maybe."
+    clear_dialog
+    if (roll intro_look_ancestor ancestor 30):
+        talk ancestor internal "She looks like home. Whoever she is, she matters. Remember her face."
+    clear_dialog
+    "A single window, cracked and dirty, looks out over a maze of similar shacks stretching toward the distant glitter of skyscrapers."
+    clear_dialog
+    "Somewhere beyond those towers is the ocean. Here, there is only dust and poverty and the endless struggle to exist."
+    clear_dialog
+    jump intro_wake_choices
+
+intro_stand_up:
+    play sound clothing
+    "You stand. Your legs are shaky but they hold."
+    clear_dialog
+    "The voices in your head settle into a watchful silence."
+    clear_dialog
+    talk survivor internal "We need information. Who we are. Why someone wanted us dead. How much time we have left."
+    clear_dialog
+    talk hacker internal "The implant. It's dying, and it's taking us with it. We need to fix it or extract the data before it fails completely."
+    clear_dialog
+    talk ancestor internal "And we need community. No one survives alone. There are people out there who knew us, who might help us. We must find them."
+    clear_dialog
+    "One hundred hours. That's what the error message said. One hundred hours to find out who you are, what happened to you, and how to survive."
+    clear_dialog
+    choice:
+        "The countdown has begun."
+        "[Step outside] <span class='prompt'>[[BEGIN]]</span>":
+            play sound door_creak
+            set data.intro.leftShack true
+            start_quest main_story
+            jump intro_first_outside
+
+intro_first_outside:
+    stop ambient 1
+    play ambient amb_township_day 1
+    run transition shack_exterior
+    "The air hits you like a wall—heat, dust, the smell of cooking fires and unwashed bodies and something chemical from the distant industrial zone."
+    clear_dialog
+    "Dunoon stretches before you, a labyrinth of shacks and makeshift structures clinging to existence between the wine farms and the sea."
+    clear_dialog
+    "In the distance, the gleaming towers of Cape Town's wealthy suburbs catch the morning light. A different world. A different planet, almost."
+    clear_dialog
+    "Closer, you can see people beginning their day—women heading to work, children in threadbare uniforms walking to school, old men sitting on crates and watching everything with knowing eyes."
+    clear_dialog
+    "You are one of them. You are a ghost in your own life. And somewhere in this maze of poverty and survival is the key to who you are."
+    clear_dialog
+    "A sign on a nearby post, hand-painted: <span class='writtenText'>"MAMA NOMI'S PLACE - HOT FOOD - COLD DRINKS - NETWORK ACCESS"</span>"
+    clear_dialog
+    talk survivor internal "Network access. That's our first stop. We need to find out what's on that implant."
+    clear_dialog
+    jump intro_identity_choice
+
+intro_identity_choice:
+    clear_dialog
+    "Before you move forward, you catch a glimpse of yourself in a broken mirror someone has hung on their wall."
+    clear_dialog
+    "Who do you see?"
+    clear_dialog
+    choice:
+        "You see..."
+        "A young man with sharp features and close-cropped hair.":
+            set data.player.gender "man"
+            set data.identity.chosenGender true
+            "You see a young black man, maybe early twenties. Your features are sharp, angular—could be Malawian, could be Zimbabwean. Your eyes are hard, like you've seen too much."
+            jump intro_ancestry_choice
+        "A masculine woman with braided hair and a hard jaw.":
+            set data.player.gender "woman"
+            set data.identity.chosenGender true
+            "You see a young black woman, maybe early twenties. Your features are strong, masculine—your hair is braided close to your skull. Your eyes are hard, like you've seen too much."
+            jump intro_ancestry_choice
+
+intro_ancestry_choice:
+    clear_dialog
+    "There's something in your face that speaks of elsewhere. Your family came from..."
+    clear_dialog
+    choice:
+        "Your ancestors came from..."
+        "Malawi. The warm heart of Africa.":
+            set data.player.ancestry "malawian"
+            set data.identity.chosenAncestry true
+            "Malawi. You don't remember your family, but something in you knows the word, feels the connection to the lake and the warm heart of a land far from here."
+            add_level ancestor 1
+        "Nigeria. The giant of Africa.":
+            set data.player.ancestry "nigerian"
+            set data.identity.chosenAncestry true
+            "Nigeria. You don't remember your family, but something in you knows the word, feels the connection to the delta and the giant of a land far from here."
+            add_level ancestor 1
+        "Mozambique. The land of smiles.":
+            set data.player.ancestry "mozambican"
+            set data.identity.chosenAncestry true
+            "Mozambique. You don't remember your family, but something in you knows the word, feels the connection to the coast and the land of smiles far from here."
+            add_level ancestor 1
+        "Zimbabwe. The house of stone.":
+            set data.player.ancestry "zimbabwean"
+            set data.identity.chosenAncestry true
+            "Zimbabwe. You don't remember your family, but something in you knows the word, feels the connection to the great stone ruins and the house of stone far from here."
+            add_level ancestor 1
+    clear_dialog
+    talk ancestor internal "Wherever we came from, we are here now. And we will survive."
+    clear_dialog
+    set data.player.knowsIdentity true
+    jump intro_end
+
+intro_end:
+    clear_dialog
+    "100 hours. That's your countdown. Your death sentence, or your motivation."
+    clear_dialog
+    "Somewhere in this township is the truth. Somewhere in your broken implant is your past. Somewhere in this world is a future worth fighting for."
+    clear_dialog
+    "The sun is rising over Dunoon. Time to get to work."
+    clear_dialog
+    run transition_black game_map
+    jump game_map

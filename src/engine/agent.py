@@ -6,8 +6,10 @@ import traceback
 from fastapi import FastAPI, Request
 import uvicorn
 from src.engine.llm import APIHandler
-from tools.file_io import read_file, write_file, list_dir
+from tools.file_io import read_file, write_file, list_dir, copy_file, update_engine_registry
 from tools.research import web_search, fetch_url
+from tools.system import send_notification
+from tools.comfy_api import generate_art
 from src.utils.logger import log_debug, log_info, log_error
 from rich.console import Console
 from rich.panel import Panel
@@ -75,7 +77,11 @@ TOOL_DESCRIPTIONS = {
     "write_file": "write_file(path, content): Writes/overwrites a file.",
     "list_dir": "list_dir(directory): Lists items in a directory.",
     "web_search": "web_search(query): Searches the web.",
-    "fetch_url": "fetch_url(url): Reads text from a URL."
+    "fetch_url": "fetch_url(url): Reads text from a URL.",
+    "send_notification": "send_notification(message): Sends a desktop notification to the user.",
+    "generate_art": "generate_art(prompt, output_name): Requests an image generation from ComfyUI.",
+    "copy_file": "copy_file(src, dst): Copies a file from src to dst.",
+    "update_engine_registry": "update_engine_registry(): Automatically registers all .narrat files in the engine's script folder."
 }
 
 class ContextManager:
@@ -90,14 +96,11 @@ class ContextManager:
         """Constructs the full list of messages for the LLM API call."""
         dynamic_system = f"{self.system_prompt}\n\nCURRENT SCRATCHPAD:\n{self.scratchpad}"
         messages = [{"role": "system", "content": dynamic_system}]
-        
         recent_history = self.history[-(self.max_turns * 2):] if self.history else []
         messages.extend(recent_history)
-        
         if user_goal:
             msg = {"role": "user", "content": user_goal}
             messages.append(msg)
-            
         return messages
 
     def add_message(self, role: str, content: str):
@@ -131,8 +134,6 @@ class Agent:
         self.memory = ContextManager(sys_prompt)
         self.msg_queue = queue.Queue()
         self.is_working = False
-        
-        # New: Interrupt and Interjection support
         self.interrupt_flag = False
         self.interjection_queue = queue.Queue()
         
@@ -180,12 +181,10 @@ class Agent:
         self.save_persistence()
         
         while True:
-            # Check for hard interrupt
             if self.interrupt_flag:
                 self.log_ui("error", "Task interrupted by user.")
                 break
 
-            # Check for interjections (mid-loop messages)
             try:
                 while True:
                     inter = self.interjection_queue.get_nowait()
@@ -225,6 +224,10 @@ class Agent:
                     elif t_name == "list_dir" and "list_dir" in self.allowed_tools: result = list_dir(**t_args)
                     elif t_name == "web_search" and "web_search" in self.allowed_tools: result = web_search(**t_args)
                     elif t_name == "fetch_url" and "fetch_url" in self.allowed_tools: result = fetch_url(**t_args)
+                    elif t_name == "send_notification" and "send_notification" in self.allowed_tools: result = send_notification(**t_args)
+                    elif t_name == "generate_art" and "generate_art" in self.allowed_tools: result = generate_art(**t_args)
+                    elif t_name == "copy_file" and "copy_file" in self.allowed_tools: result = copy_file(**t_args)
+                    elif t_name == "update_engine_registry" and "update_engine_registry" in self.allowed_tools: result = update_engine_registry()
                     else:
                         result = f"Error: Tool {t_name} not found or not permitted for this agent."
                 except Exception as e:

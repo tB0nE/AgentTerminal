@@ -1,0 +1,325 @@
+================================================================================
+DUNOON 2056 - ART ASSET MASTER INDEX
+================================================================================
+
+Game: Dunoon 2056 - A Cyberpunk RPG
+Setting: Cape Town township, 2056
+Theme: Identity, survival, hope in the margins
+Style: African cyberpunk, township realism, noir atmosphere
+
+================================================================================
+ASSET OVERVIEW
+================================================================================
+
+TOTAL ASSETS IDENTIFIED:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CATEGORY                    │ COUNT    │ DOCUMENT                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Backgrounds                 │ 21       │ 01_backgrounds.txt               │
+│ Characters                  │ 25+      │ 02_characters.txt                │
+│ Props & Items               │ 60+      │ 03_props_items.txt               │
+│ Audio (Music/Effects)       │ 35+      │ 04_audio_sounds.txt              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+BACKGROUND IMAGES (01_backgrounds.txt)
+================================================================================
+
+MENU & TRANSITION:
+  1. title_screen         - Opening title with Dunoon at night
+  2. generic_black        - Transition/game over screen
+  3. transition           - Scene transition overlay
+  4. credits_screen       - End game credits
+
+DUNOON TOWNSHIP:
+  5. shack_exterior       - Player's home outside
+  6. shack_interior       - Player's home inside (4 time variants)
+  7. game_map_screen      - Township navigation map
+
+BUSINESS LOCATIONS:
+  8. mama_nomi_exterior   - Restaurant front
+  9. mama_nomi_interior   - Restaurant inside
+  10. tango_exterior      - Repair shop front
+  11. tango_interior      - Repair shop inside
+  12. net_cafe            - Internet cafe interior
+
+MARKET & COMMERCE:
+  13. market_day          - Township market scene
+
+COMMUNITY:
+  14. clinic              - Community health clinic
+
+MYSTERY LOCATIONS:
+  15. abandoned_lot       - Silas's meeting place
+  16. wine_farm_exterior  - Corporate farm entrance
+  17. wine_farm_lab       - Secret laboratory
+
+ENDGAME:
+  18. beach_sunset        - Ocean view at sunset
+  19. digital_void        - Transcendence ending
+  20. sunset_perfect      - True ending beach
+
+UI OVERLAYS:
+  21. implant_vision      - Memory/dream sequence overlay
+
+================================================================================
+CHARACTERS (02_characters.txt)
+================================================================================
+
+PLAYER CHARACTER:
+  - KUNDAY (2 gender variants, 4 ancestry variants)
+  - 8 expressions, 8 poses required
+  - 3 outfit variations
+
+INTERNAL VOICES (Abstract):
+  - The Hacker (digital, analytical)
+  - The Survivor (wary, street-smart)
+  - The Ancestor (wise, spiritual)
+  - Voices Unified (harmonized state)
+
+MAJOR NPCs:
+  - Mama Nomi (community elder, restaurant owner)
+  - Tango (tech fixer, implant specialist)
+  - Silas (resistance contact, former comrade)
+
+SECONDARY NPCs:
+  - The Herbalist (traditional medicine)
+  - The Tech Dealer (electronics vendor)
+  - The Fence (black market dealer)
+  - Net Cafe Owner (information source)
+  - The Doctor (clinic physician)
+  - The Nurse (clinic staff)
+  - Hacker NPC (Collective member)
+  - Collective Leader (resistance)
+  - Street Kids (information network)
+  - Guard (wine farm security)
+  - Patients (clinic victims)
+  - Worker (wine farm informant)
+
+MEMORY/DREAM CHARACTERS:
+  - Amina (the mother)
+  - Young Man (love interest)
+  - Lab Coat Figure (experimentation memory)
+
+COLLECTIVE PHOTO CHARACTERS:
+  - Young woman with cybernetic arms
+  - Older man with graying hair
+  - Teenager with nervous smile
+
+================================================================================
+PROPS & ITEMS (03_props_items.txt)
+================================================================================
+
+INVENTORY - EQUIPMENT:
+  - neural_deck          (hacking tool)
+  - credchip             (currency)
+  - shiv                 (weapon)
+  - toolkit              (repair tools)
+  - signal_booster       (range extender)
+  - ice_breaker          (hacking software)
+  - stims                (healing)
+  - lockpicks            (security bypass)
+  - fake_id              (identification)
+  - access_codes         (corporate entry)
+
+INVENTORY - CONSUMABLES:
+  - pain_meds            (herbal relief)
+  - sleep_aid            (rest tea)
+  - spirit_tonic         (mind clearer)
+
+INVENTORY - CLOTHING:
+  - armored_jacket       (protection)
+  - dark_clothes         (stealth)
+  - work_boots           (footwear)
+
+QUEST ITEMS:
+  - data_chip            (mysterious data)
+  - secret_photo         (Collective photo)
+  - wine_farm_map        (hand-drawn map)
+  - lazarus_files        (evidence)
+  - credchip_files       (hidden data)
+
+ENVIRONMENTAL PROPS:
+  - Home Shack: mattress, camp_stove, water_bucket, canned_food,
+    photograph, tarp, hidden_compartment, neural_implant_port
+  - Mama Nomi's: counter, plastic_tables, network_terminals, food_plate
+  - Tango's: workbench, electronic_debris, server_equipment
+  - Net Cafe: terminal_row, vending_machine
+  - Market: stalls (food, tech, clothes, herbalist), market_goods
+  - Clinic: examination_table, medical_equipment, waiting_bench
+  - Wine Farm: grape_vines, security_camera, guard_post, lab_equipment,
+    server_room, holding_cells
+  - Abandoned Lot: crate, incomplete_shacks, graffiti
+  - Beach: ocean, gray_sand, debris
+
+UNIVERSAL:
+  - power_lines, satellite_dish, neon_signs
+
+================================================================================
+AUDIO ASSETS (04_audio_sounds.txt)
+================================================================================
+
+MUSIC TRACKS (11):
+  1. title_theme          - Opening menu
+  2. ambient_dunoon       - Main exploration
+  3. dunoon_ambient       - Map screen
+  4. sacrifice_theme      - Sacrifice ending
+  5. revolution_theme     - Revolution ending
+  6. escape_theme         - Escape ending
+  7. transcendence_theme  - Transcendence ending
+  8. acceptance_theme     - Acceptance ending
+  9. whole_theme          - Secret ending
+  10. traitor_theme       - Bad ending
+  11. true_ending_theme   - True ending
+
+AMBIENT SOUNDSCAPES (9):
+  - amb_township          - General township
+  - amb_township_day      - Daytime variant
+  - amb_shack_interior    - Inside shack
+  - amb_market            - Market crowd
+  - amb_net_cafe          - Computer hum
+  - amb_clinic            - Medical facility
+  - amb_wine_farm         - Farm exterior
+  - amb_beach             - Ocean waves
+  - amb_digital_void      - Transcendence realm
+
+SOUND EFFECTS (20+):
+  Interface: static_burst, glitch_heavy, door_creak
+  Player: sleep, clothing
+  Hacking: hack_success, hack_fail, deep_dive
+  Implant: implant_glitch, implant_critical, implant_death
+  Environment: wind_dust, crowd_murmur, cooking, generator
+  Items: credchip_insert, credchip_transaction, item_pickup, neural_connect
+  Memory: memory_surface, dream_sequence, dream_end
+
+================================================================================
+PRIORITY ASSETS
+================================================================================
+
+CRITICAL (Game Cannot Function Without):
+  □ title_screen
+  □ shack_interior (with 4 time variants)
+  □ shack_exterior
+  □ game_map_screen
+  □ neural_deck icon
+  □ ambient_dunoon music
+  □ static_burst sound
+
+HIGH PRIORITY (Core Experience):
+  □ mama_nomi_exterior/interior
+  □ tango_exterior/interior
+  □ market_day
+  □ net_cafe
+  □ clinic
+  □ Kunday character (all variants)
+  □ The Hacker voice visual
+  □ The Survivor voice visual
+  □ The Ancestor voice visual
+  □ Mama Nomi character
+  □ Tango character
+  □ Silas character
+  □ All core inventory items
+  □ All ambient soundscapes
+
+MEDIUM PRIORITY (Complete Experience):
+  □ abandoned_lot
+  □ wine_farm_exterior
+  □ wine_farm_lab
+  □ beach_sunset
+  □ All secondary NPCs
+  □ Environmental props
+  □ All sound effects
+
+LOWER PRIORITY (Polish):
+  □ digital_void
+  □ sunset_perfect
+  □ credits_screen
+  □ implant_vision overlay
+  □ Memory/dream characters
+  □ Ending-specific music tracks
+
+================================================================================
+STYLE GUIDE SUMMARY
+================================================================================
+
+VISUAL STYLE:
+  - African cyberpunk aesthetic
+  - Township realism with futuristic elements
+  - Contrast: poverty vs. corporate wealth
+  - Colors: Earth tones + neon accents
+  - Mood: Gritty but hopeful
+
+KEY VISUAL CONTRASTS:
+  - Township warmth vs. Corporate coldness
+  - Makeshift construction vs. Pristine technology
+  - Community life vs. Isolation
+  - Dust and decay vs. Digital transcendence
+
+AUDIO STYLE:
+  - Electronic ambient with African influences
+  - Township soundscape authenticity
+  - Digital glitches for implant effects
+  - Emotional resonance in music
+
+================================================================================
+FILE ORGANIZATION
+================================================================================
+
+Recommended folder structure:
+
+project/
+├── art_reference/
+│   ├── 00_MASTER_INDEX.txt     (this file)
+│   ├── 01_backgrounds.txt
+│   ├── 02_characters.txt
+n│   ├── 03_props_items.txt
+│   └── 04_audio_sounds.txt
+│
+├── assets/
+│   ├── backgrounds/
+│   │   ├── menu/
+│   │   ├── township/
+│   │   ├── locations/
+│   │   └── endgame/
+│   ├── characters/
+│   │   ├── player/
+│   │   ├── voices/
+│   │   ├── major_npcs/
+│   │   └── secondary_npcs/
+│   ├── props/
+│   │   ├── inventory/
+│   │   ├── environmental/
+│   │   └── quest_items/
+│   └── audio/
+│       ├── music/
+│       ├── ambient/
+│       └── sfx/
+
+================================================================================
+SCRIPTS ANALYZED
+================================================================================
+
+Source files read for asset extraction:
+  ✓ main.narrat          - Game initialization, variables
+  ✓ intro.narrat         - Opening sequence, identity choice
+  ✓ home_shack.narrat    - Player home, memories, meditation
+  ✓ dunoon_township.narrat - All township locations
+  ✓ endings.narrat       - All 7 endings
+  ✓ voices.narrat        - Internal voice system
+  ✓ game_functions.narrat - Utility functions, transitions
+  ✓ game_map.narrat      - Navigation, location system
+
+================================================================================
+REVISION HISTORY
+================================================================================
+
+Version 1.0 - Initial extraction complete
+  - All scripts analyzed
+  - All asset categories documented
+  - Priority levels assigned
+  - Style guide established
+
+================================================================================
+END OF MASTER INDEX
+================================================================================

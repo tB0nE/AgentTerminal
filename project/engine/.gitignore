@@ -1,0 +1,10 @@
+.build
+build
+web_modules
+node_modules
+out/
+out-steam/
+build/
+dist/
+steamworks_sdk_162
+steamworks_sdk_161

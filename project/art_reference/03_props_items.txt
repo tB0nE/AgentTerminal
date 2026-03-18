@@ -1,0 +1,1030 @@
+================================================================================
+ART REFERENCE: PROPS & ITEMS - DUNOON 2056
+================================================================================
+
+This document contains all required props and items for the game.
+Items are categorized by function: Inventory, Environment, Interactive.
+
+================================================================================
+INVENTORY ITEMS - EQUIPMENT
+================================================================================
+
+NEURAL DECK
+-----------
+Description: Essential hacking tool, player's primary equipment
+First Appearance: Found in shack or purchased from Tango
+
+Visual Design:
+  - Form factor: Tablet-sized device, battered but functional
+  - Age: Old model, well-used
+  - Dimensions: Approximately 25cm x 15cm x 3cm
+  - Materials: Metal casing with exposed circuitry
+  - Color scheme: Gunmetal gray, copper accents, glowing indicator lights
+  - Details:
+    * Screen (cracked but working)
+    * Cable port for neural connection
+    * Antenna or signal extension
+    * Wear marks showing heavy use
+    * Custom modifications (hacker's personal touches)
+    * Stickers or scratches from previous owner
+
+States:
+  1. Idle (screen off, indicator light)
+  2. Active (screen glowing, data visible)
+  3. Connected (cable attached, active hacking)
+  4. Damaged (optional variant)
+
+View: Icon for inventory, possibly larger view when examining
+
+--------------------------------------------------------------------------------
+
+CREDCHIP
+--------
+Description: Digital currency storage device
+First Appearance: Found in shack or various locations
+
+Visual Design:
+  - Form factor: Credit card sized chip
+  - Dimensions: Standard credit card size, slightly thicker
+  - Materials: Plastic with embedded electronics
+  - Color scheme: Black with gold contact strip
+  - Details:
+    * Holographic security strip
+    * Digital display showing balance (optional)
+    * Corporate bank logo
+    * Worn edges from use
+
+States:
+  1. Standard view
+  2. Inserted in terminal (optional)
+
+--------------------------------------------------------------------------------
+
+SHIV
+----
+Description: Improvised weapon, basic protection
+First Appearance: Found in hidden compartment
+
+Visual Design:
+  - Form factor: Makeshift knife
+  - Length: Approximately 15-20cm total
+  - Materials: Scrap metal blade, wrapped handle
+  - Color scheme: Dull metal, cloth/tape handle
+  - Details:
+    * Improvised construction
+    * Sharp edge visible
+    * Wrapped handle (cloth, tape, or leather strips)
+    * Well-maintained edge (cared for)
+    * Worn but functional
+
+States:
+  1. Standard view
+  2. Equipped/held (optional)
+
+--------------------------------------------------------------------------------
+
+TOOLKIT
+-------
+Description: Basic repair tools
+First Appearance: Purchased from tech dealer at market
+
+Visual Design:
+  - Form factor: Small tool roll or box
+  - Materials: Canvas roll or metal case
+  - Color scheme: Oil-stained, worn
+  - Details:
+    * Screwdrivers
+    * Wire cutters
+    * Soldering iron
+    * Various small tools
+    * Organized but well-used
+
+--------------------------------------------------------------------------------
+
+SIGNAL BOOSTER
+--------------
+Description: Extends neural deck range
+First Appearance: Purchased from tech dealer at market
+
+Visual Design:
+  - Form factor: Small antenna device
+  - Materials: Metal and plastic
+  - Color scheme: Black with indicator lights
+  - Details:
+    * Extendable antenna
+    * Connection port for deck
+    * Signal strength indicators
+    * Portable, clip-on design
+
+--------------------------------------------------------------------------------
+
+ICE BREAKER SOFTWARE
+--------------------
+Description: Hacking enhancement software
+First Appearance: Purchased from Tango
+
+Visual Design:
+  - Form factor: Data chip/cartridge
+  - Materials: Plastic case with visible circuitry
+  - Color scheme: Distinctive color (red or orange)
+  - Details:
+    * Software label
+    * Version number
+    * Corporate or independent developer mark
+    * Digital pattern on surface
+
+--------------------------------------------------------------------------------
+
+STIMS / MEDICAL STIMS
+---------------------
+Description: Emergency healing patches
+First Appearance: Purchased from Tango or clinic
+
+Visual Design:
+  - Form factor: Adhesive patches
+  - Materials: Medical-grade synthetic
+  - Color scheme: White with red medical cross
+  - Details:
+    * Sterile packaging
+    * Activation indicator
+    * Medical symbols
+    * Single-use appearance
+
+States:
+  1. Package (unused)
+  2. Applied (on skin - optional)
+
+--------------------------------------------------------------------------------
+
+LOCKPICKS
+---------
+Description: Physical security bypass tools
+First Appearance: Purchased from fence at market
+
+Visual Design:
+  - Form factor: Set of thin metal tools
+  - Materials: Steel
+  - Color scheme: Metallic, oil-stained
+  - Details:
+    * Various pick shapes
+    * Tension wrench
+    * Carrying case or roll
+    * Professional quality
+
+--------------------------------------------------------------------------------
+
+FAKE ID
+-------
+Description: Forgery for identification
+First Appearance: Purchased from fence at market
+
+Visual Design:
+  - Form factor: ID card
+  - Materials: Plastic card
+  - Color scheme: Official-looking but slightly off
+  - Details:
+    * Photo placeholder
+    * Fake official seals
+    * Holographic strip (lower quality)
+    * Signs of forgery visible on close inspection
+
+--------------------------------------------------------------------------------
+
+ACCESS CODES
+------------
+Description: Stolen corporate building codes
+First Appearance: Purchased from fence at market
+
+Visual Design:
+  - Form factor: Data chip or printed note
+  - Color scheme: Corporate branding
+  - Details:
+    * Serial numbers
+    * Expiration date
+    * Corporate logo
+    * "Authorized Personnel" marking
+
+================================================================================
+INVENTORY ITEMS - CONSUMABLES
+================================================================================
+
+PAIN MEDS
+---------
+Description: Herbal pain relief
+First Appearance: Purchased from herbalist at market
+
+Visual Design:
+  - Form factor: Pouch of dried herbs
+  - Materials: Cloth pouch
+  - Color scheme: Natural, earth tones
+  - Details:
+    * Dried plant material visible
+    * Hand-labeled
+    * Tied closure
+
+--------------------------------------------------------------------------------
+
+SLEEP AID
+---------
+Description: Herbal tea for rest
+First Appearance: Purchased from herbalist at market
+
+Visual Design:
+  - Form factor: Pouch of tea
+  - Materials: Cloth pouch
+  - Color scheme: Natural, earth tones
+  - Details:
+    * Dried tea leaves visible
+    * Hand-labeled
+    * Soothing imagery
+
+--------------------------------------------------------------------------------
+
+SPIRIT TONIC
+------------
+Description: Mind-clearing traditional medicine
+First Appearance: Purchased from herbalist at market
+
+Visual Design:
+  - Form factor: Small bottle of liquid
+  - Materials: Glass bottle with cork
+  - Color scheme: Amber liquid
+  - Details:
+    * Traditional markings
+    * Bitter appearance
+    * Herbal sediment
+
+--------------------------------------------------------------------------------
+
+ARMORED JACKET
+--------------
+Description: Protective clothing
+First Appearance: Purchased from clothes vendor at market
+
+Visual Design:
+  - Form factor: Jacket with hidden reinforcement
+  - Materials: Fabric with armored lining
+  - Color scheme: Dark, nondescript
+  - Details:
+    * Reinforced panels visible on close inspection
+    * Multiple pockets
+    * Worn appearance
+    * Practical design
+
+View: Inventory icon, possibly character overlay when equipped
+
+--------------------------------------------------------------------------------
+
+DARK CLOTHES
+------------
+Description: Stealth-oriented clothing
+First Appearance: Purchased from clothes vendor at market
+
+Visual Design:
+  - Form factor: Simple dark outfit
+  - Materials: Practical fabric
+  - Color scheme: Black/dark gray
+  - Details:
+    * Blending design
+    * No distinguishing marks
+    * Practical fit
+
+--------------------------------------------------------------------------------
+
+WORK BOOTS
+----------
+Description: Sturdy footwear
+First Appearance: Purchased from clothes vendor at market
+
+Visual Design:
+  - Form factor: Heavy work boots
+  - Materials: Leather and rubber
+  - Color scheme: Brown or black
+  - Details:
+    * Steel toe visible
+    * Worn soles
+    * Practical design
+    * Well-worn
+
+================================================================================
+INVENTORY ITEMS - QUEST ITEMS
+================================================================================
+
+DATA_CHIP
+---------
+Description: Mysterious data storage
+First Appearance: Found in shack hidden compartment
+
+Visual Design:
+  - Form factor: Small data chip
+  - Materials: Plastic and metal
+  - Color scheme: Unmarked, mysterious
+  - Details:
+    * Label worn away
+    * Unknown contents
+    * Encrypted appearance
+    * Slightly damaged
+
+--------------------------------------------------------------------------------
+
+SECRET_PHOTO (COLLECTIVE PHOTO)
+------------------------------
+Description: Photo of player with Netrunner Collective
+First Appearance: Found in shack hidden compartment
+
+Visual Design:
+  - Form factor: Photograph
+  - Dimensions: Standard photo size
+  - Condition: Slightly worn but clear
+  - Details:
+    * Four people visible:
+      - Player (recognizable)
+      - Young woman with cybernetic arms
+      - Older man with graying hair
+      - Teenager with nervous smile
+    * Group pose, comrades
+    * Background: Township or safehouse
+  - Back:
+    * Handwritten: "The Collective. We fight together."
+
+--------------------------------------------------------------------------------
+
+WINE_FARM_MAP
+-------------
+Description: Hand-drawn map of wine farms
+First Appearance: Found during shack search
+
+Visual Design:
+  - Form factor: Hand-drawn paper map
+  - Materials: Scrap paper
+  - Color scheme: Pencil or pen on paper
+  - Details:
+    * Rough sketch of farm layout
+    * One building circled in red
+    * Notes in handwriting
+    * Folded, carried
+
+--------------------------------------------------------------------------------
+
+LAZARUS_FILES
+-------------
+Description: Evidence of Project Lazarus experiments
+First Appearance: Downloaded from wine farm servers
+
+Visual Design:
+  - Form factor: Data files (visible on neural deck)
+  - Color scheme: Digital display
+  - Details:
+    * File list visible
+    * Project Lazarus header
+    * Classified markings
+    * Subject names, dates, locations
+
+Visual representation: May show as file folder or data chip icon
+
+--------------------------------------------------------------------------------
+
+CREDCHIP_FILES
+--------------
+Description: Hidden files on purchased credchip
+First Appearance: Found when buying used credchip
+
+Visual Design:
+  - Same as credchip but with "hidden data" indicator
+  - May show cracking/decryption progress
+
+================================================================================
+ENVIRONMENTAL PROPS - HOME SHACK
+================================================================================
+
+MATTRESS
+--------
+Description: Thin sleeping mattress
+Location: Shack floor
+
+Visual Design:
+  - Form factor: Thin mattress on floor
+  - Materials: Foam or thin padding
+  - Color scheme: Stained, worn
+  - Details:
+    * Thin, minimal comfort
+    * Well-used
+    * Simple blanket
+    * Floor visible around edges
+
+--------------------------------------------------------------------------------
+
+CAMP_STOVE
+----------
+Description: Simple cooking equipment
+Location: Shack corner
+
+Visual Design:
+  - Form factor: Portable camp stove
+  - Materials: Metal
+  - Color scheme: Blackened from use
+  - Details:
+    * Small fuel canister
+    * Simple pot or pan nearby
+    * Well-used
+
+--------------------------------------------------------------------------------
+
+WATER_BUCKET
+------------
+Description: Water storage
+Location: Shack corner
+
+Visual Design:
+  - Form factor: Plastic bucket
+  - Materials: Plastic
+  - Color scheme: Faded, stained
+  - Details:
+    * Water visible inside
+    * Ladle or cup nearby
+    * Daily use wear
+
+--------------------------------------------------------------------------------
+
+CANNED_FOOD
+-----------
+Description: Food supplies
+Location: Shack shelf
+
+Visual Design:
+  - Form factor: Canned goods
+  - Materials: Metal cans
+  - Color scheme: Various labels
+  - Details:
+    * Few cans
+    * Basic supplies
+    * Stack or arrangement
+
+--------------------------------------------------------------------------------
+
+PHOTOGRAPH (AMINA)
+------------------
+Description: Faded photo of woman on wall
+Location: Shack wall
+
+Visual Design:
+  - Form factor: Photograph in simple frame or pinned
+  - Condition: Faded, aged
+  - Details:
+    * Woman: Middle-aged, kind-faced
+    * West African cloth patterns
+    * Motherly appearance
+  - Back (when examined):
+    * "My Amina. Forever in my heart."
+
+States:
+  1. On wall (distant view)
+  2. Close-up (examining)
+  3. Back view (reading inscription)
+
+--------------------------------------------------------------------------------
+
+TARP
+----
+Description: Covering for hidden neural deck
+Location: Shack corner
+
+Visual Design:
+  - Form factor: Tarp or cloth covering
+  - Materials: Plastic or canvas
+  - Color scheme: Faded, dirty
+  - Details:
+    * Partially covering deck
+    * Dusty
+    * Makeshift concealment
+
+--------------------------------------------------------------------------------
+
+HIDDEN_COMPARTMENT
+------------------
+Description: Secret storage under floorboard
+Location: Shack floor
+
+Visual Design:
+  - Form factor: Loose floorboard revealing space
+  - Details:
+    * Small cache space
+    * Contains: credchip, shiv, data chip, photo
+    * Concealed when closed
+    * Obvious when discovered
+
+States:
+  1. Closed (hidden)
+  2. Open (revealing contents)
+
+--------------------------------------------------------------------------------
+
+NEURAL_IMPLANT_PORT
+-------------------
+Description: Neural interface at base of skull
+Location: On player character
+
+Visual Design:
+  - Form factor: Small port/jack
+  - Materials: Metal and synthetic
+  - Color scheme: Metallic with indicator light
+  - Details:
+    * Located at base of skull
+    * Slight raised area visible
+    * Port for cable connection
+    * Glowing/hot when malfunctioning
+
+States:
+  1. Normal
+  2. Overheating (red glow)
+  3. Glitching (flickering)
+
+================================================================================
+ENVIRONMENTAL PROPS - MAMA NOMI'S PLACE
+================================================================================
+
+COUNTER
+-------
+Description: Service counter
+Location: Mama Nomi's interior
+
+Visual Design:
+  - Form factor: Long service counter
+  - Materials: Wood, worn surface
+  - Details:
+    * Food service area
+    * Kitchen visible behind
+    * Well-worn surface
+
+--------------------------------------------------------------------------------
+
+PLASTIC_TABLES
+--------------
+Description: Seating for customers
+Location: Mama Nomi's interior
+
+Visual Design:
+  - Form factor: Simple plastic tables and chairs
+  - Color scheme: Various faded colors
+  - Details:
+    * Mismatched set
+    * Well-used
+    * Community gathering space
+
+--------------------------------------------------------------------------------
+
+NETWORK_TERMINALS
+-----------------
+Description: Bank of old computers
+Location: Mama Nomi's corner
+
+Visual Design:
+  - Form factor: Row of old terminals
+  - Materials: Mixed old computers
+  - Color scheme: Beige, gray (retro tech)
+  - Details:
+    * CRT monitors or old flat screens
+    * Keyboards worn from use
+    * Cables running along ceiling
+    * Mesh network setup visible
+
+--------------------------------------------------------------------------------
+
+FOOD_PLATE
+----------
+Description: Pap and stew
+Location: Served at Mama Nomi's
+
+Visual Design:
+  - Form factor: Plate of South African food
+  - Details:
+    * Pap (maize porridge)
+    * Stew with vegetables/meat
+    * Simple but filling appearance
+    * Steam rising
+
+================================================================================
+ENVIRONMENTAL PROPS - TANGO'S SHOP
+================================================================================
+
+WORKBENCH
+---------
+Description: Main work surface
+Location: Tango's interior
+
+Visual Design:
+  - Form factor: Large workbench
+  - Materials: Metal with wooden top
+  - Details:
+    * Covered in tools and parts
+    * Good lighting
+    * Current project visible
+    * Organized chaos
+
+--------------------------------------------------------------------------------
+
+ELECTRONIC_DEBRIS
+-----------------
+Description: Scavenged tech parts
+Location: Tango's interior and exterior
+
+Visual Design:
+  - Various forms:
+    * Old phones
+    * Broken screens
+    * Tangled cables
+    * Circuit boards
+    * Server components
+  - Color scheme: Mixed tech colors
+  - Details:
+    * Piled haphazardly
+    * Some valuable parts visible
+    * Tech scavenger aesthetic
+
+--------------------------------------------------------------------------------
+
+SERVER_EQUIPMENT
+----------------
+Description: Old server racks
+Location: Tango's interior
+
+Visual Design:
+  - Form factor: Server rack or stack
+  - Details:
+    * Old but functional
+    * Blinking lights
+    * Cooling fans
+    * Network cables
+
+================================================================================
+ENVIRONMENTAL PROPS - NET CAFE
+================================================================================
+
+TERMINAL_ROW
+------------
+Description: Rows of computer terminals
+Location: Net cafe interior
+
+Visual Design:
+  - Form factor: Multiple terminals in rows
+  - Details:
+    * Old computers
+    * Cramped spacing
+    * People hunched over screens
+    * Dim lighting
+    * Screen glow
+
+--------------------------------------------------------------------------------
+
+VENDING_MACHINE
+---------------
+Description: Beverage dispenser
+Location: Net cafe corner
+
+Visual Design:
+  - Form factor: Vending machine
+  - Details:
+    * Old, sometimes working
+    * Energy drinks, water
+    * Graffiti
+    * Payment slot
+
+================================================================================
+ENVIRONMENTAL PROPS - MARKET
+================================================================================
+
+STALLS
+------
+Description: Various vendor stalls
+Location: Market
+
+Types:
+1. FOOD_STALL
+   - Steam trays
+   - Cooking equipment
+   - Simple awning
+
+2. TECH_STALL
+   - Electronics display
+   - Scavenged goods
+   - Suspicious dealer
+
+3. CLOTHES_STALL
+   - Hanging garments
+   - Second-hand clothes
+   - Rug or tarp display
+
+4. HERBALIST_STALL
+   - Jars and pouches
+   - Dried plants
+   - Traditional medicines
+   - Mystical atmosphere
+
+--------------------------------------------------------------------------------
+
+MARKET_GOODS
+------------
+Description: Various items for sale
+
+Items:
+- Clothing on hangers
+- Electronics on tables
+- Food in displays
+- Tools arranged
+- Blankets spread with goods
+
+================================================================================
+ENVIRONMENTAL PROPS - CLINIC
+================================================================================
+
+EXAMINATION_TABLE
+-----------------
+Description: Medical examination surface
+Location: Clinic
+
+Visual Design:
+  - Form factor: Medical table
+  - Materials: Metal frame, cushioned top
+  - Details:
+    * Worn but clean
+    * Paper roll holder
+    * Medical equipment nearby
+
+--------------------------------------------------------------------------------
+
+MEDICAL_EQUIPMENT
+-----------------
+Description: Clinic supplies
+Location: Clinic
+
+Items:
+- Blood pressure cuff
+- Stethoscope
+- Medical charts
+- Medicine cabinet
+- IV stand
+- Basic surgical tools
+
+--------------------------------------------------------------------------------
+
+WAITING_BENCH
+-------------
+Description: Seating for patients
+Location: Clinic waiting area
+
+Visual Design:
+  - Form factor: Simple bench seating
+  - Details:
+    * Full of waiting people
+    * Worn surface
+    * Medical posters on wall behind
+
+================================================================================
+ENVIRONMENTAL PROPS - WINE FARM
+================================================================================
+
+GRAPE_VINES
+-----------
+Description: Vineyard rows
+Location: Wine farm exterior
+
+Visual Design:
+  - Form factor: Endless rows of vines
+  - Details:
+    * Organized rows
+    * Grapes visible
+    * Well-maintained
+    * Workers visible
+
+--------------------------------------------------------------------------------
+
+SECURITY_CAMERA
+---------------
+Description: Surveillance equipment
+Location: Wine farm
+
+Visual Design:
+  - Form factor: Mounted camera
+  - Details:
+    * Motion tracking
+    * Red indicator light
+    * Corporate branding
+    * Multiple visible
+
+--------------------------------------------------------------------------------
+
+GUARD_POST
+----------
+Description: Security checkpoint
+Location: Wine farm entrance
+
+Visual Design:
+  - Form factor: Guard booth
+  - Details:
+    * Security equipment
+    * Barrier arm
+    * ID scanner
+    * Armed guard
+
+--------------------------------------------------------------------------------
+
+LAB_EQUIPMENT
+-------------
+Description: Experimentation apparatus
+Location: Wine farm lab (interior)
+
+Visual Design:
+  - Various items:
+    * Surgical tables
+    * Neural interface equipment
+    * Monitoring screens
+    * Medical supplies
+    * Restraint equipment
+    * Sterile environment
+
+--------------------------------------------------------------------------------
+
+SERVER_ROOM
+-----------
+Description: Project Lazarus data hub
+Location: Wine farm main building
+
+Visual Design:
+  - Form factor: Room full of servers
+  - Details:
+    * Rack servers
+    * Cooling systems
+    * Blinking lights
+    * Central hub appearance
+    * High security
+
+--------------------------------------------------------------------------------
+
+HOLDING_CELLS
+-------------
+Description: Prisoner containment
+Location: Wine farm outbuildings
+
+Visual Design:
+  - Form factor: Crude cells
+  - Details:
+    * Heavy locks
+    * Scratched walls
+    * Messages scratched in
+    * Recently used
+    * Empty but ominous
+
+Important detail: Message "KUNDAI WAS HERE" scratched in wall
+
+================================================================================
+ENVIRONMENTAL PROPS - ABANDONED LOT
+================================================================================
+
+CRATE
+-----
+Description: Where Silas sits
+Location: Abandoned lot
+
+Visual Design:
+  - Form factor: Wooden or plastic crate
+  - Details:
+    * Weathered
+    * Makeshift seat
+    * Mobile (ready to move)
+
+--------------------------------------------------------------------------------
+
+INCOMPLETE_SHACKS
+-----------------
+Description: Partially built structures
+Location: Abandoned lot
+
+Visual Design:
+  - Form factor: Shack frames, partial walls
+  - Details:
+    * Construction in progress
+    * Abandoned appearance
+    * Building materials scattered
+
+--------------------------------------------------------------------------------
+
+GRAFFITI
+--------
+Description: Wall art
+Location: Abandoned lot
+
+Visual Design:
+  - Various designs:
+    * Political messages
+    * Resistance symbols
+    * Circuit patterns
+    * Names and marks
+
+================================================================================
+ENVIRONMENTAL PROPS - BEACH
+================================================================================
+
+OCEAN
+-----
+Description: Atlantic ocean view
+Location: Beach
+
+Visual Design:
+  - Form factor: Endless water
+  - Details:
+    * Waves lapping shore
+    * Pollution visible (subtle)
+    * Distant wealthy shore
+    * Setting sun reflection
+
+--------------------------------------------------------------------------------
+
+GRAY_SAND
+---------
+Description: Polluted beach sand
+Location: Beach
+
+Visual Design:
+  - Form factor: Beach sand
+  - Color: Gray rather than white
+  - Details:
+    * Debris scattered
+    * Wreckage
+    * Footprints
+    * Despite pollution, somehow beautiful
+
+--------------------------------------------------------------------------------
+
+DEBRIS
+------
+Description: Beach wreckage
+Location: Beach
+
+Visual Design:
+  - Various items:
+    * Driftwood
+    * Plastic waste
+    * Fishing equipment
+    * Wreckage
+
+================================================================================
+UNIVERSAL PROPS
+================================================================================
+
+POWER_LINES
+-----------
+Description: Electrical infrastructure
+Location: Throughout township
+
+Visual Design:
+  - Form factor: Overhead cables
+  - Details:
+    * Haphazard connections
+    * Illegal taps visible
+    * Wooden posts
+    * Necessary infrastructure
+
+--------------------------------------------------------------------------------
+
+SATELLITE_DISH
+--------------
+Description: Network connectivity
+Location: Various buildings
+
+Visual Design:
+  - Form factor: Mounted satellite dish
+  - Details:
+    * Makeshift mounting
+    * Various sizes
+    * Essential for connectivity
+
+--------------------------------------------------------------------------------
+
+NEON_SIGNS
+----------
+Description: Business signage
+Location: Various businesses
+
+Visual Design:
+  - Various designs:
+    * Hand-painted signs
+    * Flickering neon
+    * Make-do aesthetic
+    * Multiple languages
+
+================================================================================
+TECHNICAL SPECIFICATIONS
+================================================================================
+
+Format: PNG with alpha channel where needed
+Resolution: Varies by use
+  - Inventory icons: 64x64 or 128x128 pixels
+  - Environmental props: Scale appropriate to backgrounds
+  - Examined items: 500x500 pixels or larger
+
+Style: Consistent with game's cyberpunk township aesthetic
+Detail Level: High for examined items, appropriate for environmental use
+
+================================================================================
+END OF PROPS & ITEMS DOCUMENT
+================================================================================
