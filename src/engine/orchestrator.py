@@ -15,12 +15,12 @@ class Orchestrator:
         self.running = True
         self.load_agents()
         
-        # Background worker thread: continuously polls all agents for work
+        # Background worker thread
         self.worker_thread = threading.Thread(target=self._worker_loop, daemon=True)
         self.worker_thread.start()
 
     def load_agents(self):
-        """Discovers and instantiates all agents defined by JSON files in the agents/ directory."""
+        """Discovers and instantiates all agents defined by JSON files."""
         self.agents.clear()
         if not os.path.exists(self.agents_dir):
             return
@@ -34,31 +34,38 @@ class Orchestrator:
 
     def send_message(self, sender: str, target: str, message: str):
         """
-        Directly injects a message into a specific agent's queue.
-        Used for user interaction, inter-agent delegation, and external API calls.
+        Pushes a message to the target agent's queue.
+        If the agent is already working, this acts as an 'Interjection'.
         """
         agent = self.get_agent(target)
         if agent:
-            agent.msg_queue.put({"sender": sender, "message": message})
+            if agent.is_working:
+                # Direct interjection into the current loop's memory
+                agent.interjection_queue.put({"sender": sender, "message": message})
+            else:
+                # Standard task queue
+                agent.msg_queue.put({"sender": sender, "message": message})
+            return True
+        return False
+
+    def stop_agent(self, name: str):
+        """Sets an interrupt flag for the specified agent."""
+        agent = self.get_agent(name)
+        if agent:
+            agent.interrupt_flag = True
             return True
         return False
 
     def _worker_loop(self):
-        """
-        Main background loop that gives CPU time to each agent.
-        If an agent has items in its queue, it will start its ReAct cycle.
-        """
+        """Background loop to process agent tasks."""
         while self.running:
             did_work = False
-            # Iterate through all loaded agents and see if they have pending tasks
             for agent in self.agents.values():
                 if agent.process_queue():
                     did_work = True
             
-            # Prevent high CPU usage when no work is pending
             if not did_work:
                 time.sleep(0.5)
 
     def shutdown(self):
-        """Stops the background worker thread."""
         self.running = False

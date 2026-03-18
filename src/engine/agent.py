@@ -34,7 +34,7 @@ def start_server():
     from config.settings import SERVER_PORT
     uvicorn.run(app, host="127.0.0.1", port=SERVER_PORT, log_level="error")
 
-# The core prompt template that defines the agent's behavior and JSON-only response format
+# The core prompt template
 BASE_SYSTEM_PROMPT = """You are {name}, a specialized AI agent.
 Your Role: {role}
 
@@ -70,7 +70,6 @@ AVAILABLE TOOLS:
 
 Always use 'thought' to explain your plan before using a tool."""
 
-# Mapping of tool names to their expected arguments for the prompt
 TOOL_DESCRIPTIONS = {
     "read_file": "read_file(path): Returns content of a file.",
     "write_file": "write_file(path, content): Writes/overwrites a file.",
@@ -81,10 +80,10 @@ TOOL_DESCRIPTIONS = {
 
 class ContextManager:
     """Manages the conversation history and sliding window for an agent."""
-    def __init__(self, system_prompt: str, max_turns: int = 10):
+    def __init__(self, system_prompt: str, max_turns: int = 15):
         self.system_prompt = system_prompt
         self.max_turns = max_turns
-        self.history = [] # List of {"role": "...", "content": "..."}
+        self.history = []
         self.scratchpad = "No current goal set."
 
     def get_full_prompt(self, user_goal: str = None) -> list:
@@ -92,7 +91,6 @@ class ContextManager:
         dynamic_system = f"{self.system_prompt}\n\nCURRENT SCRATCHPAD:\n{self.scratchpad}"
         messages = [{"role": "system", "content": dynamic_system}]
         
-        # Sliding window: keep only the most recent N turns (user + assistant)
         recent_history = self.history[-(self.max_turns * 2):] if self.history else []
         messages.extend(recent_history)
         
@@ -110,10 +108,6 @@ class ContextManager:
         return "Scratchpad updated."
 
 class Agent:
-    """
-    An autonomous worker that follows the ReAct pattern.
-    Processes tasks from a queue and executes tools until a final answer is reached.
-    """
     def __init__(self, config_path: str, orchestrator):
         with open(config_path, 'r') as f:
             self.config = json.load(f)
@@ -123,7 +117,6 @@ class Agent:
         self.allowed_tools = self.config.get("tools", [])
         self.orchestrator = orchestrator
         
-        # Format tools list for the system prompt with descriptions
         tools_list_items = []
         for t in self.allowed_tools:
             if t in TOOL_DESCRIPTIONS:
@@ -139,40 +132,33 @@ class Agent:
         self.msg_queue = queue.Queue()
         self.is_working = False
         
-        # Persistent storage paths
+        # New: Interrupt and Interjection support
+        self.interrupt_flag = False
+        self.interjection_queue = queue.Queue()
+        
         self.log_path = f"logs/{self.name}_ui.json"
         self.history_path = f"logs/{self.name}_history.json"
-        
-        self.ui_logs = [] # UI-friendly log history
+        self.ui_logs = [] 
         self.load_persistence()
-        log_info(f"Agent '{self.name}' initialized.")
 
     def load_persistence(self):
-        """Loads previous logs and LLM history from disk."""
         if os.path.exists(self.log_path):
             try:
-                with open(self.log_path, 'r') as f:
-                    self.ui_logs = json.load(f)
+                with open(self.log_path, 'r') as f: self.ui_logs = json.load(f)
             except: pass
-            
         if os.path.exists(self.history_path):
             try:
-                with open(self.history_path, 'r') as f:
-                    self.memory.history = json.load(f)
+                with open(self.history_path, 'r') as f: self.memory.history = json.load(f)
             except: pass
 
     def save_persistence(self):
-        """Saves current logs and LLM history to disk."""
         os.makedirs("logs", exist_ok=True)
         try:
-            with open(self.log_path, 'w') as f:
-                json.dump(self.ui_logs, f, indent=2)
-            with open(self.history_path, 'w') as f:
-                json.dump(self.memory.history, f, indent=2)
+            with open(self.log_path, 'w') as f: json.dump(self.ui_logs, f, indent=2)
+            with open(self.history_path, 'w') as f: json.dump(self.memory.history, f, indent=2)
         except: pass
 
     def log_ui(self, msg_type: str, content: str):
-        """Helper to store structured logs and trigger a save."""
         self.ui_logs.append({"type": msg_type, "content": content})
         self.save_persistence()
         
@@ -180,30 +166,40 @@ class Agent:
         return self.ui_logs
 
     def process_queue(self):
-        """Processes one task and handles persistence and debugging."""
+        """Processes tasks with support for interrupts and mid-loop corrections."""
         if self.msg_queue.empty():
             return False
             
         self.is_working = True
+        self.interrupt_flag = False
         task = self.msg_queue.get()
-        sender = task.get("sender", "System")
-        message = task.get("message", "")
+        sender, message = task.get("sender", "System"), task.get("message", "")
         
-        log_info(f"Agent '{self.name}' starting task from {sender}: {message}")
         self.log_ui("user", f"[{sender}] {message}")
-        user_goal = f"Message from {sender}: {message}"
-        
-        # Add to actual LLM memory
-        self.memory.add_message("user", user_goal)
+        self.memory.add_message("user", f"Message from {sender}: {message}")
         self.save_persistence()
         
-        messages = self.memory.get_full_prompt()
-        
         while True:
+            # Check for hard interrupt
+            if self.interrupt_flag:
+                self.log_ui("error", "Task interrupted by user.")
+                break
+
+            # Check for interjections (mid-loop messages)
+            try:
+                while True:
+                    inter = self.interjection_queue.get_nowait()
+                    inter_msg = f"INTERJECTION from {inter['sender']}: {inter['message']}"
+                    self.log_ui("user", inter_msg)
+                    self.memory.add_message("user", inter_msg)
+                    self.save_persistence()
+            except queue.Empty:
+                pass
+
+            messages = self.memory.get_full_prompt()
             response = self.api.call_llm(messages)
             
             if "error" in response:
-                log_error(f"Agent '{self.name}' LLM Error: {response['error']}")
                 self.log_ui("error", response['error'])
                 break
                 
@@ -212,19 +208,14 @@ class Agent:
             
             if "tool_call" in response:
                 tool_data = response["tool_call"]
-                t_name = tool_data["name"]
-                t_args = tool_data.get("args", {})
-                
-                log_info(f"Agent '{self.name}' executing tool: {t_name} with {t_args}")
+                t_name, t_args = tool_data["name"], tool_data.get("args", {})
                 self.log_ui("tool", f"{t_name}({t_args})")
                 
-                # Wrapped in try-except to prevent background thread crashes
                 try:
                     if t_name == "update_scratchpad":
                         result = self.memory.update_scratchpad(t_args.get("text", ""))
                     elif t_name == "delegate_task":
-                        target = t_args.get("agent_name")
-                        msg = t_args.get("message")
+                        target, msg = t_args.get("agent_name"), t_args.get("message")
                         if self.orchestrator.send_message(self.name, target, msg):
                             result = f"Task delegated to {target}."
                         else:
@@ -237,28 +228,20 @@ class Agent:
                     else:
                         result = f"Error: Tool {t_name} not found or not permitted for this agent."
                 except Exception as e:
-                    stack = traceback.format_exc()
-                    log_error(f"Agent '{self.name}' tool crash: {str(e)}\\n{stack}")
                     result = f"Error executing tool {t_name}: {str(e)}"
                 
-                log_debug(f"Agent '{self.name}' tool result: {result}")
                 self.log_ui("result", str(result))
-                
-                # Update memory
                 self.memory.add_message("assistant", json.dumps(response))
                 self.memory.add_message("user", f"Tool Output: {result}")
                 self.save_persistence()
-                messages = self.memory.get_full_prompt()
                 
             elif "final_answer" in response:
                 ans = response["final_answer"]
-                log_info(f"Agent '{self.name}' completed task: {ans}")
                 self.log_ui("final", ans)
                 self.memory.add_message("assistant", json.dumps(response))
                 self.save_persistence()
                 break
             else:
-                log_error(f"Agent '{self.name}' unexpected format: {response}")
                 self.log_ui("error", "Unexpected LLM output format.")
                 break
                 

@@ -35,3 +35,9 @@ def fetch_url(url: str) -> str:
         return clean_text[:5000] 
     except Exception as e:
         return f"Error fetching URL: {str(e)}"
+
+# Export tools for dynamic discovery by the UI and Agent
+TOOL_DISPATCH = {
+    "web_search": web_search,
+    "fetch_url": fetch_url
+}

@@ -45,3 +45,10 @@ def list_dir(directory: str = ".") -> str:
         return f"Items in {os.path.abspath(directory)}:\n" + "\n".join(folders + files)
     except Exception as e:
         return f"Error listing directory: {str(e)}"
+
+# Export tools for dynamic discovery by the UI and Agent
+TOOL_DISPATCH = {
+    "read_file": read_file,
+    "write_file": write_file,
+    "list_dir": list_dir
+}
