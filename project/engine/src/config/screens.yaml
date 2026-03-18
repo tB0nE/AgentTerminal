@@ -1,7 +1,0 @@
-screens:
-  default:
-    background: img/backgrounds/curtain.webp
-  game:
-    background: img/backgrounds/map.webp
-  title_screen:
-    background: img/backgrounds/curtain.webp

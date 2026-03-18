@@ -1,4 +1,15 @@
+# Python Environment
 venv/
 __pycache__/
-.env
 *.pyc
+.env
+
+# Project Content (Keep these in a separate repo)
+agents/
+project/
+workflows/
+logs/
+
+# Node/Narrat junk
+node_modules/
+.DS_Store

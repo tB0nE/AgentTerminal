@@ -2,72 +2,79 @@ import json
 import urllib.request
 import urllib.error
 import urllib.parse
+import os
+import time
 from config.settings import COMFYUI_URL
 
-def generate_art(prompt: str, output_name: str = "generated_asset") -> str:
+def generate_art(prompt: str, workflow_name: str, output_name: str = "generated_asset") -> str:
     """
-    Sends a prompt to a local ComfyUI instance to generate an image.
-    Requires COMFYUI_URL in settings (default: http://127.0.0.1:8188).
+    Loads a custom ComfyUI JSON workflow from the root 'workflows/' directory,
+    injects the prompt and output filename, and triggers generation.
     """
-    try:
-        # A basic ComfyUI workflow (Load Checkpoint -> Text Encode -> KSampler -> VAE Decode -> Save Image)
-        # This is a highly simplified template. In a real setup, you'd load a specific JSON workflow file.
-        workflow = {
-            "3": {
-                "class_type": "KSampler",
-                "inputs": {
-                    "cfg": 8,
-                    "denoise": 1,
-                    "latent_image": ["5", 0],
-                    "model": ["4", 0],
-                    "negative": ["7", 0],
-                    "positive": ["6", 0],
-                    "sampler_name": "euler",
-                    "scheduler": "normal",
-                    "seed": 8566257,
-                    "steps": 20
-                }
-            },
-            "4": {
-                "class_type": "CheckpointLoaderSimple",
-                "inputs": {"ckpt_name": "v1-5-pruned-emaonly.ckpt"} # Assume standard SD1.5 model is present
-            },
-            "5": {
-                "class_type": "EmptyLatentImage",
-                "inputs": {"batch_size": 1, "height": 512, "width": 512}
-            },
-            "6": {
-                "class_type": "CLIPTextEncode",
-                "inputs": {"clip": ["4", 1], "text": prompt}
-            },
-            "7": {
-                "class_type": "CLIPTextEncode",
-                "inputs": {"clip": ["4", 1], "text": "bad quality, blurry, watermark"}
-            },
-            "8": {
-                "class_type": "VAEDecode",
-                "inputs": {"samples": ["3", 0], "vae": ["4", 2]}
-            },
-            "9": {
-                "class_type": "SaveImage",
-                "inputs": {"filename_prefix": output_name, "images": ["8", 0]}
-            }
-        }
+    output_dir = "project/generated_art"
+    workflow_path = os.path.join("workflows", f"{workflow_name}.json")
+    os.makedirs(output_dir, exist_ok=True)
 
+    if not os.path.exists(workflow_path):
+        return f"Error: Workflow '{workflow_name}' not found in 'workflows/' directory."
+
+    try:
+        # 1. Load the custom JSON workflow
+        with open(workflow_path, 'r', encoding='utf-8') as f:
+            workflow = json.load(f)
+
+        # 2. Template Injection Logic
+        prompt_injected = False
+        output_injected = False
+        
+        for node_id in workflow:
+            node = workflow[node_id]
+            class_type = node.get("class_type")
+            
+            if class_type == "CLIPTextEncode" and not prompt_injected:
+                node["inputs"]["text"] = prompt
+                prompt_injected = True
+            
+            if class_type == "SaveImage":
+                node["inputs"]["filename_prefix"] = output_name
+                output_injected = True
+            
+            if class_type == "KSampler":
+                node["inputs"]["seed"] = int(time.time() * 1000) % 1125899906842624
+
+        # 3. Queue Prompt
         payload = {"prompt": workflow}
         data = json.dumps(payload).encode('utf-8')
         req = urllib.request.Request(f"{COMFYUI_URL}/prompt", data=data, headers={'Content-Type': 'application/json'})
         
         with urllib.request.urlopen(req) as response:
-            result = json.loads(response.read())
-            prompt_id = result.get("prompt_id")
-            
-        return f"Successfully queued image generation in ComfyUI. Prompt ID: {prompt_id}. Output prefix: {output_name}"
+            res_data = json.loads(response.read())
+            prompt_id = res_data.get("prompt_id")
+
+        # 4. Poll for Completion
+        max_attempts = 150 
+        for _ in range(max_attempts):
+            time.sleep(3)
+            with urllib.request.urlopen(f"{COMFYUI_URL}/history/{prompt_id}") as history_res:
+                history = json.loads(history_res.read())
+                
+            if prompt_id in history:
+                outputs = history[prompt_id].get("outputs", {})
+                for node_id in outputs:
+                    for img in outputs[node_id].get("images", []):
+                        filename = img.get("filename")
+                        subfolder = img.get("subfolder", "")
+                        
+                        img_url = f"{COMFYUI_URL}/view?filename={filename}&subfolder={subfolder}&type=output"
+                        local_path = os.path.join(output_dir, f"{output_name}_{int(time.time())}.png")
+                        
+                        urllib.request.urlretrieve(img_url, local_path)
+                        return f"Success! Used workflow '{workflow_name}'. Image saved to: {local_path}"
         
-    except urllib.error.URLError as e:
-        return f"Error connecting to ComfyUI at {COMFYUI_URL}. Is it running? Details: {e.reason}"
+        return f"Timeout: Workflow '{workflow_name}' queued but not finished."
+        
     except Exception as e:
-        return f"Error during ComfyUI generation: {str(e)}"
+        return f"Error during ComfyUI cycle: {str(e)}"
 
 # Export for dynamic discovery
 TOOL_DISPATCH = {

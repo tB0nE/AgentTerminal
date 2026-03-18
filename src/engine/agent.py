@@ -79,7 +79,7 @@ TOOL_DESCRIPTIONS = {
     "web_search": "web_search(query): Searches the web.",
     "fetch_url": "fetch_url(url): Reads text from a URL.",
     "send_notification": "send_notification(message): Sends a desktop notification to the user.",
-    "generate_art": "generate_art(prompt, output_name): Requests an image generation from ComfyUI.",
+    "generate_art": "generate_art(prompt, workflow_name, output_name): Requests an image generation from ComfyUI using a JSON workflow from the root 'workflows/' directory.",
     "copy_file": "copy_file(src, dst): Copies a file from src to dst.",
     "update_engine_registry": "update_engine_registry(): Automatically registers all .narrat files in the engine's script folder."
 }
