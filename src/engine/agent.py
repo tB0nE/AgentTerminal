@@ -10,6 +10,7 @@ from tools.file_io import read_file, write_file, list_dir, copy_file, update_eng
 from tools.research import web_search, fetch_url
 from tools.system import send_notification
 from tools.comfy_api import generate_art
+from tools.narrat import sync_narrat_config, validate_narrat_scripts
 from src.utils.logger import log_debug, log_info, log_error
 from rich.console import Console
 from rich.panel import Panel
@@ -81,7 +82,8 @@ TOOL_DESCRIPTIONS = {
     "send_notification": "send_notification(message): Sends a desktop notification to the user.",
     "generate_art": "generate_art(prompt, workflow_name, output_name): Requests an image generation from ComfyUI using a JSON workflow from the root 'workflows/' directory.",
     "copy_file": "copy_file(src, dst): Copies a file from src to dst.",
-    "update_engine_registry": "update_engine_registry(): Automatically registers all .narrat files in the engine's script folder."
+    "update_engine_registry": "update_engine_registry(): Automatically registers all .narrat files in the engine's script folder.",
+    "sync_narrat_config": "sync_narrat_config(): Scans scripts and automatically adds missing characters, screens, items, and quests to YAML configs."
 }
 
 class ContextManager:
@@ -228,6 +230,8 @@ class Agent:
                     elif t_name == "generate_art" and "generate_art" in self.allowed_tools: result = generate_art(**t_args)
                     elif t_name == "copy_file" and "copy_file" in self.allowed_tools: result = copy_file(**t_args)
                     elif t_name == "update_engine_registry" and "update_engine_registry" in self.allowed_tools: result = update_engine_registry()
+                    elif t_name == "sync_narrat_config" and "sync_narrat_config" in self.allowed_tools: result = sync_narrat_config()
+                    elif t_name == "validate_narrat_scripts" and "validate_narrat_scripts" in self.allowed_tools: result = validate_narrat_scripts()
                     else:
                         result = f"Error: Tool {t_name} not found or not permitted for this agent."
                 except Exception as e:

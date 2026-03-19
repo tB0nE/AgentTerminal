@@ -9,3 +9,4 @@ prompt_toolkit
 questionary
 pytest
 pytest-mock
+PyYAML
