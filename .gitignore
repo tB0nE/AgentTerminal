@@ -3,6 +3,7 @@ venv/
 __pycache__/
 *.pyc
 .env
+.pytest_cache/
 
 # Project Content (Keep these in a separate repo)
 agents/
