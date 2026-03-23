@@ -1,6 +1,6 @@
-# Writer Agent: Autonomous Game Script Architect
+# Agent Terminal: A very slim terminal based agent manager to build any sort of project.
 
-An autonomous, terminal-based agent designed for drafting and revising massive game scripts (GDScript, JSON, TXT) for Godot. Built using Python, `rich`, and Z.ai's GLM-4 model via a custom ReAct orchestration loop.
+Built using Python, `rich`, and Z.ai's GLM-4 model via a custom ReAct orchestration loop.
 
 ## 🚀 Quick Start
 
